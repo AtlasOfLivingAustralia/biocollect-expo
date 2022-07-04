@@ -1,17 +1,8 @@
-import { StatusBar } from 'expo-status-bar';
-import { View, Text, StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import Constants from 'expo-constants';
 
-function Home() {
-  return (
-    <View style={styles.container}>
-      <Text>Hello World! {Constants.manifest.version}</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+// Import screen components
+import { Home } from './src/screens';
 
 const Stack = createNativeStackNavigator();
 
@@ -24,14 +15,5 @@ function App() {
     </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
 
 export default App;
