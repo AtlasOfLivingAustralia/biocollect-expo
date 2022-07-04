@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 
 // Themes
-import { getCurrentTheme } from '../theme';
+import { getCurrentTheme } from 'theme';
 
 export default () => {
   const theme = getCurrentTheme();
@@ -12,8 +12,7 @@ export default () => {
       color: 'white',
       padding: 10,
       borderRadius: 12,
-      borderColor: 'white',
-      borderWidth: 1,
+      marginBottom: 6,
       minWidth: 125,
     },
     homeContainer: {
@@ -21,6 +20,10 @@ export default () => {
       backgroundColor: theme.background.primary,
       alignItems: 'center',
       justifyContent: 'center',
+    },
+    authenticationContainer: {
+      flex: 1,
+      backgroundColor: theme.background.primary
     },
   });
 }

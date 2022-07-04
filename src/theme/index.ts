@@ -31,7 +31,7 @@ const themes: {[key: string]: ALATheme} = {
 	dark: {
 		background: {
 			primary: palette.secondary.charcoal,
-			secondary: palette.secondary.charcoal,
+			secondary: '#373737',
 		},
 		text: {
 			primary: '#FFFFFF',

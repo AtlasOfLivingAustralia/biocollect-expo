@@ -21,7 +21,6 @@ function App() {
 
   return (
     <NavigationContainer>
-      <StatusBar style="auto" />
       <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName="Authentication">
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="Authentication" component={Authentication} />
