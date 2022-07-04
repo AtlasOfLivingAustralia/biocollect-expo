@@ -2,11 +2,12 @@ import { StatusBar } from 'expo-status-bar';
 import { View, Text, StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import Constants from 'expo-constants';
 
 function Home() {
   return (
     <View style={styles.container}>
-      <Text>Hello World!</Text>
+      <Text>Hello World! {Constants.manifest.version}</Text>
       <StatusBar style="auto" />
     </View>
   );

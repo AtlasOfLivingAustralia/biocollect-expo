@@ -1,14 +1,34 @@
+import biocollectConfig from './biocollect.config.json';
+
 export default {
-  defaultTimeout: 20,
-  auth: {
-    server: 'https://auth-dev.ala.org.au',
-    register: '/userdetails/registration/createAccount',
-    userdetails: '/userdetails/userDetails/getUserDetails?userName=',
-    token: '/cas/oidc/token',
-    openid: {
-      clientId: 'auth-dev-oidc-client-id',
-      clientSecret: 'u85789gnghdfb765',
-      scope: 'email openid profile'
+  name: 'biocollect-expo',
+  slug: 'biocollect-expo',
+  version: '0.0.1',
+  orientation: 'portrait',
+  icon: './assets/icon.png',
+  userInterfaceStyle: 'light',
+  splash: {
+    image: './assets/splash.png',
+    resizeMode: 'contain',
+    backgroundColor: '#ffffff'
+  },
+  updates: {
+    fallbackToCacheTimeout: 0
+  },
+  assetBundlePatterns: [
+    '**/*'
+  ],
+  ios: {
+    supportsTablet: true
+  },
+  android: {
+    adaptiveIcon: {
+      foregroundImage: './assets/adaptive-icon.png',
+      backgroundColor: '#FFFFFF'
     }
-  }
+  },
+  web: {
+    favicon: './assets/favicon.png'
+  },
+  extra: biocollectConfig
 }
