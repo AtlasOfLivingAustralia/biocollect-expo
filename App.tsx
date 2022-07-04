@@ -14,6 +14,7 @@ function App() {
     Lato: require('./assets/fonts/Lato.ttf')
   });
 
+  // TODO: Update with better loading animation
   if (!fontsLoaded) return <Text>Loading fonts...</Text>;
   if (fontsError) return <Text>Font Error!</Text>;
 
