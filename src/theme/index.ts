@@ -1,17 +1,19 @@
 import palette from "./palette";
 
 interface ALAThemeColour {
-	primary: string,
-	secondary: string,
+	primary: string;
+	secondary: string;
 }
+
+import { useColorScheme } from "react-native";
 
 interface ALATheme {
-	background: ALAThemeColour,
-	text: ALAThemeColour,
-	colour: ALAThemeColour
+	background: ALAThemeColour;
+	text: ALAThemeColour;
+	colour: ALAThemeColour;
 }
 
-const theme: {[key: string]: ALATheme} = {
+const themes: {[key: string]: ALATheme} = {
 	light: {
 		background: {
 			primary: '#FFFFFF',
@@ -42,4 +44,7 @@ const theme: {[key: string]: ALATheme} = {
 	}
 }
 
-export default theme;
+// Helper function for retireving the current theme
+const getCurrentTheme = (): ALATheme => themes[useColorScheme()];
+
+export { themes, getCurrentTheme };

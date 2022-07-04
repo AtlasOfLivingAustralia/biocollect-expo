@@ -1,3 +1,4 @@
 import Home from './Home';
+import Authentication from './Authentication';
 
-export { Home };
+export { Home, Authentication };
