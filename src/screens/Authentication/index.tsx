@@ -1,6 +1,6 @@
-import { useCallback, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, Image, Animated, Easing, StyleSheet } from 'react-native';
 
 import Button from 'components/Button';
 import globalStyles from 'components/styles';
@@ -10,46 +10,34 @@ import Header from './Header';
 import biocollectLogo from 'assets/images/ui/logo.png';
 import alaLogo from 'assets/images/ui/ala-white.png';
 
-// Theming imports
-import { getCurrentTheme } from 'theme/index';
-
 interface AuthForm {
   username: string;
   password: string;
 }
 
 export default function Authentication() {
-  const theme = getCurrentTheme();
-  const [authForm, setAuthForm] = useState<AuthForm>({
-    username: '',
-    password: '',
-  });
+  const fadeInAnim = useRef(new Animated.Value(0)).current;
   const styles = globalStyles();
 
-  const updateAuthForm = useCallback(
-    (property, value) => {
-      setAuthForm({ ...authForm, [property]: value });
-    },
-    [authForm]
-  );
+  useEffect(() => {
+    Animated.timing(fadeInAnim, {
+      toValue: 1,
+      duration: 500,
+      easing: Easing.ease,
+      useNativeDriver: false,
+    }).start();
+  }, [fadeInAnim]);
 
   return (
     <View style={styles.authenticationContainer}>
       <StatusBar hidden />
       <Header />
-      {/* <TextInput
-        style={styles.textInput}
-        value={authForm.username}
-        onChangeText={(value) => updateAuthForm('username', value)}
-        placeholder="Email"
-      />
-      <TextInput
-        style={styles.textInput}
-        value={authForm.password}
-        onChangeText={(value) => updateAuthForm('password', value)}
-        placeholder="Password"
-      /> */}
-      <View style={localStyles.content}>
+      <Animated.View
+        style={{
+          ...localStyles.content,
+          opacity: fadeInAnim,
+        }}
+      >
         <View style={{ display: 'flex', alignItems: 'center' }}>
           <Image
             source={biocollectLogo}
@@ -59,7 +47,7 @@ export default function Authentication() {
           <Text style={styles.subtitle}>Welcome</Text>
         </View>
         <Button text="Sign in with ALA" icon={alaLogo} />
-      </View>
+      </Animated.View>
     </View>
   );
 }
