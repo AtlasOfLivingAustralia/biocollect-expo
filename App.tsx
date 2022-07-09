@@ -12,7 +12,9 @@ const Stack = createNativeStackNavigator();
 function App() {
   // Load the Lato font
   const [fontsLoaded, fontsError] = useFonts({
-    Lato: require('./assets/fonts/Lato.ttf')
+    Lato: require('./assets/fonts/Lato.ttf'),
+    RobotoBold: require('./assets/fonts/Roboto-Bold.ttf'),
+    RobotoRegular: require('./assets/fonts/Roboto-Regular.ttf'),
   });
 
   // TODO: Update with better loading animation
@@ -21,7 +23,10 @@ function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName="Authentication">
+      <Stack.Navigator
+        screenOptions={{ headerShown: false }}
+        initialRouteName="Authentication"
+      >
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="Authentication" component={Authentication} />
       </Stack.Navigator>
