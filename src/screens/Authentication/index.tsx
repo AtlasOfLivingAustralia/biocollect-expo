@@ -1,6 +1,15 @@
 import { useEffect, useRef } from 'react';
+import {
+  View,
+  Text,
+  Image,
+  Animated,
+  Easing,
+  Linking,
+  StyleSheet,
+} from 'react-native';
 import { StatusBar } from 'expo-status-bar';
-import { View, Text, Image, Animated, Easing, StyleSheet } from 'react-native';
+import * as WebBrowser from 'expo-web-browser';
 
 import Button from 'components/Button';
 import globalStyles from 'components/styles';
@@ -28,6 +37,14 @@ export default function Authentication() {
     }).start();
   }, [fadeInAnim]);
 
+  const handleAuth = async () => {
+    const result = await WebBrowser.openAuthSessionAsync(
+      'https://auth-test.ala.org.au/cas/oidc/oidcAuthorize?client_id=oidc-test-client-id&redirect_uri=http%3A%2F%2Flocalhost%3A3000&response_type=token&scope=openid%20email%20profile%20users%3Aread',
+      'http://localhost:3000'
+    );
+    console.log(result);
+  };
+
   return (
     <View style={styles.authenticationContainer}>
       <StatusBar hidden />
@@ -46,7 +63,7 @@ export default function Authentication() {
           <Text style={styles.title}>BioCollect</Text>
           <Text style={styles.subtitle}>Welcome</Text>
         </View>
-        <Button text="Sign in with ALA" icon={alaLogo} />
+        <Button text="Sign in with ALA" icon={alaLogo} onPress={handleAuth} />
       </Animated.View>
     </View>
   );
