@@ -47,4 +47,4 @@ const themes: { [key: string]: ALATheme } = {
 // Helper function for retireving the current theme
 const getCurrentTheme = (): ALATheme => themes[useColorScheme()];
 
-export { themes, getCurrentTheme };
+export { palette, themes, getCurrentTheme };

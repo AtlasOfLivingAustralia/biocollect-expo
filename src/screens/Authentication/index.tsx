@@ -1,12 +1,14 @@
 import { useCallback, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { View, Text, Image, StyleSheet } from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 
+import Button from 'components/Button';
 import globalStyles from 'components/styles';
 import Header from './Header';
 
 // BioCollect logo
 import biocollectLogo from 'assets/images/ui/logo.png';
+import alaLogo from 'assets/images/ui/ala-white.png';
 
 // Theming imports
 import { getCurrentTheme } from 'theme/index';
@@ -48,12 +50,15 @@ export default function Authentication() {
         placeholder="Password"
       /> */}
       <View style={localStyles.content}>
-        <Image
-          source={biocollectLogo}
-          style={{ width: 125, height: 125, marginBottom: 12 }}
-        />
-        <Text style={styles.title}>BioCollect</Text>
-        <Text style={styles.subtitle}>Mobile</Text>
+        <View style={{ display: 'flex', alignItems: 'center' }}>
+          <Image
+            source={biocollectLogo}
+            style={{ width: 125, height: 125, marginBottom: 12 }}
+          />
+          <Text style={styles.title}>BioCollect</Text>
+          <Text style={styles.subtitle}>Welcome</Text>
+        </View>
+        <Button text="Sign in with ALA" icon={alaLogo} />
       </View>
     </View>
   );
@@ -62,7 +67,11 @@ export default function Authentication() {
 const localStyles = StyleSheet.create({
   content: {
     display: 'flex',
+    flexDirection: 'column',
     alignItems: 'center',
-    padding: 12,
+    justifyContent: 'space-between',
+    flexGrow: 1,
+    paddingTop: 12,
+    paddingBottom: 132,
   },
 });
