@@ -1,5 +1,4 @@
 node_modules/
-.yarn
 .expo/
 dist/
 npm-debug.*
@@ -13,3 +12,12 @@ web-build/
 
 # macOS
 .DS_Store
+
+# Yarn 2
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
