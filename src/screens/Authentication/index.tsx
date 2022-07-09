@@ -1,12 +1,15 @@
 import { useCallback, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { View, Text, TextInput } from 'react-native';
+import { View, Text, Image, StyleSheet } from 'react-native';
 
 import globalStyles from 'components/styles';
 import Header from './Header';
 
+// BioCollect logo
+import biocollectLogo from 'assets/images/ui/logo.png';
+
 // Theming imports
-import { getCurrentTheme } from '../../theme';
+import { getCurrentTheme } from 'theme/index';
 
 interface AuthForm {
   username: string;
@@ -32,7 +35,7 @@ export default function Authentication() {
     <View style={styles.authenticationContainer}>
       <StatusBar hidden />
       <Header />
-      <TextInput
+      {/* <TextInput
         style={styles.textInput}
         value={authForm.username}
         onChangeText={(value) => updateAuthForm('username', value)}
@@ -43,7 +46,23 @@ export default function Authentication() {
         value={authForm.password}
         onChangeText={(value) => updateAuthForm('password', value)}
         placeholder="Password"
-      />
+      /> */}
+      <View style={localStyles.content}>
+        <Image
+          source={biocollectLogo}
+          style={{ width: 125, height: 125, marginBottom: 12 }}
+        />
+        <Text style={styles.title}>BioCollect</Text>
+        <Text style={styles.subtitle}>Mobile</Text>
+      </View>
     </View>
   );
 }
+
+const localStyles = StyleSheet.create({
+  content: {
+    display: 'flex',
+    alignItems: 'center',
+    padding: 12,
+  },
+});

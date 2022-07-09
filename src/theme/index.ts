@@ -35,7 +35,7 @@ const themes: { [key: string]: ALATheme } = {
     },
     text: {
       primary: '#FFFFFF',
-      secondary: palette.secondary.concrete,
+      secondary: palette.secondary.silver,
     },
     colour: {
       primary: palette.primary.flamingo,

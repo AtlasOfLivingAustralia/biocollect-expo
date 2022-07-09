@@ -1,11 +1,11 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet } from 'react-native';
 
 // Themes
-import { getCurrentTheme } from 'theme';
+import { getCurrentTheme } from 'theme/index';
 
 export default () => {
   const theme = getCurrentTheme();
-  
+
   return StyleSheet.create({
     textInput: {
       backgroundColor: theme.background.secondary,
@@ -23,7 +23,17 @@ export default () => {
     },
     authenticationContainer: {
       flex: 1,
-      backgroundColor: theme.background.primary
+      backgroundColor: theme.background.primary,
+    },
+    title: {
+      fontFamily: 'Lato',
+      fontSize: 36,
+      color: theme.text.primary,
+    },
+    subtitle: {
+      fontFamily: 'Lato',
+      fontSize: 24,
+      color: theme.text.secondary,
     },
   });
-}
+};

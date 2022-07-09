@@ -9,7 +9,7 @@ import {
 import { SvgProps } from 'react-native-svg';
 
 // Theming
-import { getCurrentTheme } from '../../theme';
+import { getCurrentTheme } from 'theme/index';
 
 // Images
 import imageSplash from 'assets/images/ui/splash.png';
