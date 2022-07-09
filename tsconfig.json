@@ -5,7 +5,7 @@
       "assets/*": ["./assets/*"],
       "components/*": ["./src/components/*"],
       "theme/*": ["./src/theme/*"]
-    },
+    }
   },
-  "extends": "expo/tsconfig.base",
+  "extends": "expo/tsconfig.base"
 }
