@@ -13,16 +13,21 @@ import { palette } from 'theme/index';
 interface ButtonProps {
   text: string;
   icon?: ImageSourcePropType;
+  disabled?: boolean;
   onPress?: (event: GestureResponderEvent) => void;
   style?: StyleProp<ViewStyle>;
 }
 
 export default function Button(props: ButtonProps) {
-  const { style, text, icon, onPress } = props;
+  const { style, disabled, text, icon, onPress } = props;
 
   return (
     <TouchableOpacity
-      style={StyleSheet.compose<ViewStyle>(styles.container, style || {})}
+      disabled={disabled}
+      style={StyleSheet.compose<ViewStyle>(
+        { ...styles.container, opacity: disabled ? 0.4 : 1 },
+        style || {}
+      )}
       onPress={onPress}
       activeOpacity={0.6}
     >

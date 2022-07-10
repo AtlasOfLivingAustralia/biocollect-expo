@@ -23,18 +23,25 @@ class WaveComponent extends Component<SvgProps> {
 
 const AnimatedWave = Animated.createAnimatedComponent(WaveComponent);
 
-export default function Home() {
-  const anim = useRef(new Animated.Value(1000)).current;
+interface HomeProps {
+  exitAnim: boolean;
+}
+
+export default function Home(props: HomeProps) {
+  const { exitAnim } = props;
+  const swirlAnim = useRef(new Animated.Value(600)).current;
   const theme = getCurrentTheme();
 
   useEffect(() => {
-    Animated.timing(anim, {
-      toValue: 100,
-      duration: 1500,
-      easing: Easing.bezier(0.2, 0.8, 0, 1),
+    Animated.timing(swirlAnim, {
+      toValue: exitAnim ? 600 : 100,
+      duration: exitAnim ? 1000 : 1500,
+      easing: exitAnim
+        ? Easing.bezier(0.25, 0.1, 0.25, 1)
+        : Easing.bezier(0.2, 0.8, 0, 1),
       useNativeDriver: false,
     }).start();
-  }, [anim]);
+  }, [swirlAnim, exitAnim]);
 
   return (
     <View style={localStyles.container}>
@@ -48,7 +55,7 @@ export default function Home() {
             fill={theme.background.primary}
             style={{
               ...localStyles.wave,
-              height: anim,
+              height: swirlAnim,
             }}
             preserveAspectRatio="xMinYMin slice"
           />
