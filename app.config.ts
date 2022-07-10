@@ -3,6 +3,7 @@ import biocollectConfig from './biocollect.config.json';
 export default {
   name: 'biocollect-expo',
   slug: 'biocollect-expo',
+  scheme: 'biocollect',
   version: '0.0.1',
   orientation: 'portrait',
   icon: './assets/icon.png',
@@ -10,25 +11,23 @@ export default {
   splash: {
     image: './assets/splash.png',
     resizeMode: 'contain',
-    backgroundColor: '#ffffff'
+    backgroundColor: '#ffffff',
   },
   updates: {
-    fallbackToCacheTimeout: 0
+    fallbackToCacheTimeout: 0,
   },
-  assetBundlePatterns: [
-    '**/*'
-  ],
+  assetBundlePatterns: ['**/*'],
   ios: {
-    supportsTablet: true
+    supportsTablet: true,
   },
   android: {
     adaptiveIcon: {
       foregroundImage: './assets/adaptive-icon.png',
-      backgroundColor: '#FFFFFF'
-    }
+      backgroundColor: '#FFFFFF',
+    },
   },
   web: {
-    favicon: './assets/favicon.png'
+    favicon: './assets/favicon.png',
   },
-  extra: biocollectConfig
-}
+  extra: biocollectConfig,
+};
