@@ -1,27 +1,27 @@
-import { useState, useEffect, useRef } from 'react';
-import { View, Text, Image, Animated, Easing, StyleSheet } from 'react-native';
-import * as Linking from 'expo-linking';
+import { useState, useEffect, useRef } from "react";
+import { View, Text, Image, Animated, Easing, StyleSheet } from "react-native";
+import * as Linking from "expo-linking";
 
 // Authentication helpers
 import {
   openAuthSessionAsync,
   WebBrowserRedirectResult,
-} from 'expo-web-browser';
+} from "expo-web-browser";
 
 // Navigation
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
-import Button from 'components/Button';
-import globalStyles from 'components/styles';
-import Header from './Header';
-import { RootStackParamList } from '../../../App';
+import Button from "components/Button";
+import globalStyles from "components/styles";
+import Header from "./Header";
+import { RootStackParamList } from "../../../App";
 
 // BioCollect logo
-import biocollectLogo from 'assets/images/ui/logo.png';
-import alaLogo from 'assets/images/ui/ala-white.png';
+import biocollectLogo from "assets/images/ui/logo.png";
+import alaLogo from "assets/images/ui/ala-white.png";
 
 export default function Authentication(
-  props: NativeStackScreenProps<RootStackParamList, 'Authentication'>
+  props: NativeStackScreenProps<RootStackParamList, "Authentication">
 ) {
   const [exitAnim, setExitAnim] = useState<boolean>(false);
   const fadeInAnim = useRef(new Animated.Value(0)).current;
@@ -39,7 +39,7 @@ export default function Authentication(
 
   // Authentication handler
   const handleAuth = async () => {
-    const redirect_uri = Linking.createURL('/auth');
+    const redirect_uri = Linking.createURL("/auth"); // Create deep link
     const result = await openAuthSessionAsync(
       `https://auth-test.ala.org.au/cas/oidc/oidcAuthorize?client_id=oidc-expo-test&redirect_uri=${encodeURIComponent(
         redirect_uri
@@ -48,17 +48,17 @@ export default function Authentication(
     );
 
     // If the authentication was successfull
-    if (result.type === 'success') {
+    if (result.type === "success") {
       console.log(
         result,
         Linking.parse(
-          (result as WebBrowserRedirectResult).url.replace('auth#', 'auth?')
+          (result as WebBrowserRedirectResult).url.replace("auth#", "auth?")
         )
       );
 
       // Trigger the exit animation, and then actually navigate
       setExitAnim(true);
-      setTimeout(() => props.navigation.navigate('Home'), 1100);
+      setTimeout(() => props.navigation.navigate("Home"), 1100);
     }
   };
 
@@ -71,7 +71,7 @@ export default function Authentication(
           opacity: fadeInAnim,
         }}
       >
-        <View style={{ display: 'flex', alignItems: 'center' }}>
+        <View style={{ display: "flex", alignItems: "center" }}>
           <Image
             source={biocollectLogo}
             style={{ width: 125, height: 125, marginBottom: 12 }}
@@ -93,10 +93,10 @@ export default function Authentication(
 
 const localStyles = StyleSheet.create({
   content: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "space-between",
     flexGrow: 1,
     paddingTop: 12,
     paddingBottom: 132,
