@@ -3125,7 +3125,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"base64-js@npm:^1.1.2, base64-js@npm:^1.2.3, base64-js@npm:^1.3.1, base64-js@npm:^1.5.1":
+"base64-js@npm:^1.1.2, base64-js@npm:^1.2.3, base64-js@npm:^1.3.0, base64-js@npm:^1.3.1, base64-js@npm:^1.5.1":
   version: 1.5.1
   resolution: "base64-js@npm:1.5.1"
   checksum: 669632eb3745404c2f822a18fc3a0122d2f9a7a13f7fb8b5823ee19d1d2ff9ee5b52c53367176ea4ad093c332fd5ab4bd0ebae5a8e27917a4105a4cfc86b1005
@@ -3174,10 +3174,13 @@ __metadata:
     "@types/react": ^18.0.14
     "@types/react-native": ~0.67.6
     expo: ~45.0.0
+    expo-auth-session: ~3.6.1
     expo-font: ~10.1.0
     expo-linking: ~3.1.0
+    expo-random: ~12.2.0
     expo-status-bar: ~1.3.0
     expo-web-browser: ~10.2.1
+    jwt-decode: ^3.1.2
     react: 17.0.2
     react-dom: 17.0.2
     react-native: 0.68.2
@@ -4528,6 +4531,25 @@ __metadata:
   languageName: node
   linkType: hard
 
+"expo-auth-session@npm:~3.6.1":
+  version: 3.6.1
+  resolution: "expo-auth-session@npm:3.6.1"
+  dependencies:
+    expo-constants: ~13.1.0
+    expo-crypto: ~10.2.0
+    expo-linking: ~3.1.0
+    expo-web-browser: ~10.2.0
+    invariant: ^2.2.4
+    qs: 6.9.1
+  peerDependencies:
+    expo-random: "*"
+  peerDependenciesMeta:
+    expo-random:
+      optional: true
+  checksum: 016d49e147c7f16a81d1835671d3eb0e3476404aca5c03a9293b69c7a057e736f1f567466b2a919b02a1378ce2796e84cea503a94710a6903615f4959d418306
+  languageName: node
+  linkType: hard
+
 "expo-constants@npm:~13.1.0, expo-constants@npm:~13.1.1":
   version: 13.1.1
   resolution: "expo-constants@npm:13.1.1"
@@ -4537,6 +4559,15 @@ __metadata:
   peerDependencies:
     expo: "*"
   checksum: 2a0be73a2e27854bbb398b89868141784c29455b3041f00b0a4209fb2a5d2ecb36aa17d5c06c005a1ec0df8652641446eec74dffb3d0eb2c4245e7e04a90897f
+  languageName: node
+  linkType: hard
+
+"expo-crypto@npm:~10.2.0":
+  version: 10.2.0
+  resolution: "expo-crypto@npm:10.2.0"
+  peerDependencies:
+    expo: "*"
+  checksum: 5c770bcd2bcf5a6c93fbec83495826cfd56e9928261e02239e7357fb00b81d4ca90493209d891e33f0911135d53ac2c3b8329161bc8faec29114eb16a303fb82
   languageName: node
   linkType: hard
 
@@ -4633,6 +4664,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"expo-random@npm:~12.2.0":
+  version: 12.2.0
+  resolution: "expo-random@npm:12.2.0"
+  dependencies:
+    base64-js: ^1.3.0
+  peerDependencies:
+    expo: "*"
+  checksum: 175d4174cdf0df76e213186a04db7bb59e7af218aea00ea10ceb463093edca3ab71e1576884d0abd65c63ee35f3bff983752289015364e72f8e910acdb6345c5
+  languageName: node
+  linkType: hard
+
 "expo-status-bar@npm:~1.3.0":
   version: 1.3.0
   resolution: "expo-status-bar@npm:1.3.0"
@@ -4640,7 +4682,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"expo-web-browser@npm:~10.2.1":
+"expo-web-browser@npm:~10.2.0, expo-web-browser@npm:~10.2.1":
   version: 10.2.1
   resolution: "expo-web-browser@npm:10.2.1"
   dependencies:
@@ -6233,6 +6275,13 @@ __metadata:
   version: 0.0.0
   resolution: "jsonify@npm:0.0.0"
   checksum: d8d4ed476c116e6987a460dcb82f22284686caae9f498ac87b0502c1765ac1522f4f450a4cad4cc368d202fd3b27a3860735140a82867fc6d558f5f199c38bce
+  languageName: node
+  linkType: hard
+
+"jwt-decode@npm:^3.1.2":
+  version: 3.1.2
+  resolution: "jwt-decode@npm:3.1.2"
+  checksum: 20a4b072d44ce3479f42d0d2c8d3dabeb353081ba4982e40b83a779f2459a70be26441be6c160bfc8c3c6eadf9f6380a036fbb06ac5406b5674e35d8c4205eeb
   languageName: node
   linkType: hard
 
@@ -7911,6 +7960,13 @@ __metadata:
   version: 6.7.0
   resolution: "qs@npm:6.7.0"
   checksum: dfd5f6adef50e36e908cfa70a6233871b5afe66fbaca37ecc1da352ba29eb2151a3797991948f158bb37fccde51bd57845cb619a8035287bfc24e4591172c347
+  languageName: node
+  linkType: hard
+
+"qs@npm:6.9.1":
+  version: 6.9.1
+  resolution: "qs@npm:6.9.1"
+  checksum: b8ad80e09bb52232963aadd9276b8d3802723c9ecd31388ff129a7ab5542e7dc67c43a05b2250f973be460d2c734f16d8d908216e5340024349763ee5e19666c
   languageName: node
   linkType: hard
 

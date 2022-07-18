@@ -32,7 +32,7 @@ function App() {
 
   return (
     <NavigationContainer>
-      <StatusBar style="auto" hidden={statusHidden} />
+      <StatusBar style='auto' hidden={statusHidden} />
       <Stack.Navigator
         screenListeners={({ route }) => ({
           state: () => {
@@ -49,10 +49,10 @@ function App() {
           },
         })}
         screenOptions={{ headerShown: false, animation: 'none' }}
-        initialRouteName="Authentication"
+        initialRouteName='Authentication'
       >
-        <Stack.Screen name="Home" component={Home} />
-        <Stack.Screen name="Authentication" component={Authentication} />
+        <Stack.Screen name='Home' component={Home} />
+        <Stack.Screen name='Authentication' component={Authentication} />
       </Stack.Navigator>
     </NavigationContainer>
   );
