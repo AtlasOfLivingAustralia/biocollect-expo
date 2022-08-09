@@ -3178,6 +3178,7 @@ __metadata:
     expo-font: ~10.1.0
     expo-linking: ~3.1.0
     expo-random: ~12.2.0
+    expo-secure-store: ~11.2.0
     expo-status-bar: ~1.3.0
     expo-web-browser: ~10.2.1
     jwt-decode: ^3.1.2
@@ -4672,6 +4673,15 @@ __metadata:
   peerDependencies:
     expo: "*"
   checksum: 175d4174cdf0df76e213186a04db7bb59e7af218aea00ea10ceb463093edca3ab71e1576884d0abd65c63ee35f3bff983752289015364e72f8e910acdb6345c5
+  languageName: node
+  linkType: hard
+
+"expo-secure-store@npm:~11.2.0":
+  version: 11.2.0
+  resolution: "expo-secure-store@npm:11.2.0"
+  peerDependencies:
+    expo: "*"
+  checksum: 1b73f1471cd408e2196e2c1a954f2b013abef6a2065a9f10a353ffd75fd30a4d8e7da87c0306e08bccffa1435894eeec5ba7b6114a1a4624c4392c6b1321bf54
   languageName: node
   linkType: hard
 

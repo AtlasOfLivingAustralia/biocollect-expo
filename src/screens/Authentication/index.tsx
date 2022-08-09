@@ -1,14 +1,5 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useContext } from 'react';
 import { View, Text, Image, Animated, Easing, StyleSheet } from 'react-native';
-import * as Linking from 'expo-linking';
-
-// Auth Session Helpers
-import {
-  fetchDiscoveryAsync,
-  CodeChallengeMethod,
-  AuthRequest,
-  AccessTokenRequest,
-} from 'expo-auth-session';
 
 // Navigation
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -18,6 +9,9 @@ import globalStyles from 'components/styles';
 import Header from './Header';
 import { RootStackParamList } from '../../../App';
 
+// Authentication
+import { AuthContext } from '../../helpers/auth';
+
 // BioCollect logo
 import biocollectLogo from 'assets/images/ui/logo.png';
 import alaLogo from 'assets/images/ui/ala-white.png';
@@ -25,6 +19,7 @@ import alaLogo from 'assets/images/ui/ala-white.png';
 export default function Authentication(
   props: NativeStackScreenProps<RootStackParamList, 'Authentication'>
 ) {
+  const auth = useContext(AuthContext);
   const [authenticating, setAuthenticating] = useState<boolean>(false);
 
   // Animation / styling
@@ -47,52 +42,14 @@ export default function Authentication(
     // Update the UI to disable the button
     setAuthenticating(true);
 
-    // Create a deep link for authentication redirects
-    const redirectUri = Linking.createURL('/auth');
-
-    // Construct the OIDC code request
-    const codeRequest = new AuthRequest({
-      clientId: 'oidc-expo-test',
-      redirectUri,
-      scopes: ['openid', 'email', 'profile'],
-      codeChallengeMethod: CodeChallengeMethod.S256,
-    });
-
+    // Attempt to sign in
     try {
-      // Fetch the discovery metadata
-      const discovery = await fetchDiscoveryAsync(
-        'https://auth-test.ala.org.au/cas/oidc'
-      );
-
-      // Start the authentication flow
-      const result = await codeRequest.promptAsync(discovery);
-      console.log(result);
-
-      // If the authentication was successfull
-      if (result.type === 'success') {
-        // Construct the OIDC access token request
-        const tokenRequest = new AccessTokenRequest({
-          clientId: codeRequest.clientId,
-          scopes: codeRequest.scopes,
-          code: result.params.code,
-          redirectUri,
-          extraParams: {
-            code_verifier: codeRequest.codeVerifier,
-          },
-        });
-
-        const accessToken = await tokenRequest.performAsync(discovery);
-        console.log(accessToken);
-
-        // Trigger the exit animation, and then actually navigate
-        setExitAnim(true);
-        setTimeout(() => props.navigation.navigate('Home'), 1100);
-      } else {
-        setAuthenticating(false);
-      }
+      await auth.signIn();
+      setExitAnim(true);
+      setTimeout(() => props.navigation.navigate('Home'), 1100);
     } catch (error) {
-      setAuthenticating(false);
       console.log(error);
+      setAuthenticating(false);
     }
   };
 

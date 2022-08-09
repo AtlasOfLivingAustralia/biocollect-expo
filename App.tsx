@@ -1,14 +1,11 @@
-import { useState } from 'react';
-import { StatusBar, StatusBarStyle } from 'expo-status-bar';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Text } from 'react-native';
 import { useFonts } from 'expo-font';
 
 // Import screen components
-import { Authentication, Home } from './src/screens';
+import Navigator from './src/Navigator';
 
-const Stack = createNativeStackNavigator();
+// Authentication helpers
+import { AuthProvider } from './src/helpers/auth';
 
 export type RootStackParamList = {
   Home: undefined;
@@ -16,9 +13,6 @@ export type RootStackParamList = {
 };
 
 function App() {
-  // State for hiding / showing status bar based on route
-  const [statusHidden, setStatusHidden] = useState<boolean>(true);
-
   // Load the Lato font
   const [fontsLoaded, fontsError] = useFonts({
     Lato: require('./assets/fonts/Lato.ttf'),
@@ -31,30 +25,9 @@ function App() {
   if (fontsError) return <Text>Font Error!</Text>;
 
   return (
-    <NavigationContainer>
-      <StatusBar style='auto' hidden={statusHidden} />
-      <Stack.Navigator
-        screenListeners={({ route }) => ({
-          state: () => {
-            switch (route.name) {
-              default:
-                break;
-              case 'Authentication':
-                setStatusHidden(true);
-                break;
-              case 'Home':
-                setStatusHidden(false);
-                break;
-            }
-          },
-        })}
-        screenOptions={{ headerShown: false, animation: 'none' }}
-        initialRouteName='Authentication'
-      >
-        <Stack.Screen name='Home' component={Home} />
-        <Stack.Screen name='Authentication' component={Authentication} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <AuthProvider>
+      <Navigator />
+    </AuthProvider>
   );
 }
 
