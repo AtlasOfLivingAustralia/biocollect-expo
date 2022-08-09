@@ -1,12 +1,12 @@
 import { useState, useEffect, useRef, useContext } from 'react';
 import { View, Text, Image, Animated, Easing, StyleSheet } from 'react-native';
 
-// Navigation
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
-
 import Button from 'components/Button';
 import globalStyles from 'components/styles';
 import Header from './Header';
+
+// Navigation
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../../App';
 
 // Authentication
@@ -52,6 +52,17 @@ export default function Authentication(
       setAuthenticating(false);
     }
   };
+
+  useEffect(() => {
+    return props.navigation.addListener('focus', () => {
+      setExitAnim(false);
+      setAuthenticating(false);
+    });
+  }, [props.navigation]);
+
+  // useEffect(() => {
+  //   console.log('exitAnim', exitAnim);
+  // }, [exitAnim]);
 
   return (
     <>

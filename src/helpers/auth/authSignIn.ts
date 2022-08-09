@@ -14,7 +14,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 // Sign-in authentication handler
 export default async (): Promise<TokenResponse> => {
   // Create a deep link for authentication redirects
-  const redirectUri = createURL('/auth/signin');
+  const redirectUri = createURL('/auth');
+  console.log(`[AUTH : SignIn] Created redirect URI: ${redirectUri}`);
 
   // Construct the OIDC code request
   const codeRequest = new AuthRequest({
@@ -31,7 +32,7 @@ export default async (): Promise<TokenResponse> => {
 
   // Start the authentication flow
   const result = await codeRequest.promptAsync(discovery);
-  console.log('Recieved initial PKCE code response', result);
+  console.log('[AUTH : SignIn] Recieved initial PKCE code response');
 
   // If the authentication was successfull
   if (result.type === 'success') {
@@ -48,13 +49,14 @@ export default async (): Promise<TokenResponse> => {
 
     // Perform the token exchange request
     const accessToken = await tokenRequest.performAsync(discovery);
-    console.log(accessToken);
 
     // Store the token in async storage
     await AsyncStorage.setItem('authToken', JSON.stringify(accessToken));
 
     return accessToken;
-  } else if (result.type === 'error') {
-    throw new Error('An error occurred when requesting an access token');
+  } else {
+    throw new Error(
+      `The sign in could not be completed (result type: ${result.type})`
+    );
   }
 };

@@ -1,57 +1,59 @@
 // Auth Session
 import {
   fetchDiscoveryAsync,
-  CodeChallengeMethod,
-  AuthRequest,
-  AccessTokenRequest,
+  revokeAsync,
+  TokenResponse,
+  TokenTypeHint,
 } from 'expo-auth-session';
-import { createURL } from 'expo-linking';
+import { openBrowserAsync } from 'expo-web-browser';
+import * as Linking from 'expo-linking';
+import { getNetworkStateAsync } from 'expo-network';
 
 // Async storage
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Sign-in authentication handler
-export default async (): Promise<void> => {
-  // Create a deep link for authentication redirects
-  const redirectUri = createURL('/auth/signout');
+export default (credentials: TokenResponse, callback: () => void) =>
+  async (): Promise<void> => {
+    // Clear the auth token from storage
+    console.log(`[Auth : SignOut] Removing auth state from storage...`);
+    await AsyncStorage.removeItem('authToken');
 
-  // Construct the OIDC code request
-  const codeRequest = new AuthRequest({
-    clientId: 'oidc-expo-test', // TODO: LOAD FROM CONFIG
-    redirectUri,
-    scopes: ['openid', 'email', 'profile'], // TODO: LOAD FROM CONFIG
-    codeChallengeMethod: CodeChallengeMethod.S256,
-  });
+    // Revoke the access token
+    if ((await getNetworkStateAsync()).isInternetReachable) {
+      // Create a deep link for authentication redirects
+      // const redirectUri = Linking.createURL('/auth');
 
-  // Fetch the discovery metadata
-  const discovery = await fetchDiscoveryAsync(
-    'https://auth-test.ala.org.au/cas/oidc' // TODO: LOAD FROM CONFIG
-  );
+      // Fetch the discovery metadata
+      const discovery = await fetchDiscoveryAsync(
+        'https://auth-test.ala.org.au/cas/oidc' // TODO: LOAD FROM CONFIG
+      );
 
-  // Start the authentication flow
-  const result = await codeRequest.promptAsync(discovery);
-  console.log('Recieved initial PKCE code response', result);
+      // Invalidate the access token and refresh token
+      if (credentials) {
+        console.log(`[Auth : SignOut] Revoking accessToken & refresh token...`);
 
-  // If the authentication was successfull
-  if (result.type === 'success') {
-    // Construct the OIDC access token request
-    const tokenRequest = new AccessTokenRequest({
-      clientId: codeRequest.clientId,
-      scopes: codeRequest.scopes,
-      code: result.params.code,
-      redirectUri,
-      extraParams: {
-        code_verifier: codeRequest.codeVerifier,
-      },
-    });
+        // Revoke access & refresh tokens
+        await Promise.all([
+          revokeAsync(
+            {
+              token: credentials.accessToken,
+              tokenTypeHint: TokenTypeHint.AccessToken,
+            },
+            discovery
+          ),
+          revokeAsync(
+            {
+              token: credentials.refreshToken,
+              tokenTypeHint: TokenTypeHint.RefreshToken,
+            },
+            discovery
+          ),
+        ]);
+      }
 
-    // Perform the token exchange request
-    const accessToken = await tokenRequest.performAsync(discovery);
-    console.log(accessToken);
-
-    // Store the token in async storage
-    await AsyncStorage.setItem('authToken', JSON.stringify(accessToken));
-  } else if (result.type === 'error') {
-    throw new Error('An error occurred when requesting an access token');
-  }
-};
+      // Execute the callback function to update the auth state, and open the browser to logout
+      callback();
+      openBrowserAsync(discovery.endSessionEndpoint);
+    }
+  };

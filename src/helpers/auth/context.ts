@@ -6,6 +6,7 @@ interface AuthContext {
   loading: boolean;
   authenticated: boolean;
   signIn: () => Promise<TokenResponse>;
+  signOut: () => Promise<void>;
 }
 
 export default createContext<AuthContext>(null);

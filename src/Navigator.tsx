@@ -42,11 +42,19 @@ function App(): ReactElement {
             }
           },
         })}
-        screenOptions={{ headerShown: false, animation: 'none' }}
+        screenOptions={{ headerShown: false }}
         initialRouteName={auth.authenticated ? 'Home' : 'Authentication'}
       >
-        <Stack.Screen name='Home' component={Home} />
-        <Stack.Screen name='Authentication' component={Authentication} />
+        <Stack.Screen
+          name='Home'
+          component={Home}
+          options={{ animation: 'slide_from_bottom' }}
+        />
+        <Stack.Screen
+          name='Authentication'
+          component={Authentication}
+          options={{ animation: 'none' }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

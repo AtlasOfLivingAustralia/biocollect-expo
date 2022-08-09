@@ -4,6 +4,7 @@ import { TokenResponse } from 'expo-auth-session';
 // Authentication helpers
 import AuthContext from './context';
 import signIn from './authSignIn';
+import signOut from './authSignOut';
 
 // Async storage
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -46,7 +47,16 @@ export default (props: AuthProviderProps): ReactElement => {
 
   return (
     <AuthContext.Provider
-      value={{ credentials, loading, authenticated, signIn }}
+      value={{
+        credentials,
+        loading,
+        authenticated,
+        signIn,
+        signOut: signOut(credentials, () => {
+          setAuthenticated(false);
+          setCredentials(null);
+        }),
+      }}
     >
       {props.children}
     </AuthContext.Provider>
