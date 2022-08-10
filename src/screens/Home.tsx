@@ -1,5 +1,12 @@
-import { useRef, useEffect, useContext } from 'react';
-import { SafeAreaView, Animated, Easing, Text } from 'react-native';
+import { useCallback, useState, useContext } from 'react';
+import {
+  SafeAreaView,
+  Animated,
+  ScrollView,
+  RefreshControl,
+  Text,
+  StyleSheet,
+} from 'react-native';
 
 // Navigation
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -9,9 +16,14 @@ import globalStyles from 'components/styles';
 import Button from 'components/Button';
 import { AuthContext } from '../helpers/auth';
 
+const wait = (timeout) => {
+  return new Promise((resolve) => setTimeout(resolve, timeout));
+};
+
 export default function Home(
   props: NativeStackScreenProps<RootStackParamList, 'Home'>
 ) {
+  const [refreshing, setRefreshing] = useState(false);
   const auth = useContext(AuthContext);
   const styles = globalStyles();
   // const fadeInAnim = useRef(new Animated.Value(0)).current;
@@ -25,6 +37,11 @@ export default function Home(
   //     useNativeDriver: false,
   //   }).start();
   // }, [fadeInAnim]);
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    wait(2000).then(() => setRefreshing(false));
+  }, []);
 
   return (
     <SafeAreaView style={styles.homeContainer}>
@@ -43,6 +60,26 @@ export default function Home(
           }}
         />
       </Animated.View>
+      <ScrollView
+        contentContainerStyle={localStyles.scrollView}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      >
+        <Text>Pull down to see RefreshControl indicator</Text>
+      </ScrollView>
     </SafeAreaView>
   );
 }
+
+const localStyles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  scrollView: {
+    flex: 1,
+    backgroundColor: 'pink',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
