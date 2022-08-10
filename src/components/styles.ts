@@ -18,8 +18,6 @@ export default () => {
     homeContainer: {
       flex: 1,
       backgroundColor: theme.background.primary,
-      alignItems: 'center',
-      justifyContent: 'center',
     },
     authenticationContainer: {
       flex: 1,

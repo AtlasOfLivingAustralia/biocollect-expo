@@ -48,7 +48,7 @@ export default function Home(props: HomeProps) {
       <View style={localStyles.header}>
         <ImageBackground
           style={localStyles.image}
-          resizeMode="cover"
+          resizeMode='cover'
           source={imageSplash}
         >
           <AnimatedWave
@@ -57,7 +57,7 @@ export default function Home(props: HomeProps) {
               ...localStyles.wave,
               height: swirlAnim,
             }}
-            preserveAspectRatio="xMinYMin slice"
+            preserveAspectRatio='xMinYMin slice'
           />
         </ImageBackground>
       </View>
