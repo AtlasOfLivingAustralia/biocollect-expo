@@ -44,9 +44,10 @@ export default function Authentication(
 
     // Attempt to sign in
     try {
-      await auth.signIn();
-      setExitAnim(true);
-      setTimeout(() => props.navigation.navigate('Home'), 1100);
+      if ((await auth.signIn()) !== null) {
+        setExitAnim(true);
+        setTimeout(() => props.navigation.navigate('Home'), 1100);
+      }
     } catch (error) {
       console.log(error);
       setAuthenticating(false);
@@ -83,7 +84,7 @@ export default function Authentication(
             <Text style={styles.subtitle}>Welcome</Text>
           </View>
           <Button
-            text='Sign in with ALA'
+            text="Sign in with ALA"
             icon={alaLogo}
             disabled={exitAnim || authenticating}
             loading={authenticating}

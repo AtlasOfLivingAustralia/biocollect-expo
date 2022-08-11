@@ -7,6 +7,7 @@ import {
   Text,
   StyleSheet,
 } from 'react-native';
+import ContentLoader, { Rect, Circle, Path } from 'react-content-loader/native';
 
 // Navigation
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -53,7 +54,7 @@ export default function Home(
       >
         <Text style={styles.title}>Home Screen</Text>
         <Button
-          text='Sign Out'
+          text="Sign Out"
           onPress={async () => {
             await auth.signOut();
             props.navigation.navigate('Authentication');
@@ -67,6 +68,22 @@ export default function Home(
         }
       >
         <Text>Pull down to see RefreshControl indicator</Text>
+        <ContentLoader
+          speed={2}
+          width={476}
+          height={124}
+          viewBox="0 0 200 124"
+          backgroundColor="#f3f3f3"
+          foregroundColor="#ecebeb"
+          {...props}
+        >
+          <Rect x="48" y="8" rx="3" ry="3" width="88" height="6" />
+          <Rect x="48" y="26" rx="3" ry="3" width="52" height="6" />
+          <Rect x="0" y="56" rx="3" ry="3" width="150" height="6" />
+          <Rect x="0" y="72" rx="3" ry="3" width="150" height="6" />
+          <Rect x="0" y="88" rx="3" ry="3" width="150" height="6" />
+          <Circle cx="20" cy="20" r="20" />
+        </ContentLoader>
       </ScrollView>
     </SafeAreaView>
   );
@@ -78,7 +95,6 @@ const localStyles = StyleSheet.create({
   },
   scrollView: {
     flex: 1,
-    backgroundColor: 'pink',
     alignItems: 'center',
     justifyContent: 'center',
   },

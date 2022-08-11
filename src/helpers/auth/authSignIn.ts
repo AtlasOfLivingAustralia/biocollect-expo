@@ -12,7 +12,7 @@ import { createURL } from 'expo-linking';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Sign-in authentication handler
-export default async (): Promise<TokenResponse> => {
+export default async (): Promise<TokenResponse | null> => {
   // Create a deep link for authentication redirects
   const redirectUri = createURL('/auth');
   console.log(`[AUTH : SignIn] Created redirect URI: ${redirectUri}`);
@@ -49,14 +49,16 @@ export default async (): Promise<TokenResponse> => {
 
     // Perform the token exchange request
     const accessToken = await tokenRequest.performAsync(discovery);
+    console.log('[AUTH : SignIn] Recieved access & refresh token');
 
     // Store the token in async storage
     await AsyncStorage.setItem('authToken', JSON.stringify(accessToken));
 
     return accessToken;
   } else {
-    throw new Error(
-      `The sign in could not be completed (result type: ${result.type})`
+    console.log(
+      `[AUTH : SignIn] The sign in could not be completed (result type: ${result.type})`
     );
+    return null;
   }
 };
