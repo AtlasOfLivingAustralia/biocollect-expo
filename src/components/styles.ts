@@ -18,6 +18,7 @@ export default () => {
     homeContainer: {
       flex: 1,
       backgroundColor: theme.background.primary,
+      padding: 12,
     },
     authenticationContainer: {
       flex: 1,

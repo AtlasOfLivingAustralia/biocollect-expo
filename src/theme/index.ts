@@ -9,6 +9,7 @@ import { useColorScheme } from 'react-native';
 
 interface ALATheme {
   background: ALAThemeColour;
+  skeleton: ALAThemeColour;
   text: ALAThemeColour;
   colour: ALAThemeColour;
 }
@@ -18,6 +19,10 @@ const themes: { [key: string]: ALATheme } = {
     background: {
       primary: '#FFFFFF',
       secondary: palette.secondary.concrete,
+    },
+    skeleton: {
+      primary: '#f3f3f3',
+      secondary: '#ecebeb',
     },
     text: {
       primary: palette.secondary.charcoal,
@@ -32,6 +37,10 @@ const themes: { [key: string]: ALATheme } = {
     background: {
       primary: palette.secondary.charcoal,
       secondary: '#373737',
+    },
+    skeleton: {
+      primary: '#373737',
+      secondary: '#646464',
     },
     text: {
       primary: '#FFFFFF',

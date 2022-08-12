@@ -6,7 +6,6 @@ import {
   TokenTypeHint,
 } from 'expo-auth-session';
 import { openBrowserAsync } from 'expo-web-browser';
-import * as Linking from 'expo-linking';
 import { getNetworkStateAsync } from 'expo-network';
 
 // Async storage

@@ -6,6 +6,7 @@ import Navigator from './src/Navigator';
 
 // Authentication helpers
 import { AuthProvider } from './src/helpers/auth';
+import { APIProvider } from './src/helpers/api';
 
 export type RootStackParamList = {
   Home: undefined;
@@ -26,7 +27,9 @@ function App() {
 
   return (
     <AuthProvider>
-      <Navigator />
+      <APIProvider>
+        <Navigator />
+      </APIProvider>
     </AuthProvider>
   );
 }
