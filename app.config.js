@@ -1,8 +1,8 @@
 import biocollectConfig from './biocollect.config.json';
 
 export default {
-  name: 'biocollect-expo',
-  slug: 'biocollect-expo',
+  name: 'BioCollect',
+  slug: 'biocollect',
   scheme: 'biocollect',
   version: '0.0.1',
   orientation: 'portrait',
@@ -12,6 +12,9 @@ export default {
     image: './assets/splash.png',
     resizeMode: 'contain',
     backgroundColor: '#ffffff',
+  },
+  expo: {
+    owner: 'atlasoflivingaustralia',
   },
   updates: {
     fallbackToCacheTimeout: 0,
@@ -29,5 +32,9 @@ export default {
   web: {
     favicon: './assets/favicon.png',
   },
-  extra: biocollectConfig,
+  extra: {
+    ...biocollectConfig,
+    test: process.env,
+    anotherProperty: 'testing123',
+  },
 };

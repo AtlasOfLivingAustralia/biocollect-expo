@@ -17,7 +17,6 @@ export default (props: APIProviderProps): ReactElement => {
 
   // UseEffect hook to add / remove access token the axios globals
   useEffect(() => {
-    console.log('auth update');
     if (auth.authenticated) {
       axios.defaults.headers.common[
         'Authorization'

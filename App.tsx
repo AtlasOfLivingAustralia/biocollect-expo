@@ -8,12 +8,15 @@ import Navigator from './src/Navigator';
 import { AuthProvider } from './src/helpers/auth';
 import { APIProvider } from './src/helpers/api';
 
+import Constants from 'expo-constants';
+
 export type RootStackParamList = {
   Home: undefined;
   Authentication: undefined;
 };
 
 function App() {
+  console.log('MANIFEST', Constants.manifest);
   // Load the Lato font
   const [fontsLoaded, fontsError] = useFonts({
     Lato: require('./assets/fonts/Lato.ttf'),

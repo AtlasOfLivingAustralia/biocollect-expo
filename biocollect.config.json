@@ -1,13 +1,50 @@
 {
-  "defaultTimeout": 20,
-  "auth": {
-    "server": "https://auth-dev.ala.org.au",
-    "register": "/userdetails/registration/createAccount",
-    "userdetails": "/userdetails/userDetails/getUserDetails?userName=",
-    "token": "/cas/oidc/token",
-    "openid": {
-      "clientId": "auth-dev-oidc-client-id",
+  "prod": {
+    "timeout": 2000,
+    "auth": {
+      "server": "https://auth.ala.org.au",
+      "client_id": "<client-id-here>",
       "scope": "email openid profile"
+    },
+    "biocollect": {
+      "biocollect_url": "https://biocollect.ala.org.au",
+      "ecodata_url": "https://ecodata.ala.org.au"
+    }
+  },
+  "staging": {
+    "timeout": 2000,
+    "auth": {
+      "server": "https://auth.ala.org.au",
+      "client_id": "oidc-expo-test",
+      "scope": "email openid profile"
+    },
+    "biocollect": {
+      "biocollect_url": "https://biocollect-staging.ala.org.au",
+      "ecodata_url": "https://ecodata.ala-staging.org.au"
+    }
+  },
+  "test": {
+    "timeout": 2000,
+    "auth": {
+      "server": "https://auth-test.ala.org.au",
+      "client_id": "oidc-expo-test",
+      "scope": "email openid profile"
+    },
+    "biocollect": {
+      "biocollect_url": "https://biocollect-test.ala.org.au",
+      "ecodata_url": "https://ecodata.ala-test.org.au"
+    }
+  },
+  "dev": {
+    "timeout": 2000,
+    "auth": {
+      "server": "https://auth-dev.ala.org.au",
+      "client_id": "auth-dev-oidc-client-id",
+      "scope": "email openid profile"
+    },
+    "biocollect": {
+      "biocollect_url": "https://biocollect-dev.ala.org.au",
+      "ecodata_url": "https://ecodata.ala-cev.org.au"
     }
   }
 }

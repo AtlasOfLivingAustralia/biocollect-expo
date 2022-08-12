@@ -65,11 +65,6 @@ export default (props: AuthProviderProps): ReactElement => {
     getStoredCreds();
   }, []);
 
-  useEffect(
-    () => console.log('auth provider authenticated update'),
-    [authenticated]
-  );
-
   return (
     <AuthContext.Provider
       value={{
