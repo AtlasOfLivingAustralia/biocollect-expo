@@ -8,7 +8,7 @@ import {
   StyleSheet,
 } from 'react-native';
 import ContentLoader, { Rect, Circle } from 'react-content-loader/native';
-import SkeletonCircle from '../../components/Skeleton/Circle';
+import SkeletonCircle from 'components/Skeleton/Circle';
 
 // Navigation
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -16,8 +16,8 @@ import { RootStackParamList } from '../../../App';
 
 import globalStyles from 'components/styles';
 import Button from 'components/Button';
-import { AuthContext } from '../../helpers/auth';
-import { APIContext } from '../../helpers/api';
+import { AuthContext } from 'helpers/auth';
+import { APIContext } from 'helpers/api';
 
 const wait = (timeout) => {
   return new Promise((resolve) => setTimeout(resolve, timeout));
@@ -58,11 +58,11 @@ export default function Home(
         <Text style={styles.title}>Home Screen</Text>
         <Button
           text='Sign Out'
-          // onPress={async () => {
-          //   await auth.signOut();
-          //   props.navigation.navigate('Authentication');
-          // }}
-          onPress={() => api.call()}
+          onPress={async () => {
+            await auth.signOut();
+            props.navigation.navigate('Authentication');
+          }}
+          // onPress={() => api.call()}
         />
       </Animated.View>
       <ScrollView

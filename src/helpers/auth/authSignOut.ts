@@ -15,7 +15,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 export default (credentials: TokenResponse, callback: () => void) =>
   async (): Promise<void> => {
     // Clear the auth token from storage
-    console.log(`[Auth : SignOut] Removing auth state from storage...`);
+    console.log(`[AUTH : SignOut] Removing auth state from storage...`);
     await AsyncStorage.removeItem('authToken');
 
     // Revoke the access token
@@ -30,7 +30,7 @@ export default (credentials: TokenResponse, callback: () => void) =>
 
       // Invalidate the access token and refresh token
       if (credentials) {
-        console.log(`[Auth : SignOut] Revoking accessToken & refresh token...`);
+        console.log(`[AUTH : SignOut] Revoking accessToken & refresh token...`);
 
         // Revoke access & refresh tokens
         await Promise.all([
@@ -51,8 +51,8 @@ export default (credentials: TokenResponse, callback: () => void) =>
         ]);
       }
 
-      // Execute the callback function to update the auth state, and open the browser to logout
-      callback();
+      // Open the browser to logout
+      await callback();
       openBrowserAsync(discovery.endSessionEndpoint);
     }
   };

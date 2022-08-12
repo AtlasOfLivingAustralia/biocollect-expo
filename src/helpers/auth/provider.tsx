@@ -1,10 +1,12 @@
 import { ReactNode, ReactElement, useEffect, useState } from 'react';
 import { TokenResponse } from 'expo-auth-session';
+import jwtDecode from 'jwt-decode';
 
 // Authentication helpers
+import { OidcStandardClaims } from './claims';
 import AuthContext from './context';
-import signIn from './authSignIn';
-import signOut from './authSignOut';
+import authSignIn from './authSignIn';
+import authSignOut from './authSignOut';
 
 // Async storage
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -17,6 +19,21 @@ export default (props: AuthProviderProps): ReactElement => {
   const [loading, setLoading] = useState<boolean>(true);
   const [authenticated, setAuthenticated] = useState<boolean>(false);
   const [credentials, setCredentials] = useState<TokenResponse | null>(null);
+  const [profile, setProfile] = useState<OidcStandardClaims | null>(null);
+
+  // Helper function to update the auth state on sign in
+  const onSignInSuccess = (token: TokenResponse) => {
+    setCredentials(token);
+    setProfile(jwtDecode<OidcStandardClaims>(token.idToken));
+    setAuthenticated(true);
+  };
+
+  // Helper function to update the auth state on sign out
+  const onSignOutSuccess = () => {
+    setAuthenticated(false);
+    setProfile(null);
+    setCredentials(null);
+  };
 
   // Grab the stored credentials from the SecureStore
   useEffect(() => {
@@ -29,14 +46,17 @@ export default (props: AuthProviderProps): ReactElement => {
       // Handle state updates
       if (parsed) {
         if (TokenResponse.isTokenFresh(parsed)) {
-          setCredentials(parsed);
-          setAuthenticated(true);
+          onSignInSuccess(parsed);
 
-          console.log('Token is fresh, updating provider credentials...');
+          console.log(
+            '[AUTH : Provider] Token is fresh, updating provider credentials...'
+          );
         } else {
           await AsyncStorage.removeItem('authToken');
 
-          console.log('Token is not fresh, removing credentials from store...');
+          console.log(
+            '[AUTH : Provider] Token is not fresh, removing credentials from store...'
+          );
         }
       }
       setLoading(false);
@@ -45,17 +65,20 @@ export default (props: AuthProviderProps): ReactElement => {
     getStoredCreds();
   }, []);
 
+  useEffect(
+    () => console.log('auth provider authenticated update'),
+    [authenticated]
+  );
+
   return (
     <AuthContext.Provider
       value={{
         credentials,
+        profile,
         loading,
         authenticated,
-        signIn,
-        signOut: signOut(credentials, () => {
-          setAuthenticated(false);
-          setCredentials(null);
-        }),
+        signIn: authSignIn((token) => onSignInSuccess(token)),
+        signOut: authSignOut(credentials, onSignOutSuccess),
       }}
     >
       {props.children}

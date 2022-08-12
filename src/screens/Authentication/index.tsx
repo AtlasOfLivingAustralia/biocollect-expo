@@ -10,7 +10,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../../App';
 
 // Authentication
-import { AuthContext } from '../../helpers/auth';
+import { AuthContext } from 'helpers/auth';
 
 // BioCollect logo
 import biocollectLogo from 'assets/images/ui/logo.png';
@@ -84,7 +84,7 @@ export default function Authentication(
             <Text style={styles.subtitle}>Welcome</Text>
           </View>
           <Button
-            text="Sign in with ALA"
+            text='Sign in with ALA'
             icon={alaLogo}
             disabled={exitAnim || authenticating}
             loading={authenticating}

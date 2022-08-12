@@ -17,21 +17,22 @@ export default (props: APIProviderProps): ReactElement => {
 
   // UseEffect hook to add / remove access token the axios globals
   useEffect(() => {
+    console.log('auth update');
     if (auth.authenticated) {
       axios.defaults.headers.common[
         'Authorization'
       ] = `Bearer ${auth.credentials.accessToken}`;
-      console.log('[Auth : SignIn] Updated axios auth header');
+      console.log('[API : Provider] Updated axios auth header');
     } else {
       delete axios.defaults.headers.common['Authorization'];
-      console.log('[Auth : SignOut] Removed token from axios auth header');
+      console.log('[API : Provider] Removed token from axios auth header');
     }
   }, [auth.authenticated]);
 
   return (
     <APIContext.Provider
       value={{
-        call: () => console.log(auth.credentials),
+        call: () => console.log(auth.profile),
       }}
     >
       {props.children}
