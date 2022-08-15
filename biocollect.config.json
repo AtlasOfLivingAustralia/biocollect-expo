@@ -20,7 +20,7 @@
     },
     "biocollect": {
       "biocollect_url": "https://biocollect-staging.ala.org.au",
-      "ecodata_url": "https://ecodata.ala-staging.org.au"
+      "ecodata_url": "https://ecodata-staging.ala.org.au"
     }
   },
   "test": {
@@ -32,7 +32,7 @@
     },
     "biocollect": {
       "biocollect_url": "https://biocollect-test.ala.org.au",
-      "ecodata_url": "https://ecodata.ala-test.org.au"
+      "ecodata_url": "https://ecodata-test.ala.org.au"
     }
   },
   "dev": {
@@ -44,7 +44,7 @@
     },
     "biocollect": {
       "biocollect_url": "https://biocollect-dev.ala.org.au",
-      "ecodata_url": "https://ecodata.ala-cev.org.au"
+      "ecodata_url": "https://ecodata-dev.ala.org.au"
     }
   }
 }

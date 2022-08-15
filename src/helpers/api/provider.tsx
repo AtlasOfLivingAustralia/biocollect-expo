@@ -1,12 +1,13 @@
 import { ReactNode, ReactElement, useContext, useEffect } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 
 // Contexts
 import APIContext from './context';
 import AuthContext from '../auth/context';
 
-// Async storage
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import axios from 'axios';
+// API endpoints
+import * as biocollect from './endpoints/biocollect';
 
 interface APIProviderProps {
   children?: ReactNode;
@@ -15,7 +16,7 @@ interface APIProviderProps {
 export default (props: APIProviderProps): ReactElement => {
   const auth = useContext(AuthContext);
 
-  // UseEffect hook to add / remove access token the axios globals
+  // useEffect hook to add / remove access token the axios globals
   useEffect(() => {
     if (auth.authenticated) {
       axios.defaults.headers.common[
@@ -32,6 +33,7 @@ export default (props: APIProviderProps): ReactElement => {
     <APIContext.Provider
       value={{
         call: () => console.log(auth.profile),
+        biocollect,
       }}
     >
       {props.children}

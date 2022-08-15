@@ -1,5 +1,6 @@
 import { Text } from 'react-native';
 import { useFonts } from 'expo-font';
+import axios from 'axios';
 
 // Import screen components
 import Navigator from './src/Navigator';
@@ -12,6 +13,16 @@ export type RootStackParamList = {
   Home: undefined;
   Authentication: undefined;
 };
+
+axios.interceptors.request.use((config) => {
+  console.log(
+    `[API : Request] ${config.method.toUpperCase()} request to ${
+      config.url
+    }\n${JSON.stringify(config.params, null, 2)}`
+  );
+
+  return config;
+});
 
 function App() {
   // Load the Lato font

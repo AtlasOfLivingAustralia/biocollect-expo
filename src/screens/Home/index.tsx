@@ -1,4 +1,4 @@
-import { useCallback, useState, useContext } from 'react';
+import { useCallback, useState, useContext, useEffect } from 'react';
 import {
   SafeAreaView,
   Animated,
@@ -18,6 +18,7 @@ import globalStyles from 'components/styles';
 import Button from 'components/Button';
 import { AuthContext } from 'helpers/auth';
 import { APIContext } from 'helpers/api';
+import { useFocusEffect } from '@react-navigation/native';
 
 const wait = (timeout) => {
   return new Promise((resolve) => setTimeout(resolve, timeout));
@@ -41,6 +42,19 @@ export default function Home(
   //     useNativeDriver: false,
   //   }).start();
   // }, [fadeInAnim]);
+
+  useEffect(() => {
+    async function getData() {
+      try {
+        const data = await api.biocollect.projectSearch(0);
+        console.log(data.total);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    getData();
+  }, []);
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);

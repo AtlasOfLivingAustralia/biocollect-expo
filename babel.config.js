@@ -12,6 +12,7 @@ module.exports = function (api) {
             components: './src/components',
             theme: './src/theme',
             helpers: './src/helpers',
+            types: './src/types',
           },
         },
       ],
