@@ -1,6 +1,6 @@
 import { useCallback, useState, useContext, useEffect } from 'react';
 import {
-  Animated,
+  View,
   ScrollView,
   RefreshControl,
   Text,
@@ -20,6 +20,7 @@ import { AuthContext } from 'helpers/auth';
 import { APIContext } from 'helpers/api';
 import { BioCollectProject } from 'types';
 import Title from 'components/Title';
+import Subtitle from 'components/Subtitle';
 
 const wait = (timeout) => {
   return new Promise((resolve) => setTimeout(resolve, timeout));
@@ -44,7 +45,7 @@ export default function Home(
       }
     }
 
-    getData();
+    if (!projects) getData();
   }, []);
 
   const onRefresh = useCallback(() => {
@@ -54,22 +55,18 @@ export default function Home(
 
   return (
     <SafeThemeView>
-      <Animated.View
-        style={{
-          // opacity: fadeInAnim,
-          opacity: 1,
-        }}
-      >
-        <Title>Home Screen</Title>
-        <Button
+      <View style={{ display: 'flex', padding: 24, alignItems: 'center' }}>
+        <Title>Welcome,</Title>
+        <Subtitle>{auth.profile.name}</Subtitle>
+        {/* <Button
           text='Sign Out'
           onPress={async () => {
             await auth.signOut();
             props.navigation.goBack();
           }}
           // onPress={() => api.call()}
-        />
-      </Animated.View>
+        /> */}
+      </View>
       <ScrollView
         contentContainerStyle={localStyles.scrollView}
         refreshControl={
@@ -81,17 +78,13 @@ export default function Home(
               <ProjectCard key={project.projectId} project={project} />
             ))
           : [0, 1, 2, 3].map((id) => <ProjectCard key={id} project={null} />)}
-        <Text>Hello world</Text>
       </ScrollView>
     </SafeThemeView>
   );
 }
 
 const localStyles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
   scrollView: {
-    flex: 1,
+    padding: 12,
   },
 });

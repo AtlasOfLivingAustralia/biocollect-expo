@@ -3,6 +3,7 @@ import 'styled-components/native';
 interface ALAThemeColour {
   primary: string;
   secondary: string;
+  tertiary?: string;
 }
 
 declare module 'styled-components' {

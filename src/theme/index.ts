@@ -1,4 +1,3 @@
-import { useColorScheme } from 'react-native';
 import { DefaultTheme } from 'styled-components/native';
 import palette from './palette';
 
@@ -8,6 +7,7 @@ const themes: { [key: string]: DefaultTheme } = {
     background: {
       primary: '#FFFFFF',
       secondary: palette.secondary.concrete,
+      tertiary: '#cecece',
     },
     skeleton: {
       primary: '#f3f3f3',
@@ -31,6 +31,7 @@ const themes: { [key: string]: DefaultTheme } = {
     background: {
       primary: palette.secondary.charcoal,
       secondary: '#373737',
+      tertiary: '#555555',
     },
     skeleton: {
       primary: '#373737',

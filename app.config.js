@@ -10,6 +10,7 @@ export default {
     owner: 'atlasoflivingaustralia',
     orientation: 'portrait',
     icon: './assets/icon.png',
+    platforms: ['ios', 'android'],
     userInterfaceStyle: 'automatic',
     splash: {
       image: './assets/splash.png',
@@ -28,9 +29,6 @@ export default {
         foregroundImage: './assets/adaptive-icon.png',
         backgroundColor: '#FFFFFF',
       },
-    },
-    web: {
-      favicon: './assets/favicon.png',
     },
     extra: {
       config: biocollectConfig[process.env.APP_MODE],
