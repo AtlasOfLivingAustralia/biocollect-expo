@@ -16,7 +16,10 @@ export type RootStackParamList = {
 };
 
 function App() {
-  console.log('MANIFEST', Constants.manifest);
+  console.log(
+    'MANIFEST CONFIG',
+    JSON.stringify(Constants.manifest.extra, null, 2)
+  );
   // Load the Lato font
   const [fontsLoaded, fontsError] = useFonts({
     Lato: require('./assets/fonts/Lato.ttf'),
