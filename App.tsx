@@ -1,6 +1,8 @@
-import { Text } from 'react-native';
+import { Text, useColorScheme } from 'react-native';
 import { useFonts } from 'expo-font';
+import { ThemeProvider } from 'styled-components/native';
 import axios from 'axios';
+import { themes } from 'theme';
 
 // Import screen components
 import Navigator from './src/Navigator';
@@ -25,6 +27,8 @@ axios.interceptors.request.use((config) => {
 });
 
 function App() {
+  const scheme = useColorScheme();
+
   // Load the Lato font
   const [fontsLoaded, fontsError] = useFonts({
     Lato: require('./assets/fonts/Lato.ttf'),
@@ -39,7 +43,9 @@ function App() {
   return (
     <AuthProvider>
       <APIProvider>
-        <Navigator />
+        <ThemeProvider theme={themes[scheme]}>
+          <Navigator />
+        </ThemeProvider>
       </APIProvider>
     </AuthProvider>
   );

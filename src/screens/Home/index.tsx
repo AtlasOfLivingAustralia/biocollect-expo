@@ -1,24 +1,25 @@
 import { useCallback, useState, useContext, useEffect } from 'react';
 import {
-  SafeAreaView,
   Animated,
   ScrollView,
   RefreshControl,
   Text,
   StyleSheet,
 } from 'react-native';
-import ContentLoader, { Rect, Circle } from 'react-content-loader/native';
-import SkeletonCircle from 'components/Skeleton/Circle';
 
 // Navigation
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../../App';
 
-import globalStyles from 'components/styles';
 import Button from 'components/Button';
+import ProjectCard from 'components/ProjectCard';
+import SafeThemeView from 'components/SafeAreaThemeView';
+
+// API / Auth
 import { AuthContext } from 'helpers/auth';
 import { APIContext } from 'helpers/api';
-import { useFocusEffect } from '@react-navigation/native';
+import { BioCollectProject } from 'types';
+import Title from 'components/Title';
 
 const wait = (timeout) => {
   return new Promise((resolve) => setTimeout(resolve, timeout));
@@ -27,26 +28,16 @@ const wait = (timeout) => {
 export default function Home(
   props: NativeStackScreenProps<RootStackParamList, 'Home'>
 ) {
+  const [projects, setProjects] = useState<BioCollectProject[] | null>(null);
   const [refreshing, setRefreshing] = useState(false);
   const auth = useContext(AuthContext);
   const api = useContext(APIContext);
-  const styles = globalStyles();
-  // const fadeInAnim = useRef(new Animated.Value(0)).current;
-
-  // // Animation effect
-  // useEffect(() => {
-  //   Animated.timing(fadeInAnim, {
-  //     toValue: 1,
-  //     duration: 250,
-  //     easing: Easing.ease,
-  //     useNativeDriver: false,
-  //   }).start();
-  // }, [fadeInAnim]);
 
   useEffect(() => {
     async function getData() {
       try {
         const data = await api.biocollect.projectSearch(0);
+        setProjects(data.projects);
         console.log(data.total);
       } catch (error) {
         console.log(error);
@@ -62,19 +53,19 @@ export default function Home(
   }, []);
 
   return (
-    <SafeAreaView style={styles.homeContainer}>
+    <SafeThemeView>
       <Animated.View
         style={{
           // opacity: fadeInAnim,
           opacity: 1,
         }}
       >
-        <Text style={styles.title}>Home Screen</Text>
+        <Title>Home Screen</Title>
         <Button
           text='Sign Out'
           onPress={async () => {
             await auth.signOut();
-            props.navigation.navigate('Authentication');
+            props.navigation.goBack();
           }}
           // onPress={() => api.call()}
         />
@@ -85,26 +76,14 @@ export default function Home(
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
       >
-        <Text>Pull down to see RefreshControl indicator</Text>
-        <SkeletonCircle size={60} />
-        <ContentLoader
-          interval={0}
-          speed={2}
-          width={476}
-          height={124}
-          viewBox='0 0 200 124'
-          backgroundColor='#373737'
-          foregroundColor='#646464'
-        >
-          <Rect x='48' y='8' rx='3' ry='3' width='88' height='12' />
-          <Rect x='48' y='26' rx='3' ry='3' width='52' height='6' />
-          <Rect x='0' y='56' rx='3' ry='3' width='150' height='6' />
-          <Rect x='0' y='72' rx='3' ry='3' width='150' height='6' />
-          <Rect x='0' y='88' rx='3' ry='3' width='150' height='6' />
-          <Circle cx='20' cy='20' r='20' />
-        </ContentLoader>
+        {projects
+          ? projects.map((project) => (
+              <ProjectCard key={project.projectId} project={project} />
+            ))
+          : [0, 1, 2, 3].map((id) => <ProjectCard key={id} project={null} />)}
+        <Text>Hello world</Text>
       </ScrollView>
-    </SafeAreaView>
+    </SafeThemeView>
   );
 }
 
@@ -114,7 +93,5 @@ const localStyles = StyleSheet.create({
   },
   scrollView: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
 });

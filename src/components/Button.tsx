@@ -9,7 +9,7 @@ import {
   StyleProp,
   ViewStyle,
 } from 'react-native';
-import { palette } from 'theme/index';
+import styled from 'styled-components/native';
 
 interface ButtonProps {
   text: string;
@@ -20,16 +20,27 @@ interface ButtonProps {
   style?: StyleProp<ViewStyle>;
 }
 
+interface ButtonStyleProps {
+  disabled?: boolean;
+}
+
+const ButtonRoot = styled(TouchableOpacity)<ButtonStyleProps>`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 12px;
+  background-color: ${({ theme }) => theme.button.primary};
+  border-radius: ${({ theme }) => theme.radius}px;
+  opacity: ${({ disabled }) => (disabled ? 0.4 : 1)};
+`;
+
 export default function Button(props: ButtonProps) {
   const { style, disabled, loading, text, icon, onPress } = props;
 
   return (
-    <TouchableOpacity
+    <ButtonRoot
+      style={style}
       disabled={disabled}
-      style={StyleSheet.compose<ViewStyle>(
-        { ...styles.container, opacity: disabled ? 0.4 : 1 },
-        style || {}
-      )}
       onPress={onPress}
       activeOpacity={0.6}
     >
@@ -42,19 +53,11 @@ export default function Button(props: ButtonProps) {
           color='#ffffff'
         />
       )}
-    </TouchableOpacity>
+    </ButtonRoot>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 12,
-    backgroundColor: palette.primary.flamingo,
-    borderRadius: 4,
-  },
   icon: {
     width: 24,
     height: 24,

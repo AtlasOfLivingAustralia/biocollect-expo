@@ -1,8 +1,9 @@
 import { useState, useEffect, useRef, useContext } from 'react';
-import { View, Text, Image, Animated, Easing, StyleSheet } from 'react-native';
+import { View, Image, Animated, Easing, StyleSheet } from 'react-native';
 
 import Button from 'components/Button';
-import globalStyles from 'components/styles';
+import Title from 'components/Title';
+import Subtitle from 'components/Subtitle';
 import Header from './Header';
 
 // Navigation
@@ -15,6 +16,7 @@ import { AuthContext } from 'helpers/auth';
 // BioCollect logo
 import biocollectLogo from 'assets/images/ui/logo.png';
 import alaLogo from 'assets/images/ui/ala-white.png';
+import ThemeView from 'components/ThemeView';
 
 export default function Authentication(
   props: NativeStackScreenProps<RootStackParamList, 'Authentication'>
@@ -25,7 +27,6 @@ export default function Authentication(
   // Animation / styling
   const [exitAnim, setExitAnim] = useState<boolean>(false);
   const fadeInAnim = useRef(new Animated.Value(0)).current;
-  const styles = globalStyles();
 
   // Animation effect
   useEffect(() => {
@@ -67,7 +68,7 @@ export default function Authentication(
 
   return (
     <>
-      <View style={styles.authenticationContainer}>
+      <ThemeView>
         <Header exitAnim={exitAnim} />
         <Animated.View
           style={{
@@ -80,8 +81,8 @@ export default function Authentication(
               source={biocollectLogo}
               style={{ width: 125, height: 125, marginBottom: 12 }}
             />
-            <Text style={styles.title}>BioCollect</Text>
-            <Text style={styles.subtitle}>Welcome</Text>
+            <Title>BioCollect</Title>
+            <Subtitle>Welcome</Subtitle>
           </View>
           <Button
             text='Sign in with ALA'
@@ -92,7 +93,7 @@ export default function Authentication(
             onPress={handleAuth}
           />
         </Animated.View>
-      </View>
+      </ThemeView>
     </>
   );
 }

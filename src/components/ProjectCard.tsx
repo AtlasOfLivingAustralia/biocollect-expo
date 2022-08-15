@@ -1,59 +1,44 @@
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
+import { BioCollectProject } from 'types';
 
-interface BioCollectProject {
-  projectId: string;
-  aim: string;
-  coverage: {
-    datum: string;
-    fid: string;
-    other: string[];
-    precision: string;
-    lga: string[];
-    bbox: string;
-    aream2: number;
-    decimalLatitude: number;
-    pid: number;
-    uncertainty: string;
-    type: string;
-    elect: string[];
-    cmz: string[];
-    state: string[];
-    mvg: string;
-    areaKmSq: number;
-    nrm: string[];
-    locality: string;
-    decimalLongitude: number;
-    centre: string[];
-    mvs: string;
-    name: string;
-    imcra4_pb: string[];
-    ibra: string[];
-    layerName: string;
-  };
-  description: string;
-  difficulty: string | null;
-  endDate: string | null;
-  isExternal: false;
-  isSciStarter: false;
-  keywords: string[] | null;
-  links: string[];
-  name: string;
-  organisationId: string;
-  organisationName: string;
-  scienceType: string[];
-  ecoScienceType: string[];
-  startDate: string;
-  urlImage: string;
-  fullSizeImageUrl: string;
-  urlWeb: string | null;
-  plannedStartDate: string | null;
-  plannedEndDate: string | null;
-  projectType: string;
-  isMERIT: boolean;
-  tags: string[];
-  noCost: boolean;
+import ContentLoader, { Rect, Circle } from 'react-content-loader/native';
+import styled from 'styled-components/native';
+
+interface ProjectCardProps {
+  project: BioCollectProject | null;
 }
 
-const ProjectCard = () => {
-  return <View>Testing</View>;
+const ProjectCard = styled.TouchableOpacity`
+  background-color: ${(props) => props.theme.background.secondary};
+`;
+
+export default ({ project }: ProjectCardProps) => {
+  if (project) {
+    return (
+      <ProjectCard>
+        <Text style={{ color: 'white' }}>{project.name}</Text>
+      </ProjectCard>
+    );
+  } else {
+    return (
+      <View>
+        <ContentLoader
+          interval={0}
+          speed={2}
+          width={476}
+          height={124}
+          viewBox='0 0 200 124'
+          backgroundColor='#373737'
+          foregroundColor='#646464'
+        >
+          <Rect x='48' y='8' rx='3' ry='3' width='88' height='12' />
+          <Rect x='48' y='26' rx='3' ry='3' width='52' height='6' />
+          <Rect x='0' y='56' rx='3' ry='3' width='150' height='6' />
+          <Rect x='0' y='72' rx='3' ry='3' width='150' height='6' />
+          <Rect x='0' y='88' rx='3' ry='3' width='150' height='6' />
+          <Circle cx='20' cy='20' r='20' />
+        </ContentLoader>
+      </View>
+    );
+  }
 };

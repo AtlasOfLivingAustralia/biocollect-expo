@@ -1,13 +1,13 @@
 import ContentLoader, { Rect, Circle, Path } from 'react-content-loader/native';
 import { View } from 'react-native';
-import { getCurrentTheme } from '../../theme';
+import { useTheme } from 'styled-components';
 
 interface SkeletonCircleProps {
   size: number;
 }
 
 export default ({ size }: SkeletonCircleProps) => {
-  const theme = getCurrentTheme();
+  const theme = useTheme();
   return (
     <View>
       <ContentLoader

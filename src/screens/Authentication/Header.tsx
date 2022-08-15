@@ -7,9 +7,7 @@ import {
   ImageBackground,
 } from 'react-native';
 import { SvgProps } from 'react-native-svg';
-
-// Theming
-import { getCurrentTheme } from 'theme/index';
+import { useTheme } from 'styled-components/native';
 
 // Images
 import imageSplash from 'assets/images/ui/splash.png';
@@ -30,7 +28,7 @@ interface HomeProps {
 export default function Home(props: HomeProps) {
   const { exitAnim } = props;
   const swirlAnim = useRef(new Animated.Value(600)).current;
-  const theme = getCurrentTheme();
+  const theme = useTheme();
 
   useEffect(() => {
     Animated.timing(swirlAnim, {

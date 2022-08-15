@@ -1,21 +1,10 @@
+import { useColorScheme } from 'react-native';
+import { DefaultTheme } from 'styled-components/native';
 import palette from './palette';
 
-interface ALAThemeColour {
-  primary: string;
-  secondary: string;
-}
-
-import { useColorScheme } from 'react-native';
-
-interface ALATheme {
-  background: ALAThemeColour;
-  skeleton: ALAThemeColour;
-  text: ALAThemeColour;
-  colour: ALAThemeColour;
-}
-
-const themes: { [key: string]: ALATheme } = {
+const themes: { [key: string]: DefaultTheme } = {
   light: {
+    radius: 8,
     background: {
       primary: '#FFFFFF',
       secondary: palette.secondary.concrete,
@@ -32,8 +21,13 @@ const themes: { [key: string]: ALATheme } = {
       primary: palette.primary.flamingo,
       secondary: palette.primary.rust,
     },
+    button: {
+      primary: palette.primary.flamingo,
+      secondary: palette.primary.rust,
+    },
   },
   dark: {
+    radius: 8,
     background: {
       primary: palette.secondary.charcoal,
       secondary: '#373737',
@@ -50,10 +44,11 @@ const themes: { [key: string]: ALATheme } = {
       primary: palette.primary.flamingo,
       secondary: palette.primary.rust,
     },
+    button: {
+      primary: palette.primary.flamingo,
+      secondary: palette.primary.rust,
+    },
   },
 };
 
-// Helper function for retireving the current theme
-const getCurrentTheme = (): ALATheme => themes[useColorScheme()];
-
-export { palette, themes, getCurrentTheme };
+export { palette, themes };
