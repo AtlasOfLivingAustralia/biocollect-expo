@@ -4,7 +4,7 @@
     "auth": {
       "server": "https://auth.ala.org.au",
       "client_id": "<client-id-here>",
-      "scope": "email openid profile"
+      "scopes": "email openid profile"
     },
     "biocollect": {
       "biocollect_url": "https://biocollect.ala.org.au",
@@ -14,9 +14,9 @@
   "staging": {
     "timeout": 2000,
     "auth": {
-      "server": "https://auth.ala.org.au",
+      "server": "https://auth.ala.org.au/cas/oidc",
       "client_id": "oidc-expo-test",
-      "scope": "email openid profile"
+      "scopes": "email openid profile"
     },
     "biocollect": {
       "biocollect_url": "https://biocollect-staging.ala.org.au",
@@ -26,9 +26,9 @@
   "test": {
     "timeout": 2000,
     "auth": {
-      "server": "https://auth-test.ala.org.au",
+      "server": "https://auth-test.ala.org.au/cas/oidc",
       "client_id": "oidc-expo-test",
-      "scope": "email openid profile"
+      "scopes": "email openid profile"
     },
     "biocollect": {
       "biocollect_url": "https://biocollect-test.ala.org.au",
@@ -38,9 +38,9 @@
   "dev": {
     "timeout": 2000,
     "auth": {
-      "server": "https://auth-dev.ala.org.au",
+      "server": "https://auth-dev.ala.org.au/cas/oidc",
       "client_id": "auth-dev-oidc-client-id",
-      "scope": "email openid profile"
+      "scopes": "email openid profile"
     },
     "biocollect": {
       "biocollect_url": "https://biocollect-dev.ala.org.au",
