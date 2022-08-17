@@ -1,29 +1,33 @@
 import axios from 'axios';
 import Constants from 'expo-constants';
 import { BioCollectProjectSearch } from 'types';
+import { APIEnvironment } from '../provider';
 
-const projectSearch = async (
-  offset: number = 0
-): Promise<BioCollectProjectSearch> => {
-  // Retrieve the auth configuration
-  const { biocollect_url } = Constants.manifest.extra.config.biocollect;
+export default (environment: APIEnvironment) => ({
+  projectSearch: async (
+    offset: number = 0,
+    isUserPage: boolean = false
+  ): Promise<BioCollectProjectSearch> => {
+    // Retrieve the auth configuration
+    const { biocollect_url } =
+      Constants.manifest.extra.config[environment].biocollect;
 
-  const request = await axios.get<BioCollectProjectSearch>(
-    `${biocollect_url}/ws/project/search`,
-    {
-      params: {
-        fq: 'isExternal:F',
-        initiator: 'biocollect',
-        sort: 'nameSort',
-        mobile: true,
-        isUserPage: false,
-        max: 20, // TODO: Max doesn't seem to be working
-        offset,
-      },
-    }
-  );
+    // Make the GET request
+    const request = await axios.get<BioCollectProjectSearch>(
+      `${biocollect_url}/ws/project/search`,
+      {
+        params: {
+          fq: 'isExternal:F',
+          initiator: 'biocollect',
+          sort: 'nameSort',
+          mobile: true,
+          max: 20, // TODO: Max doesn't seem to be working
+          offset,
+          isUserPage,
+        },
+      }
+    );
 
-  return request.data;
-};
-
-export { projectSearch };
+    return request.data;
+  },
+});

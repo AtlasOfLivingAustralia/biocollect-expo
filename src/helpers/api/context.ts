@@ -1,9 +1,10 @@
 import { createContext } from 'react';
-import * as biocollect from './endpoints/biocollect';
+import biocollect from './endpoints/biocollect';
+import { APIEnvironment } from './provider';
 
 interface APIContext {
-  call: () => void;
-  biocollect: typeof biocollect;
+  biocollect: ReturnType<typeof biocollect>;
+  setEnvironment: (environment: APIEnvironment) => void;
 }
 
 export default createContext<APIContext>(null);

@@ -22,6 +22,7 @@ import { BioCollectProject } from 'types';
 import Title from 'components/Title';
 import Subtitle from 'components/Subtitle';
 import Modal from 'components/Modal';
+import jwtDecode from 'jwt-decode';
 
 const wait = (timeout) => {
   return new Promise((resolve) => setTimeout(resolve, timeout));
@@ -71,13 +72,16 @@ export default function Home(
               text='Sign Out'
               onPress={async () => {
                 await auth.signOut();
-                props.navigation.goBack();
+                props.navigation.navigate('Authentication');
               }}
               // onPress={() => api.call()}
             />
             <Button
               style={{ marginLeft: 3 }}
-              onPress={() => setShowSettings(true)}
+              onPress={() => {
+                console.log(auth.access.role);
+                setShowSettings(true);
+              }}
               text='Settings Test'
             />
           </View>

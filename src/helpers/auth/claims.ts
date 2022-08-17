@@ -80,6 +80,7 @@ export interface OidcStandardClaims {
  */
 export interface JwtClaims {
   [claim: string]: unknown;
+  role?: string[];
 
   /** The "iss" (issuer) claim identifies the principal that issued the JWT. The processing of this claim is generally application specific. The "iss" value is a case-sensitive string containing a StringOrURI value. */
   iss?: string;

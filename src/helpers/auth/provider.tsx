@@ -3,7 +3,7 @@ import { TokenResponse } from 'expo-auth-session';
 import jwtDecode from 'jwt-decode';
 
 // Authentication helpers
-import { OidcStandardClaims } from './claims';
+import { JwtClaims, OidcStandardClaims } from './claims';
 import AuthContext from './context';
 import authSignIn from './authSignIn';
 import authSignOut from './authSignOut';
@@ -20,11 +20,13 @@ export default (props: AuthProviderProps): ReactElement => {
   const [authenticated, setAuthenticated] = useState<boolean>(false);
   const [credentials, setCredentials] = useState<TokenResponse | null>(null);
   const [profile, setProfile] = useState<OidcStandardClaims | null>(null);
+  const [access, setAccess] = useState<JwtClaims | null>(null);
 
   // Helper function to update the auth state on sign in
   const onSignInSuccess = (token: TokenResponse) => {
     setCredentials(token);
     setProfile(jwtDecode<OidcStandardClaims>(token.idToken));
+    setAccess(jwtDecode<JwtClaims>(token.accessToken));
     setAuthenticated(true);
   };
 
@@ -32,13 +34,14 @@ export default (props: AuthProviderProps): ReactElement => {
   const onSignOutSuccess = () => {
     setAuthenticated(false);
     setProfile(null);
+    setAccess(null);
     setCredentials(null);
   };
 
   // Grab the stored credentials from the SecureStore
   useEffect(() => {
     async function getStoredCreds() {
-      const stored = await AsyncStorage.getItem('authToken');
+      const stored = await AsyncStorage.getItem('@auth_token');
       const parsed: TokenResponse | null = stored
         ? new TokenResponse(JSON.parse(stored))
         : null;
@@ -70,6 +73,7 @@ export default (props: AuthProviderProps): ReactElement => {
       value={{
         credentials,
         profile,
+        access,
         loading,
         authenticated,
         signIn: authSignIn((token) => onSignInSuccess(token)),

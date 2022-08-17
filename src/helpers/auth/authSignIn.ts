@@ -55,7 +55,7 @@ export default (callback: (token: TokenResponse) => void) =>
       console.log('[AUTH : SignIn] Recieved access & refresh token');
 
       // Store the token in async storage
-      await AsyncStorage.setItem('authToken', JSON.stringify(accessToken));
+      await AsyncStorage.setItem('@auth_token', JSON.stringify(accessToken));
       await callback(accessToken);
     } else {
       console.log(

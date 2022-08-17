@@ -1,4 +1,4 @@
-import biocollectConfig from './biocollect.config.json';
+import configBiocollect from './biocollect.config.json';
 import 'dotenv/config';
 
 export default {
@@ -31,7 +31,8 @@ export default {
       },
     },
     extra: {
-      config: biocollectConfig[process.env.APP_MODE],
+      config: configBiocollect,
+      environment: process.env.APP_ENVIRONMENT,
     },
   },
 };
