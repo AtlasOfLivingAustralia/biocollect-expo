@@ -16,7 +16,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 export default (callback: (token: TokenResponse) => void) =>
   async (): Promise<void> => {
     // Retrieve the auth configuration
-    const { auth: config } = Constants.manifest.extra.config;
+    const { auth: config } = Constants.manifest.extra.config['test']; // TODO: Fix
 
     // Create a deep link for authentication redirects
     const redirectUri = createURL('/auth');

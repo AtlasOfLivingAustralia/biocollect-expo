@@ -23,6 +23,7 @@ import Title from 'components/Title';
 import Subtitle from 'components/Subtitle';
 import Modal from 'components/Modal';
 import jwtDecode from 'jwt-decode';
+import Profile from 'components/Profile';
 
 const wait = (timeout) => {
   return new Promise((resolve) => setTimeout(resolve, timeout));
@@ -61,9 +62,20 @@ export default function Home(
     <>
       <Modal visible={showSettings} onClose={() => setShowSettings(false)} />
       <SafeThemeView>
-        <View style={{ display: 'flex', padding: 24, alignItems: 'center' }}>
-          <Title>Welcome,</Title>
-          <Subtitle>{auth.profile?.name || ''}</Subtitle>
+        <View style={{ display: 'flex', padding: 24 }}>
+          <View
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+            }}
+          >
+            <View>
+              <Subtitle>G'Day,</Subtitle>
+              <Title>{auth.profile?.given_name || ''}</Title>
+            </View>
+            <Profile name={auth.profile?.name || ''} size={56} />
+          </View>
           <View
             style={{ display: 'flex', flexDirection: 'row', marginTop: 12 }}
           >
