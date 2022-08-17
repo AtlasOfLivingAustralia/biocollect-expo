@@ -8,6 +8,7 @@ interface ALAThemeColour {
 
 declare module 'styled-components' {
   export interface DefaultTheme {
+    type: 'light' | 'dark';
     radius: number;
     background: ALAThemeColour;
     skeleton: ALAThemeColour;

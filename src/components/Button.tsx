@@ -28,6 +28,7 @@ const ButtonRoot = styled(TouchableOpacity)<ButtonStyleProps>`
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: center;
   padding: 12px;
   background-color: ${({ theme }) => theme.button.primary};
   border-radius: ${({ theme }) => theme.radius}px;

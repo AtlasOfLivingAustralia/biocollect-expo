@@ -3,6 +3,7 @@ import palette from './palette';
 
 const themes: { [key: string]: DefaultTheme } = {
   light: {
+    type: 'light',
     radius: 8,
     background: {
       primary: '#FFFFFF',
@@ -27,6 +28,7 @@ const themes: { [key: string]: DefaultTheme } = {
     },
   },
   dark: {
+    type: 'dark',
     radius: 8,
     background: {
       primary: palette.secondary.charcoal,

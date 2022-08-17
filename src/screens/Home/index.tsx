@@ -21,6 +21,7 @@ import { APIContext } from 'helpers/api';
 import { BioCollectProject } from 'types';
 import Title from 'components/Title';
 import Subtitle from 'components/Subtitle';
+import Modal from 'components/Modal';
 
 const wait = (timeout) => {
   return new Promise((resolve) => setTimeout(resolve, timeout));
@@ -31,6 +32,7 @@ export default function Home(
 ) {
   const [projects, setProjects] = useState<BioCollectProject[] | null>(null);
   const [refreshing, setRefreshing] = useState(false);
+  const [showSettings, setShowSettings] = useState<boolean>(false);
   const auth = useContext(AuthContext);
   const api = useContext(APIContext);
 
@@ -46,40 +48,54 @@ export default function Home(
     }
 
     if (!projects) getData();
-  }, []);
+  }, [refreshing]);
 
+  // Placeholder refresh logic
   const onRefresh = useCallback(() => {
-    setRefreshing(true);
-    wait(2000).then(() => setRefreshing(false));
-  }, []);
+    setProjects(null);
+    setRefreshing(!refreshing);
+  }, [refreshing]);
 
   return (
-    <SafeThemeView>
-      <View style={{ display: 'flex', padding: 24, alignItems: 'center' }}>
-        <Title>Welcome,</Title>
-        <Subtitle>{auth.profile.name}</Subtitle>
-        {/* <Button
-          text='Sign Out'
-          onPress={async () => {
-            await auth.signOut();
-            props.navigation.goBack();
-          }}
-          // onPress={() => api.call()}
-        /> */}
-      </View>
-      <ScrollView
-        contentContainerStyle={localStyles.scrollView}
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }
-      >
-        {projects
-          ? projects.map((project) => (
-              <ProjectCard key={project.projectId} project={project} />
-            ))
-          : [0, 1, 2, 3].map((id) => <ProjectCard key={id} project={null} />)}
-      </ScrollView>
-    </SafeThemeView>
+    <>
+      <Modal visible={showSettings} onClose={() => setShowSettings(false)} />
+      <SafeThemeView>
+        <View style={{ display: 'flex', padding: 24, alignItems: 'center' }}>
+          <Title>Welcome,</Title>
+          <Subtitle>{auth.profile?.name || ''}</Subtitle>
+          <View
+            style={{ display: 'flex', flexDirection: 'row', marginTop: 12 }}
+          >
+            <Button
+              style={{ marginRight: 3 }}
+              text='Sign Out'
+              onPress={async () => {
+                await auth.signOut();
+                props.navigation.goBack();
+              }}
+              // onPress={() => api.call()}
+            />
+            <Button
+              style={{ marginLeft: 3 }}
+              onPress={() => setShowSettings(true)}
+              text='Settings Test'
+            />
+          </View>
+        </View>
+        <ScrollView
+          contentContainerStyle={localStyles.scrollView}
+          refreshControl={
+            <RefreshControl refreshing={!projects} onRefresh={onRefresh} />
+          }
+        >
+          {projects
+            ? projects.map((project) => (
+                <ProjectCard key={project.projectId} project={project} />
+              ))
+            : [0, 1, 2, 3].map((id) => <ProjectCard key={id} project={null} />)}
+        </ScrollView>
+      </SafeThemeView>
+    </>
   );
 }
 

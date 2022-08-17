@@ -44,7 +44,7 @@ const Image = styled.Image`
 
 const Header = styled.Text`
   font-family: 'Lato';
-  font-size: 16px;
+  font-size: 18px;
   margin-bottom: 8px;
   color: ${({ theme }) => theme.text.primary};
 `;
