@@ -4,7 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 // Import screen components
-import { Authentication, Home } from './screens';
+import { Authentication, Home, Project } from './screens';
 
 // Authentication helpers
 import { AuthContext } from './helpers/auth';
@@ -54,6 +54,11 @@ function App(): ReactElement {
           name='Authentication'
           component={Authentication}
           options={{ animation: 'none' }}
+        />
+        <Stack.Screen
+          name='Project'
+          component={Project}
+          options={{ animation: 'simple_push' }}
         />
       </Stack.Navigator>
     </NavigationContainer>

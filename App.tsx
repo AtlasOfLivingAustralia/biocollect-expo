@@ -11,10 +11,12 @@ import Navigator from './src/Navigator';
 import { AppEnvironmentProvider } from 'helpers/appenv';
 import { AuthProvider } from 'helpers/auth';
 import { APIProvider } from 'helpers/api';
+import { BioCollectProject } from 'types';
 
 export type RootStackParamList = {
   Home: undefined;
   Authentication: undefined;
+  Project: BioCollectProject;
 };
 
 axios.interceptors.request.use((config) => {

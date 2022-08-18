@@ -1,16 +1,16 @@
-import { View } from 'react-native';
+import { TouchableOpacityProps, View } from 'react-native';
 import { BioCollectProject } from 'types';
 
 import ContentLoader, { Rect, Circle } from 'react-content-loader/native';
 import styled from 'styled-components/native';
 
-interface ProjectCardProps {
+interface ProjectCardProps extends TouchableOpacityProps {
   project: BioCollectProject | null;
-  onPress?: (project: BioCollectProject) => void;
 }
 
 const Root = styled.TouchableOpacity`
   display: flex;
+  height: 110px;
   flex-direction: row;
   background-color: ${({ theme }) => theme.background.secondary};
   border-radius: ${({ theme }) => theme.radius * 2}px;
@@ -29,7 +29,6 @@ const Content = styled.View`
 const ImageRoot = styled.View`
   background-color: ${(props) => props.theme.background.tertiary};
   width: 110px;
-  height: 110px;
   border-top-left-radius: ${({ theme }) => theme.radius * 2}px;
   border-bottom-left-radius: ${({ theme }) => theme.radius * 2}px;
 `;
@@ -54,17 +53,11 @@ const StyledText = styled.Text`
   color: ${({ theme }) => theme.text.secondary};
 `;
 
-export default ({ project, onPress }: ProjectCardProps) => {
-  // Handle button press events
-  const handleOnPress = () => {
-    console.log(project.name);
-    if (onPress) onPress(project);
-  };
-
+export default ({ project, ...props }: ProjectCardProps) => {
   // Render the project card
   if (project) {
     return (
-      <Root activeOpacity={0.6} onPress={handleOnPress}>
+      <Root {...props} activeOpacity={0.6}>
         <ImageRoot>
           <Image source={{ uri: project.urlImage }} />
         </ImageRoot>

@@ -7,6 +7,7 @@ import {
   StyleSheet,
   Alert,
 } from 'react-native';
+import * as WebBrowser from 'expo-web-browser';
 
 // Navigation
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -14,7 +15,6 @@ import { RootStackParamList } from '../../../App';
 
 import Button from 'components/Button';
 import ProjectCard from 'components/ProjectCard';
-import SafeThemeView from 'components/SafeAreaThemeView';
 import Title from 'components/Title';
 import Subtitle from 'components/Subtitle';
 import Modal from 'components/Modal';
@@ -25,6 +25,7 @@ import ProfileSideImage from 'components/ProfileSideImage';
 import biocollectLogo from 'assets/images/ui/logo.png';
 
 // API / Auth
+import { AppEnvironmentContext } from 'helpers/appenv';
 import { AuthContext } from 'helpers/auth';
 import { APIContext } from 'helpers/api';
 import { BioCollectProject } from 'types';
@@ -36,6 +37,7 @@ export default function Home(
   const [projects, setProjects] = useState<BioCollectProject[] | null>(null);
   const [refreshing, setRefreshing] = useState(false);
   const [showSettings, setShowSettings] = useState<boolean>(false);
+  const { config: env } = useContext(AppEnvironmentContext);
   const auth = useContext(AuthContext);
   const api = useContext(APIContext);
 
@@ -118,7 +120,16 @@ export default function Home(
         >
           {projects
             ? projects.map((project) => (
-                <ProjectCard key={project.projectId} project={project} />
+                <ProjectCard
+                  key={project.projectId}
+                  project={project}
+                  onPress={() => {
+                    // WebBrowser.openBrowserAsync(
+                    //   `${env.biocollect.biocollect_url}/project/index/${project.projectId}?mobile=true`
+                    // );
+                    props.navigation.navigate('Project', project);
+                  }}
+                />
               ))
             : [0, 1, 2, 3, 4, 5, 6, 7].map((id) => (
                 <ProjectCard key={id} project={null} />
