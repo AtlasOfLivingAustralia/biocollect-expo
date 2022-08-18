@@ -15,8 +15,8 @@ import { RootStackParamList } from '../../../App';
 
 import Button from 'components/Button';
 import ProjectCard from 'components/ProjectCard';
-import Title from 'components/Title';
-import Subtitle from 'components/Subtitle';
+import Header from 'components/Header/Header';
+import Subheader from 'components/Header/Subheader';
 import Modal from 'components/Modal';
 import Profile from 'components/Profile';
 import ProfileSideImage from 'components/ProfileSideImage';
@@ -86,6 +86,13 @@ export default function Home(
             ]);
           }}
         />
+        {(auth.access?.role || []).includes('ROLE_ADMIN') && (
+          <Button
+            text='Developer Settings'
+            type='outline'
+            style={{ marginBottom: 8 }}
+          />
+        )}
       </Modal>
       <ThemeView>
         <SafeAreaView>
@@ -99,8 +106,8 @@ export default function Home(
             }}
           >
             <View>
-              <Subtitle>G'Day,</Subtitle>
-              <Title>{auth.profile?.given_name || ''}</Title>
+              <Subheader>G'Day,</Subheader>
+              <Header>{auth.profile?.given_name || ''}</Header>
             </View>
             <ProfileSideImage image={biocollectLogo}>
               <Profile

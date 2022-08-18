@@ -59,8 +59,8 @@ export interface BioCollectProject {
   scienceType: string[];
   ecoScienceType: string[];
   startDate: string;
-  urlImage: string;
-  fullSizeImageUrl: string;
+  urlImage: string | null;
+  fullSizeImageUrl: string | null;
   urlWeb: string | null;
   plannedStartDate: string | null;
   plannedEndDate: string | null;

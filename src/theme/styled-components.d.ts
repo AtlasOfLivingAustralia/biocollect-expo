@@ -10,13 +10,13 @@ declare module 'styled-components' {
   export interface DefaultTheme {
     type: 'light' | 'dark';
     radius: number;
+    skeleton: string;
     font: {
       header: string;
       body: string;
       button: string;
     };
     background: ALAThemeColour;
-    skeleton: ALAThemeColour;
     text: ALAThemeColour;
     colour: ALAThemeColour;
     button: ALAThemeColour;

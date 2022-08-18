@@ -2,8 +2,8 @@ import { useState, useEffect, useRef, useContext } from 'react';
 import { View, Image, Animated, Easing, StyleSheet } from 'react-native';
 
 import Button from 'components/Button';
-import Title from 'components/Title';
-import Subtitle from 'components/Subtitle';
+import Title from 'components/Header/Header';
+import Subtitle from 'components/Header/Subheader';
 import Header from './Header';
 
 // Navigation

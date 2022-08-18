@@ -23,7 +23,6 @@ interface ProfileProps extends ProfileStyleProps, TouchableOpacityProps {
   icon?: string;
 }
 
-// TODO: Move font family into theme config
 const Profile = styled(TouchableOpacity)<ProfileStyleProps>`
   position: relative;
   display: flex;
@@ -35,7 +34,6 @@ const Profile = styled(TouchableOpacity)<ProfileStyleProps>`
   border-radius: 50%;
 `;
 
-// TODO: Move font family into theme config
 const ProfileIconWrapper = styled(View)<ProfileStyleProps>`
   position: absolute;
   display: flex;
@@ -56,7 +54,6 @@ const ProfileIconRoot = styled(View)<ProfileStyleProps>`
   height: 28px;
 `;
 
-// TODO: Move font family into theme config
 const RootText = styled(Text)<ProfileStyleProps>`
   color: ${({ theme }) =>
     theme.type === 'dark' ? theme.text.primary : theme.text.secondary};

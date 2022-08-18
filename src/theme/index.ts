@@ -5,6 +5,7 @@ const themes: { [key: string]: DefaultTheme } = {
   light: {
     type: 'light',
     radius: 12,
+    skeleton: '#ecebeb',
     font: {
       header: 'Lato',
       body: 'RobotoRegular',
@@ -14,10 +15,6 @@ const themes: { [key: string]: DefaultTheme } = {
       primary: '#FFFFFF',
       secondary: palette.secondary.concrete,
       tertiary: '#cecece',
-    },
-    skeleton: {
-      primary: '#f3f3f3',
-      secondary: '#ecebeb',
     },
     text: {
       primary: palette.secondary.charcoal,
@@ -35,6 +32,7 @@ const themes: { [key: string]: DefaultTheme } = {
   dark: {
     type: 'dark',
     radius: 12,
+    skeleton: '#646464',
     font: {
       header: 'Lato',
       body: 'RobotoRegular',
@@ -44,10 +42,6 @@ const themes: { [key: string]: DefaultTheme } = {
       primary: palette.secondary.charcoal,
       secondary: '#373737',
       tertiary: '#555555',
-    },
-    skeleton: {
-      primary: '#373737',
-      secondary: '#646464',
     },
     text: {
       primary: '#FFFFFF',
