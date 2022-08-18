@@ -1,16 +1,23 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Animated, ViewProps } from 'react-native';
 import { useTheme } from 'styled-components/native';
 
 interface SkeletonRectProps extends ViewProps {
-  width: string | number;
-  height: string | number;
+  width?: string | number;
+  height?: string | number;
+  loading: boolean;
 }
 
-export default (props: SkeletonRectProps) => {
+export default ({
+  width,
+  height,
+  loading,
+  style,
+  ...rest
+}: SkeletonRectProps) => {
   const theme = useTheme();
   const pulse = useRef(new Animated.Value(1)).current;
-  useEffect(() => {
+  const anim = useRef(
     Animated.loop(
       Animated.sequence([
         Animated.timing(pulse, {
@@ -24,18 +31,27 @@ export default (props: SkeletonRectProps) => {
           useNativeDriver: true,
         }),
       ])
-    ).start();
-  }, [pulse]);
+    )
+  ).current;
+
+  useEffect(() => {
+    if (loading) {
+      anim.start();
+    } else {
+      anim.stop();
+      pulse.setValue(1);
+    }
+  }, [pulse, loading]);
 
   return (
     <Animated.View
-      {...props}
+      {...rest}
       style={{
-        width: props.width,
-        height: props.height,
-        ...(props.style as object),
+        width: width || 'auto',
+        height: height || 'auto',
+        ...(style as object),
         opacity: pulse,
-        backgroundColor: theme.skeleton,
+        backgroundColor: loading ? theme.skeleton : 'transparent',
       }}
     ></Animated.View>
   );

@@ -10,7 +10,8 @@ import ThemeView from 'components/ThemeView';
 import Header from 'components/Header/Header';
 import styled from 'styled-components/native';
 import Button from 'components/Button';
-import SkeletonRect from 'components/Skeleton/Rect';
+import Skeleton from 'components/Skeleton';
+import Rect from 'components/Skeleton/Rect';
 
 interface HeaderImageProps {
   height: number;
@@ -33,14 +34,14 @@ export default function Authentication(
     <>
       <ThemeView>
         {project.fullSizeImageUrl ? (
-          <HeaderImage
-            resizeMode='cover'
-            height={height}
-            source={{ uri: project.fullSizeImageUrl }}
-            onLoad={() => setHeaderLoaded(true)}
-          >
-            {!headerLoaded && <SkeletonRect width='100%' height={height} />}
-          </HeaderImage>
+          <Skeleton.Rect loading={!headerLoaded}>
+            <HeaderImage
+              resizeMode='cover'
+              height={height}
+              source={{ uri: project.fullSizeImageUrl }}
+              onLoad={() => setHeaderLoaded(true)}
+            ></HeaderImage>
+          </Skeleton.Rect>
         ) : null}
         <SafeAreaView>
           <Header size={28}>{project.name.trim()}</Header>
