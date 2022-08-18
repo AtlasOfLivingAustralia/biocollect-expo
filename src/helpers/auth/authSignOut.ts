@@ -7,16 +7,20 @@ import {
 } from 'expo-auth-session';
 import { openBrowserAsync } from 'expo-web-browser';
 import { getNetworkStateAsync } from 'expo-network';
-import Constants from 'expo-constants';
 
 // Async storage
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { AppEnvironment } from 'helpers/appenv';
 
 // Sign-in authentication handler
-export default (credentials: TokenResponse, callback: () => void) =>
+export default (
+    env: AppEnvironment,
+    credentials: TokenResponse,
+    callback: () => void
+  ) =>
   async (): Promise<void> => {
     // Retrieve the auth configuration
-    const { auth: config } = Constants.manifest.extra.config;
+    const { auth: config } = env;
 
     // Clear the auth token from storage
     console.log(`[AUTH : SignOut] Removing auth state from storage...`);

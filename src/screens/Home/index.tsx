@@ -5,6 +5,7 @@ import {
   RefreshControl,
   SafeAreaView,
   StyleSheet,
+  Alert,
 } from 'react-native';
 
 // Navigation
@@ -62,6 +63,27 @@ export default function Home(
     <>
       <Modal visible={showSettings} onClose={() => setShowSettings(false)}>
         <Button text='My Profile' type='outline' style={{ marginBottom: 8 }} />
+        <Button
+          text='Sign Out'
+          type='outline'
+          style={{ marginBottom: 8 }}
+          onPress={() => {
+            Alert.alert('Confirmation', 'Are you sure you wish to sign out?', [
+              {
+                text: 'Cancel',
+                style: 'cancel',
+              },
+              {
+                text: 'OK',
+                onPress: async () => {
+                  setShowSettings(false);
+                  await auth.signOut();
+                  props.navigation.navigate('Authentication');
+                },
+              },
+            ]);
+          }}
+        />
       </Modal>
       <ThemeView>
         <SafeAreaView>
@@ -87,20 +109,6 @@ export default function Home(
               />
             </ProfileSideImage>
           </View>
-          {/* <View
-            style={{ display: 'flex', flexDirection: 'row', marginTop: 12 }}
-          >
-            <Button
-              style={{ marginRight: 3 }}
-              text='Sign Out'
-              onPress={async () => {
-                await auth.signOut();
-                props.navigation.navigate('Authentication');
-              }}
-              // onPress={() => api.call()}
-            />
-            <Button style={{ marginLeft: 3 }} text='Settings Test' />
-          </View> */}
         </SafeAreaView>
         <ScrollView
           contentContainerStyle={localStyles.scrollView}

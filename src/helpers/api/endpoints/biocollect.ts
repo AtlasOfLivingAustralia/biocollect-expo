@@ -1,16 +1,14 @@
 import axios from 'axios';
-import Constants from 'expo-constants';
+import { AppEnvironment } from 'helpers/appenv';
 import { BioCollectProjectSearch } from 'types';
-import { APIEnvironment } from '../provider';
 
-export default (environment: APIEnvironment) => ({
+export default (env: AppEnvironment) => ({
   projectSearch: async (
     offset: number = 0,
     isUserPage: boolean = false
   ): Promise<BioCollectProjectSearch> => {
     // Retrieve the auth configuration
-    const { biocollect_url } =
-      Constants.manifest.extra.config[environment].biocollect;
+    const { biocollect_url } = env.biocollect;
 
     // Make the GET request
     const request = await axios.get<BioCollectProjectSearch>(

@@ -1,44 +1,21 @@
-import {
-  ReactNode,
-  ReactElement,
-  useContext,
-  useEffect,
-  useState,
-} from 'react';
+import { ReactNode, ReactElement, useContext, useEffect } from 'react';
 import axios from 'axios';
-
-// Expo helpers
-import Constants from 'expo-constants';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Contexts
 import APIContext from './context';
 import AuthContext from '../auth/context';
+import AppEnvironmentContext from '../appenv/context';
 
-// API endpoints
+// API endpoints & environment config
 import biocollect from './endpoints/biocollect';
 
 interface APIProviderProps {
   children?: ReactNode;
 }
 
-export type APIEnvironment = 'prod' | 'staging' | 'test' | 'dev';
-
 export default (props: APIProviderProps): ReactElement => {
-  const [environment, setEnvironment] = useState<APIEnvironment>(
-    Constants.manifest.extra.environment || 'prod'
-  );
+  const { config: env } = useContext(AppEnvironmentContext);
   const auth = useContext(AuthContext);
-
-  // useEffect hook to automatically write environment changes to persistent storage
-  useEffect(() => {
-    (async () => {
-      await AsyncStorage.setItem('@api_environment', environment);
-      console.log(
-        `[API : Provider] Updated environment in AsyncStorage to '${environment}'`
-      );
-    })();
-  }, [environment]);
 
   // useEffect hook to add / remove access token the axios globals
   useEffect(() => {
@@ -56,8 +33,7 @@ export default (props: APIProviderProps): ReactElement => {
   return (
     <APIContext.Provider
       value={{
-        biocollect: biocollect(environment),
-        setEnvironment: (newEnv: APIEnvironment) => setEnvironment(newEnv),
+        biocollect: biocollect(env),
       }}
     >
       {props.children}

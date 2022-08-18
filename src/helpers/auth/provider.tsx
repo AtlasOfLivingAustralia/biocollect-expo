@@ -1,6 +1,13 @@
-import { ReactNode, ReactElement, useEffect, useState } from 'react';
+import {
+  ReactNode,
+  ReactElement,
+  useEffect,
+  useState,
+  useContext,
+} from 'react';
 import { TokenResponse } from 'expo-auth-session';
 import jwtDecode from 'jwt-decode';
+import { AppEnvironmentContext } from 'helpers/appenv';
 
 // Authentication helpers
 import { JwtClaims, OidcStandardClaims } from './claims';
@@ -21,6 +28,7 @@ export default (props: AuthProviderProps): ReactElement => {
   const [credentials, setCredentials] = useState<TokenResponse | null>(null);
   const [profile, setProfile] = useState<OidcStandardClaims | null>(null);
   const [access, setAccess] = useState<JwtClaims | null>(null);
+  const { config: env } = useContext(AppEnvironmentContext);
 
   // Helper function to update the auth state on sign in
   const onSignInSuccess = (token: TokenResponse) => {
@@ -76,8 +84,8 @@ export default (props: AuthProviderProps): ReactElement => {
         access,
         loading,
         authenticated,
-        signIn: authSignIn((token) => onSignInSuccess(token)),
-        signOut: authSignOut(credentials, onSignOutSuccess),
+        signIn: authSignIn(env, (token) => onSignInSuccess(token)),
+        signOut: authSignOut(env, credentials, onSignOutSuccess),
       }}
     >
       {props.children}

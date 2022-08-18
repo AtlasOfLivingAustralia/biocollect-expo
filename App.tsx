@@ -8,8 +8,9 @@ import { themes } from 'theme';
 import Navigator from './src/Navigator';
 
 // Authentication helpers
-import { AuthProvider } from './src/helpers/auth';
-import { APIProvider } from './src/helpers/api';
+import { AppEnvironmentProvider } from 'helpers/appenv';
+import { AuthProvider } from 'helpers/auth';
+import { APIProvider } from 'helpers/api';
 
 export type RootStackParamList = {
   Home: undefined;
@@ -41,13 +42,15 @@ function App() {
   if (fontsError) return <Text>Font Error!</Text>;
 
   return (
-    <AuthProvider>
-      <APIProvider>
-        <ThemeProvider theme={themes[scheme]}>
-          <Navigator />
-        </ThemeProvider>
-      </APIProvider>
-    </AuthProvider>
+    <AppEnvironmentProvider>
+      <AuthProvider>
+        <APIProvider>
+          <ThemeProvider theme={themes[scheme]}>
+            <Navigator />
+          </ThemeProvider>
+        </APIProvider>
+      </AuthProvider>
+    </AppEnvironmentProvider>
   );
 }
 

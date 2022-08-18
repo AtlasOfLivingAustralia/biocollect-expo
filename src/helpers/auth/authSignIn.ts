@@ -7,16 +7,21 @@ import {
   TokenResponse,
 } from 'expo-auth-session';
 import { createURL } from 'expo-linking';
-import Constants from 'expo-constants';
 
 // Async storage
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+// App environment helpers
+import { AppEnvironment } from 'helpers/appenv';
+
 // Sign-in authentication handler
-export default (callback: (token: TokenResponse) => void) =>
+export default (
+    env: AppEnvironment,
+    callback: (token: TokenResponse) => void
+  ) =>
   async (): Promise<void> => {
     // Retrieve the auth configuration
-    const { auth: config } = Constants.manifest.extra.config['test']; // TODO: Fix
+    const { auth: config } = env;
 
     // Create a deep link for authentication redirects
     const redirectUri = createURL('/auth');
