@@ -1,8 +1,8 @@
 import { TouchableOpacityProps, View } from 'react-native';
 import { BioCollectProject } from 'types';
 
-import ContentLoader, { Rect, Circle } from 'react-content-loader/native';
-import styled from 'styled-components/native';
+import styled, { useTheme } from 'styled-components/native';
+import Skeleton from './Skeleton';
 
 interface ProjectCardProps extends TouchableOpacityProps {
   project: BioCollectProject | null;
@@ -10,7 +10,6 @@ interface ProjectCardProps extends TouchableOpacityProps {
 
 const Root = styled.TouchableOpacity`
   display: flex;
-  height: 110px;
   flex-direction: row;
   background-color: ${({ theme }) => theme.background.secondary};
   border-radius: ${({ theme }) => theme.radius * 2}px;
@@ -24,11 +23,13 @@ const Root = styled.TouchableOpacity`
 const Content = styled.View`
   flex-shrink: 1;
   padding: 12px;
+  padding-right: 18px;
 `;
 
 const ImageRoot = styled.View`
   background-color: ${(props) => props.theme.background.tertiary};
   width: 110px;
+  height: 110px;
   border-top-left-radius: ${({ theme }) => theme.radius * 2}px;
   border-bottom-left-radius: ${({ theme }) => theme.radius * 2}px;
 `;
@@ -42,6 +43,7 @@ const Image = styled.Image`
 `;
 
 const Header = styled.Text`
+  flex: 1;
   font-family: '${({ theme }) => theme.font.header}';
   font-size: 18px;
   margin-bottom: 8px;
@@ -49,53 +51,42 @@ const Header = styled.Text`
 `;
 
 const StyledText = styled.Text`
+  flex: 1;
   font-family: '${({ theme }) => theme.font.body}';
   color: ${({ theme }) => theme.text.secondary};
 `;
 
 export default ({ project, ...props }: ProjectCardProps) => {
+  const theme = useTheme();
+
   // Render the project card
-  if (project) {
-    return (
-      <Root {...props} activeOpacity={0.6}>
+  return (
+    <Root {...props} activeOpacity={0.6}>
+      <Skeleton.Rect
+        loading={!project}
+        borderTopLeftRadius={theme.radius * 2}
+        borderBottomLeftRadius={theme.radius * 2}
+      >
         <ImageRoot>
-          <Image source={{ uri: project.urlImage }} />
+          {project?.urlImage && <Image source={{ uri: project.urlImage }} />}
         </ImageRoot>
+      </Skeleton.Rect>
+      {project ? (
         <Content>
-          <Header numberOfLines={2}>{project.name.trim()}</Header>
-          <StyledText numberOfLines={2}>{project.description}</StyledText>
+          <Header numberOfLines={2}>
+            {project?.name.trim() || 'Loading Name'}
+          </Header>
+          <StyledText numberOfLines={2}>
+            {project?.description || 'Loading Description'}
+          </StyledText>
         </Content>
-      </Root>
-    );
-  } else {
-    // return (
-    //   <View>
-    //     <ContentLoader
-    //       interval={0}
-    //       speed={2}
-    //       width={476}
-    //       height={124}
-    //       viewBox='0 0 200 124'
-    //       backgroundColor='#373737'
-    //       foregroundColor='#646464'
-    //     >
-    //       <Rect x='48' y='8' rx='3' ry='3' width='88' height='12' />
-    //       <Rect x='48' y='26' rx='3' ry='3' width='52' height='6' />
-    //       <Rect x='0' y='56' rx='3' ry='3' width='150' height='6' />
-    //       <Rect x='0' y='72' rx='3' ry='3' width='150' height='6' />
-    //       <Rect x='0' y='88' rx='3' ry='3' width='150' height='6' />
-    //       <Circle cx='20' cy='20' r='20' />
-    //     </ContentLoader>
-    //   </View>
-    // );
-    return (
-      <Root disabled>
-        <ImageRoot />
-        <Content>
-          <Header numberOfLines={2}>LOADING{`\n`}LOADING</Header>
-          <StyledText numberOfLines={2}>LOADING{`\n`}LOADING</StyledText>
-        </Content>
-      </Root>
-    );
-  }
+      ) : (
+        <View style={{ flexGrow: 1, padding: 12, paddingRight: 18 }}>
+          <Skeleton.Rect loading width='100%' height={24} marginBottom={8} />
+          <Skeleton.Rect loading width='80%' height={12} marginBottom={8} />
+          <Skeleton.Rect loading width='85%' height={12} marginBottom={8} />
+        </View>
+      )}
+    </Root>
+  );
 };
