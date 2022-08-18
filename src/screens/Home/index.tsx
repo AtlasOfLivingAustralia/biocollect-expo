@@ -3,7 +3,7 @@ import {
   View,
   ScrollView,
   RefreshControl,
-  Text,
+  SafeAreaView,
   StyleSheet,
 } from 'react-native';
 
@@ -14,20 +14,20 @@ import { RootStackParamList } from '../../../App';
 import Button from 'components/Button';
 import ProjectCard from 'components/ProjectCard';
 import SafeThemeView from 'components/SafeAreaThemeView';
+import Title from 'components/Title';
+import Subtitle from 'components/Subtitle';
+import Modal from 'components/Modal';
+import Profile from 'components/Profile';
+import ProfileSideImage from 'components/ProfileSideImage';
+
+// BioCollect logo
+import biocollectLogo from 'assets/images/ui/logo.png';
 
 // API / Auth
 import { AuthContext } from 'helpers/auth';
 import { APIContext } from 'helpers/api';
 import { BioCollectProject } from 'types';
-import Title from 'components/Title';
-import Subtitle from 'components/Subtitle';
-import Modal from 'components/Modal';
-import jwtDecode from 'jwt-decode';
-import Profile from 'components/Profile';
-
-const wait = (timeout) => {
-  return new Promise((resolve) => setTimeout(resolve, timeout));
-};
+import ThemeView from 'components/ThemeView';
 
 export default function Home(
   props: NativeStackScreenProps<RootStackParamList, 'Home'>
@@ -60,23 +60,34 @@ export default function Home(
 
   return (
     <>
-      <Modal visible={showSettings} onClose={() => setShowSettings(false)} />
-      <SafeThemeView>
-        <View style={{ display: 'flex', padding: 24 }}>
+      <Modal visible={showSettings} onClose={() => setShowSettings(false)}>
+        <Button text='My Profile' type='outline' style={{ marginBottom: 8 }} />
+      </Modal>
+      <ThemeView>
+        <SafeAreaView>
           <View
             style={{
               display: 'flex',
               flexDirection: 'row',
               justifyContent: 'space-between',
+              alignItems: 'center',
+              padding: 24,
             }}
           >
             <View>
               <Subtitle>G'Day,</Subtitle>
               <Title>{auth.profile?.given_name || ''}</Title>
             </View>
-            <Profile name={auth.profile?.name || ''} size={56} />
+            <ProfileSideImage image={biocollectLogo}>
+              <Profile
+                name={auth.profile?.name || ''}
+                size={52}
+                icon='gear'
+                onPress={() => setShowSettings(true)}
+              />
+            </ProfileSideImage>
           </View>
-          <View
+          {/* <View
             style={{ display: 'flex', flexDirection: 'row', marginTop: 12 }}
           >
             <Button
@@ -88,16 +99,9 @@ export default function Home(
               }}
               // onPress={() => api.call()}
             />
-            <Button
-              style={{ marginLeft: 3 }}
-              onPress={() => {
-                console.log(auth.access.role);
-                setShowSettings(true);
-              }}
-              text='Settings Test'
-            />
-          </View>
-        </View>
+            <Button style={{ marginLeft: 3 }} text='Settings Test' />
+          </View> */}
+        </SafeAreaView>
         <ScrollView
           contentContainerStyle={localStyles.scrollView}
           refreshControl={
@@ -108,9 +112,11 @@ export default function Home(
             ? projects.map((project) => (
                 <ProjectCard key={project.projectId} project={project} />
               ))
-            : [0, 1, 2, 3].map((id) => <ProjectCard key={id} project={null} />)}
+            : [0, 1, 2, 3, 4, 5, 6, 7].map((id) => (
+                <ProjectCard key={id} project={null} />
+              ))}
         </ScrollView>
-      </SafeThemeView>
+      </ThemeView>
     </>
   );
 }

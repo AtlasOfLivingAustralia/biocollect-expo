@@ -4,7 +4,7 @@ import palette from './palette';
 const themes: { [key: string]: DefaultTheme } = {
   light: {
     type: 'light',
-    radius: 8,
+    radius: 12,
     background: {
       primary: '#FFFFFF',
       secondary: palette.secondary.concrete,
@@ -29,7 +29,7 @@ const themes: { [key: string]: DefaultTheme } = {
   },
   dark: {
     type: 'dark',
-    radius: 8,
+    radius: 12,
     background: {
       primary: palette.secondary.charcoal,
       secondary: '#373737',
@@ -52,6 +52,14 @@ const themes: { [key: string]: DefaultTheme } = {
       secondary: palette.primary.rust,
     },
   },
+};
+
+const hexToRgba = (hex: string, opacity: number): string => {
+  var [_, r, g, b] = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  return `rgba(${parseInt(r, 16)}, ${parseInt(g, 16)}, ${parseInt(
+    b,
+    16
+  )}, ${opacity})`;
 };
 
 export { palette, themes };

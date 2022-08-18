@@ -50,6 +50,7 @@ const Header = styled.Text`
 `;
 
 const StyledText = styled.Text`
+  font-family: 'RobotoRegular';
   color: ${({ theme }) => theme.text.secondary};
 `;
 
