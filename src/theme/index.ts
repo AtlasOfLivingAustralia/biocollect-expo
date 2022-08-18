@@ -5,6 +5,11 @@ const themes: { [key: string]: DefaultTheme } = {
   light: {
     type: 'light',
     radius: 12,
+    font: {
+      header: 'Lato',
+      body: 'RobotoRegular',
+      button: 'RobotoBold',
+    },
     background: {
       primary: '#FFFFFF',
       secondary: palette.secondary.concrete,
@@ -30,6 +35,11 @@ const themes: { [key: string]: DefaultTheme } = {
   dark: {
     type: 'dark',
     radius: 12,
+    font: {
+      header: 'Lato',
+      body: 'RobotoRegular',
+      button: 'RobotoBold',
+    },
     background: {
       primary: palette.secondary.charcoal,
       secondary: '#373737',

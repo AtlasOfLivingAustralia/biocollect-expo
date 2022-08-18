@@ -60,7 +60,7 @@ const ProfileIconRoot = styled(View)<ProfileStyleProps>`
 const RootText = styled(Text)<ProfileStyleProps>`
   color: ${({ theme }) =>
     theme.type === 'dark' ? theme.text.primary : theme.text.secondary};
-  font-family: 'Lato';
+  font-family: '${({ theme }) => theme.font.header}';
   font-size: ${({ size }) => Math.max(size - 34, 14)}px;
   font-weight: bold;
 `;

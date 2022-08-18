@@ -8,7 +8,7 @@ import ThemeView from 'components/ThemeView';
 import styled from 'styled-components/native';
 
 const Header = styled.Text`
-  font-family: 'RobotoBold';
+  font-family: '${({ theme }) => theme.font.header}';
   color: ${({ theme }) => theme.text.primary};
 `;
 

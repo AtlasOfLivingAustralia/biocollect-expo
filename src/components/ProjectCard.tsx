@@ -42,14 +42,14 @@ const Image = styled.Image`
 `;
 
 const Header = styled.Text`
-  font-family: 'Lato';
+  font-family: '${({ theme }) => theme.font.header}';
   font-size: 18px;
   margin-bottom: 8px;
   color: ${({ theme }) => theme.text.primary};
 `;
 
 const StyledText = styled.Text`
-  font-family: 'RobotoRegular';
+  font-family: '${({ theme }) => theme.font.body}';
   color: ${({ theme }) => theme.text.secondary};
 `;
 

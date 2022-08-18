@@ -44,7 +44,7 @@ const ButtonRoot = styled(TouchableOpacity)<ButtonStyleProps>`
 `;
 
 const ButtonText = styled(Text)<ButtonStyleProps>`
-  font-family: 'RobotoBold';
+  font-family: '${({ theme }) => theme.font.button}';
   font-size: 16px;
   color: ${({ theme, type }) =>
     type === 'outline' ? theme.button.primary : 'white'};

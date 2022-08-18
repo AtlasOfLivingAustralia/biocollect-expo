@@ -18,7 +18,7 @@ const Root = styled.View`
 `;
 
 const Title = styled.Text`
-  font-family: 'Lato';
+  font-family: '${({ theme }) => theme.font.header}';
   font-weight: bold;
   font-size: 24px;
   color: ${({ theme }) => theme.text.primary};
