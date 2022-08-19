@@ -71,8 +71,7 @@ export default ({ project, ...props }: ProjectCardProps) => {
     <Root {...props} activeOpacity={0.6}>
       <Skeleton.Rect
         loading={!project || (project.urlImage && !imageLoaded)}
-        borderTopLeftRadius={theme.radius * 2}
-        borderBottomLeftRadius={theme.radius * 2}
+        borderRadius={theme.radius * 2}
       >
         <ImageRoot>
           {project?.urlImage && (

@@ -38,7 +38,8 @@ const HeaderImage = styled(ImageBackground)<HeaderImageProps>`
 const Subheader = styled(Text)`
   font-family: 'RobotoBold';
   font-size: 20px;
-  background-color: white;
+  background-color: ${({ theme }) => theme.background.primary};
+  color: ${({ theme }) => theme.text.primary};
   padding-top: 14px;
   padding-bottom: 14px;
 `;
@@ -57,7 +58,7 @@ export default function Authentication(
     <>
       <ThemeView>
         {project.fullSizeImageUrl ? (
-          <Skeleton.Rect loading={!headerLoaded}>
+          <Skeleton.Rect loading={!headerLoaded} borderRadius={1}>
             <HeaderImage
               resizeMode='cover'
               height={height}
@@ -89,7 +90,7 @@ export default function Authentication(
                         }}
                         primary
                       >
-                        Contributes to ALA
+                        Contributes to the ALA
                       </Body>
                     </View>
                   </BlurView>

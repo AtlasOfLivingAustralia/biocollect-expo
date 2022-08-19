@@ -10,10 +10,6 @@ interface SkeletonRectProps extends ViewProps {
   marginLeft?: string | number;
   marginRight?: string | number;
   margin?: string | number;
-  borderTopLeftRadius?: number;
-  borderTopRightRadius?: number;
-  borderBottomLeftRadius?: number;
-  borderBottomRightRadius?: number;
   borderRadius?: number;
   loading: boolean;
 }
@@ -66,12 +62,7 @@ export default ({
         marginLeft: rest.marginLeft || 0,
         marginRight: rest.marginRight || 0,
         margin: rest.margin || 0,
-        borderTopLeftRadius: rest.borderTopLeftRadius || theme.radius / 2,
-        borderTopRightRadius: rest.borderTopRightRadius || theme.radius / 2,
-        borderBottomLeftRadius: rest.borderBottomLeftRadius || theme.radius / 2,
-        borderBottomRightRadius:
-          rest.borderBottomRightRadius || theme.radius / 2,
-        borderRadius: 0,
+        borderRadius: rest.borderRadius || theme.radius / 2,
       }}
     ></Animated.View>
   );
