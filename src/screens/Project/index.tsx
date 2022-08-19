@@ -153,14 +153,14 @@ export default function Authentication(
           </View>
           <Subheader>Aim</Subheader>
           <Body>{project.aim}</Body>
+          <Subheader>Description</Subheader>
+          <Body>{project.description}</Body>
           <Subheader>Timeframe</Subheader>
           <Body>
             {DateTime.fromISO(project.startDate).toLocaleString(
               DateTime.DATE_SHORT
             )}
           </Body>
-          <Subheader>Description</Subheader>
-          <Body>{project.description}</Body>
           <Subheader>Get Involved</Subheader>
           <View
             style={{
