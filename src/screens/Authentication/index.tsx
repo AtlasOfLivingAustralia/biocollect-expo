@@ -48,7 +48,7 @@ export default function Authentication(
       if ((await auth.signIn()) !== null) {
         setExitAnim(true);
         setTimeout(() => props.navigation.navigate('Home'), 1100);
-      }
+      } else setAuthenticating(false);
     } catch (error) {
       console.log(error);
       setAuthenticating(false);
@@ -61,10 +61,6 @@ export default function Authentication(
       setAuthenticating(false);
     });
   }, [props.navigation]);
-
-  // useEffect(() => {
-  //   console.log('exitAnim', exitAnim);
-  // }, [exitAnim]);
 
   return (
     <>

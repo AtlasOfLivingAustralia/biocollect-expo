@@ -31,7 +31,7 @@ const Profile = styled(TouchableOpacity)<ProfileStyleProps>`
   background-color: ${({ theme }) => theme.background.tertiary};
   width: ${({ size }) => size}px;
   height: ${({ size }) => size}px;
-  border-radius: 50%;
+  border-radius: ${({ size }) => size / 2}px;
 `;
 
 const ProfileIconWrapper = styled(View)<ProfileStyleProps>`

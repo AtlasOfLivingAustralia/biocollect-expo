@@ -3618,6 +3618,7 @@ __metadata:
     dotenv: ^16.0.1
     expo: ^46.0.0
     expo-auth-session: ~3.7.1
+    expo-blur: ^11.2.0
     expo-font: ~10.2.0
     expo-linking: ~3.2.2
     expo-network: ~4.3.0
@@ -5018,6 +5019,15 @@ __metadata:
     expo-random:
       optional: true
   checksum: 6a67888da0881b5237ca4ec201d60672bcd5c6da3a7740e7c57cfc6f3048ce26385dc27cc4daccf8b84de8ff5fa887d1995a3c2b8b03770a3bc064d920ece9e4
+  languageName: node
+  linkType: hard
+
+"expo-blur@npm:^11.2.0":
+  version: 11.2.0
+  resolution: "expo-blur@npm:11.2.0"
+  peerDependencies:
+    expo: "*"
+  checksum: 8acd08b9c7bc2e74d833ef6689d50e5118eff3ed6fbd0de0689005515eb7c15de00e781b258630e239a78df021eafdd9e7a5e573223072eb1d78c55e5d6618f2
   languageName: node
   linkType: hard
 

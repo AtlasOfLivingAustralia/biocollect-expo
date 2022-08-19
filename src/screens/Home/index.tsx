@@ -6,6 +6,7 @@ import {
   SafeAreaView,
   StyleSheet,
   Alert,
+  Platform,
 } from 'react-native';
 import * as WebBrowser from 'expo-web-browser';
 
@@ -38,6 +39,7 @@ const HeaderView = styled.View`
   justify-content: space-between;
   align-items: center;
   padding: ${({ theme }) => theme.defaults.viewPadding}px;
+  padding-top: ${Platform.OS === 'android' ? 48 : 24}px;
 `;
 
 export default function Home(
@@ -114,7 +116,7 @@ export default function Home(
               <Subheader>G'Day,</Subheader>
               <Header>{auth.profile?.given_name || ''}</Header>
             </View>
-            <ProfileSideImage image={biocollectLogo}>
+            <ProfileSideImage profileSize={52} image={biocollectLogo}>
               <Profile
                 name={auth.profile?.name || ''}
                 size={52}

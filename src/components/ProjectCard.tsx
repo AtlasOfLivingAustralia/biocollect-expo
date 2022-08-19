@@ -19,10 +19,11 @@ const Root = styled.TouchableOpacity`
   background-color: ${({ theme }) => theme.background.secondary};
   border-radius: ${({ theme }) => theme.radius * 2}px;
   margin-bottom: 12px;
-  shadow-opacity: 0.3;
-  shadow-radius: 6px;
+  shadow-opacity: 0.25;
+  shadow-radius: 4px;
   shadow-color: black;
   shadow-offset: 0px 0px;
+  elevation: 8;
 `;
 
 const Content = styled.View`

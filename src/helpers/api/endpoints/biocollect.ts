@@ -4,10 +4,13 @@ import { BioCollectProject, BioCollectProjectSearch } from 'types';
 
 const formatProjects = (search: BioCollectProjectSearch) => ({
   ...search,
-  projects: search.projects.map((project) => ({
-    ...project,
-    name: project.name.trim(),
-  })),
+  projects: search.projects.map((project) => {
+    return {
+      ...project,
+      name: project.name.trim(),
+      description: project.description,
+    };
+  }),
 });
 
 export default (env: AppEnvironment) => ({

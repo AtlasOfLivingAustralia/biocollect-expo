@@ -1,19 +1,20 @@
 import { ReactNode } from 'react';
 import { ViewProps, Image, ImageSourcePropType } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
-import styled, { useTheme } from 'styled-components/native';
+import styled from 'styled-components/native';
 
 interface ProfileSideImageProps extends ViewProps {
   image: ImageSourcePropType;
+  profileSize: number;
   children?: ReactNode;
 }
 
-const ProfileIconRoot = styled.View`
+const ProfileIconRoot = styled.View<ProfileSideImageProps>`
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  border-radius: 50%;
+  border-radius: ${({ profileSize }) => profileSize + 2}px;
   background-color: ${({ theme }) => theme.background.secondary};
   padding: 4px;
 `;
@@ -29,7 +30,6 @@ const ProfileImage = styled(Image)`
 `;
 
 export default ({ image, children, ...props }: ProfileSideImageProps) => {
-  const theme = useTheme();
   return (
     <ProfileIconRoot {...props}>
       <ProfileImage source={image} />

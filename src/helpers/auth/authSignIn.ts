@@ -61,7 +61,9 @@ export default (
 
       // Store the token in async storage
       await AsyncStorage.setItem('@auth_token', JSON.stringify(accessToken));
+      console.log('[AUTH : SignIn] Updated auth token in AsyncStorage');
       await callback(accessToken);
+      console.log('[AUTH : SignIn] Callback complete!');
     } else {
       console.log(
         `[AUTH : SignIn] The sign in could not be completed (result type: ${result.type})`

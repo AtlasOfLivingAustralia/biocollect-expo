@@ -17,6 +17,7 @@
     "axios": "^0.27.2",
     "expo": "^46.0.0",
     "expo-auth-session": "~3.7.1",
+    "expo-blur": "^11.2.0",
     "expo-font": "~10.2.0",
     "expo-linking": "~3.2.2",
     "expo-network": "~4.3.0",
