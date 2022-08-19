@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { SafeAreaView, ImageBackground, Dimensions, Text } from 'react-native';
+import { SafeAreaView, ImageBackground, Dimensions, View } from 'react-native';
 
 // Navigation
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -22,12 +22,18 @@ const HeaderImage = styled(ImageBackground)<HeaderImageProps>`
   width: 100%;
 `;
 
+const Root = styled.View`
+  display: flex;
+  flex-grow: 1;
+`;
+
+// padding: ${({ theme }) => theme.defaults.viewPadding}px;
+
 export default function Authentication(
   props: NativeStackScreenProps<RootStackParamList, 'Project'>
 ) {
   const [headerLoaded, setHeaderLoaded] = useState<boolean>(false);
   const { params: project } = props.route;
-  const { width } = Dimensions.get('screen');
 
   const height = 250;
   return (
@@ -44,8 +50,16 @@ export default function Authentication(
           </Skeleton.Rect>
         ) : null}
         <SafeAreaView>
-          <Header size={28}>{project.name.trim()}</Header>
-          <Button text='Go Back' onPress={() => props.navigation.goBack()} />
+          <Root>
+            <Button
+              text='test'
+              variant='outline'
+              onPress={() => props.navigation.goBack()}
+            />
+            <View>
+              <Header size={28}>{project.name}</Header>
+            </View>
+          </Root>
         </SafeAreaView>
       </ThemeView>
     </>

@@ -1,8 +1,13 @@
-import { TouchableOpacityProps, View } from 'react-native';
+import {
+  TouchableOpacityProps,
+  View,
+  Image as NativeImage,
+} from 'react-native';
 import { BioCollectProject } from 'types';
 
 import styled, { useTheme } from 'styled-components/native';
 import Skeleton from './Skeleton';
+import { useState } from 'react';
 
 interface ProjectCardProps extends TouchableOpacityProps {
   project: BioCollectProject | null;
@@ -34,7 +39,7 @@ const ImageRoot = styled.View`
   border-bottom-left-radius: ${({ theme }) => theme.radius * 2}px;
 `;
 
-const Image = styled.Image`
+const Image = styled(NativeImage)`
   width: 100%;
   height: 100%;
   border-top-left-radius: ${({ theme }) => theme.radius * 2}px;
@@ -57,25 +62,29 @@ const StyledText = styled.Text`
 `;
 
 export default ({ project, ...props }: ProjectCardProps) => {
+  const [imageLoaded, setImageLoaded] = useState<boolean>(false);
   const theme = useTheme();
 
   // Render the project card
   return (
     <Root {...props} activeOpacity={0.6}>
       <Skeleton.Rect
-        loading={!project}
+        loading={!project || (project.urlImage && !imageLoaded)}
         borderTopLeftRadius={theme.radius * 2}
         borderBottomLeftRadius={theme.radius * 2}
       >
         <ImageRoot>
-          {project?.urlImage && <Image source={{ uri: project.urlImage }} />}
+          {project?.urlImage && (
+            <Image
+              source={{ uri: project.urlImage }}
+              onLoad={() => setImageLoaded(true)}
+            />
+          )}
         </ImageRoot>
       </Skeleton.Rect>
       {project ? (
         <Content>
-          <Header numberOfLines={2}>
-            {project?.name.trim() || 'Loading Name'}
-          </Header>
+          <Header numberOfLines={2}>{project?.name || 'Loading Name'}</Header>
           <StyledText numberOfLines={2}>
             {project?.description || 'Loading Description'}
           </StyledText>

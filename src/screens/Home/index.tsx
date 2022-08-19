@@ -30,6 +30,15 @@ import { AuthContext } from 'helpers/auth';
 import { APIContext } from 'helpers/api';
 import { BioCollectProject } from 'types';
 import ThemeView from 'components/ThemeView';
+import styled from 'styled-components/native';
+
+const HeaderView = styled.View`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: ${({ theme }) => theme.defaults.viewPadding}px;
+`;
 
 export default function Home(
   props: NativeStackScreenProps<RootStackParamList, 'Home'>
@@ -64,10 +73,14 @@ export default function Home(
   return (
     <>
       <Modal visible={showSettings} onClose={() => setShowSettings(false)}>
-        <Button text='My Profile' type='outline' style={{ marginBottom: 8 }} />
+        <Button
+          text='My Profile'
+          variant='outline'
+          style={{ marginBottom: 8 }}
+        />
         <Button
           text='Sign Out'
-          type='outline'
+          variant='outline'
           style={{ marginBottom: 8 }}
           onPress={() => {
             Alert.alert('Confirmation', 'Are you sure you wish to sign out?', [
@@ -89,22 +102,14 @@ export default function Home(
         {(auth.access?.role || []).includes('ROLE_ADMIN') && (
           <Button
             text='Developer Settings'
-            type='outline'
+            variant='outline'
             style={{ marginBottom: 8 }}
           />
         )}
       </Modal>
       <ThemeView>
         <SafeAreaView>
-          <View
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              padding: 24,
-            }}
-          >
+          <HeaderView>
             <View>
               <Subheader>G'Day,</Subheader>
               <Header>{auth.profile?.given_name || ''}</Header>
@@ -117,7 +122,7 @@ export default function Home(
                 onPress={() => setShowSettings(true)}
               />
             </ProfileSideImage>
-          </View>
+          </HeaderView>
         </SafeAreaView>
         <ScrollView
           contentContainerStyle={localStyles.scrollView}

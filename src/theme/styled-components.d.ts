@@ -11,6 +11,9 @@ declare module 'styled-components' {
     type: 'light' | 'dark';
     radius: number;
     skeleton: string;
+    defaults: {
+      viewPadding: number;
+    };
     font: {
       header: string;
       body: string;

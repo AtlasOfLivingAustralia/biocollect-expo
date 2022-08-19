@@ -6,6 +6,9 @@ const themes: { [key: string]: DefaultTheme } = {
     type: 'light',
     radius: 12,
     skeleton: '#ecebeb',
+    defaults: {
+      viewPadding: 20,
+    },
     font: {
       header: 'Lato',
       body: 'RobotoRegular',
@@ -37,6 +40,9 @@ const themes: { [key: string]: DefaultTheme } = {
       header: 'Lato',
       body: 'RobotoRegular',
       button: 'RobotoBold',
+    },
+    defaults: {
+      viewPadding: 20,
     },
     background: {
       primary: palette.secondary.charcoal,

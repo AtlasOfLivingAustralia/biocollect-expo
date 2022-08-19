@@ -1,6 +1,14 @@
 import axios from 'axios';
 import { AppEnvironment } from 'helpers/appenv';
-import { BioCollectProjectSearch } from 'types';
+import { BioCollectProject, BioCollectProjectSearch } from 'types';
+
+const formatProjects = (search: BioCollectProjectSearch) => ({
+  ...search,
+  projects: search.projects.map((project) => ({
+    ...project,
+    name: project.name.trim(),
+  })),
+});
 
 export default (env: AppEnvironment) => ({
   projectSearch: async (
@@ -26,6 +34,6 @@ export default (env: AppEnvironment) => ({
       }
     );
 
-    return request.data;
+    return formatProjects(request.data);
   },
 });
