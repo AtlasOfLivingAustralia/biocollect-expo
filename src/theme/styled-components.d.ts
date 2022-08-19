@@ -18,10 +18,12 @@ declare module 'styled-components' {
       header: string;
       body: string;
       button: string;
+      chip: string;
     };
     background: ALAThemeColour;
     text: ALAThemeColour;
     colour: ALAThemeColour;
     button: ALAThemeColour;
+    chip: ALAThemeColour;
   }
 }

@@ -4,7 +4,7 @@ import {
   Image,
   ActivityIndicator,
   TouchableOpacity,
-  GestureResponderEvent,
+  TouchableOpacityProps,
   ImageSourcePropType,
   StyleProp,
   ViewStyle,
@@ -13,19 +13,16 @@ import styled from 'styled-components/native';
 
 type ButtonVariant = 'solid' | 'outline';
 
-interface ButtonProps {
-  text: string;
-  variant?: ButtonVariant;
-  icon?: ImageSourcePropType;
-  disabled?: boolean;
-  loading?: boolean;
-  onPress?: (event: GestureResponderEvent) => void;
-  style?: StyleProp<ViewStyle>;
-}
-
 interface ButtonStyleProps {
   variant?: ButtonVariant;
   disabled?: boolean;
+  padding?: number;
+}
+
+interface ButtonProps extends ButtonStyleProps, TouchableOpacityProps {
+  text: string;
+  icon?: ImageSourcePropType;
+  loading?: boolean;
 }
 
 const ButtonRoot = styled(TouchableOpacity)<ButtonStyleProps>`
@@ -33,11 +30,11 @@ const ButtonRoot = styled(TouchableOpacity)<ButtonStyleProps>`
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  padding: 12px;
+  padding: ${({ padding }) => padding || 12}px;
   background-color: ${({ theme, variant }) =>
     variant === 'outline' ? 'transparent' : theme.button.primary};
   border-radius: ${({ theme }) => theme.radius}px;
-  border-width: 3px;
+  border-width: 2px;
   border-color: ${({ theme, variant }) =>
     variant === 'outline' ? theme.button.primary : 'transparent'};
   opacity: ${({ disabled }) => (disabled ? 0.4 : 1)};
@@ -51,14 +48,14 @@ const ButtonText = styled(Text)<ButtonStyleProps>`
 `;
 
 export default function Button(props: ButtonProps) {
-  const { style, variant, disabled, loading, text, icon, onPress } = props;
+  const { variant, disabled, loading, text, icon, padding, ...rest } = props;
 
   return (
     <ButtonRoot
-      style={style}
+      {...rest}
       variant={variant}
       disabled={disabled}
-      onPress={onPress}
+      padding={padding}
       activeOpacity={0.6}
     >
       {icon && <Image source={icon} style={styles.icon} />}

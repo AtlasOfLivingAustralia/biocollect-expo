@@ -13,6 +13,7 @@ const themes: { [key: string]: DefaultTheme } = {
       header: 'Lato',
       body: 'RobotoRegular',
       button: 'RobotoBold',
+      chip: 'RobotoBold',
     },
     background: {
       primary: '#FFFFFF',
@@ -31,6 +32,10 @@ const themes: { [key: string]: DefaultTheme } = {
       primary: palette.primary.flamingo,
       secondary: palette.primary.rust,
     },
+    chip: {
+      primary: palette.extended.paleMoss,
+      secondary: palette.extended.plum,
+    },
   },
   dark: {
     type: 'dark',
@@ -40,6 +45,7 @@ const themes: { [key: string]: DefaultTheme } = {
       header: 'Lato',
       body: 'RobotoRegular',
       button: 'RobotoBold',
+      chip: 'RobotoBold',
     },
     defaults: {
       viewPadding: 20,
@@ -60,6 +66,10 @@ const themes: { [key: string]: DefaultTheme } = {
     button: {
       primary: palette.primary.flamingo,
       secondary: palette.primary.rust,
+    },
+    chip: {
+      primary: palette.extended.paleMoss,
+      secondary: palette.extended.plum,
     },
   },
 };

@@ -16,12 +16,17 @@ const RootText = styled(Text)`
   margin-left: 10px;
 `;
 
-export default (props: TouchableOpacityProps) => {
+interface NavButtonProps extends TouchableOpacityProps {
+  icon: string;
+  text: string;
+}
+
+export default ({ icon, text, ...rest }: NavButtonProps) => {
   const theme = useTheme();
   return (
-    <Root {...props} activeOpacity={0.6}>
-      <FontAwesome name='arrow-left' color={theme.text.secondary} />
-      <RootText>GO BACK</RootText>
+    <Root {...rest} activeOpacity={0.6}>
+      <FontAwesome name={icon as any} color={theme.text.secondary} />
+      <RootText>{text}</RootText>
     </Root>
   );
 };

@@ -8,7 +8,6 @@ import {
   Alert,
   Platform,
 } from 'react-native';
-import * as WebBrowser from 'expo-web-browser';
 
 // Navigation
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -48,14 +47,13 @@ export default function Home(
   const [projects, setProjects] = useState<BioCollectProject[] | null>(null);
   const [refreshing, setRefreshing] = useState(false);
   const [showSettings, setShowSettings] = useState<boolean>(false);
-  const { config: env } = useContext(AppEnvironmentContext);
   const auth = useContext(AuthContext);
   const api = useContext(APIContext);
 
   useEffect(() => {
     async function getData() {
       try {
-        const data = await api.biocollect.projectSearch(0);
+        const data = await api.biocollect.projectSearch(0, false);
         setProjects(data.projects);
         console.log(data.total);
       } catch (error) {
@@ -137,12 +135,7 @@ export default function Home(
                 <ProjectCard
                   key={project.projectId}
                   project={project}
-                  onPress={() => {
-                    // WebBrowser.openBrowserAsync(
-                    //   `${env.biocollect.biocollect_url}/project/index/${project.projectId}?mobile=true`
-                    // );
-                    props.navigation.navigate('Project', project);
-                  }}
+                  onPress={() => props.navigation.navigate('Project', project)}
                 />
               ))
             : [0, 1, 2, 3, 4, 5, 6, 7].map((id) => (
