@@ -8,6 +8,7 @@ import {
   Alert,
   Platform,
 } from 'react-native';
+import { AxiosError } from 'axios';
 
 // Navigation
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -20,6 +21,8 @@ import Subheader from 'components/Header/Subheader';
 import Modal from 'components/Modal';
 import Profile from 'components/Profile';
 import ProfileSideImage from 'components/ProfileSideImage';
+import Body from 'components/Body';
+import ThemeView from 'components/ThemeView';
 
 // BioCollect logo
 import biocollectLogo from 'assets/images/ui/logo.png';
@@ -29,8 +32,23 @@ import { AppEnvironmentContext } from 'helpers/appenv';
 import { AuthContext } from 'helpers/auth';
 import { APIContext } from 'helpers/api';
 import { BioCollectProject } from 'types';
-import ThemeView from 'components/ThemeView';
 import styled from 'styled-components/native';
+
+const ErrorView = styled.View`
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 148px;
+`;
+
+const ErrorHeader = styled.Text`
+  color: ${({ theme }) => theme.text.primary};
+  font-family: 'RobotoBold';
+  font-size: 22px;
+  margin-bottom: 12px;
+`;
 
 const HeaderView = styled.View`
   display: flex;
@@ -45,7 +63,8 @@ export default function Home(
   props: NativeStackScreenProps<RootStackParamList, 'Home'>
 ) {
   const [projects, setProjects] = useState<BioCollectProject[] | null>(null);
-  const [refreshing, setRefreshing] = useState(false);
+  const [error, setError] = useState<AxiosError | null>(null);
+  const [refreshing, setRefreshing] = useState(true);
   const [showSettings, setShowSettings] = useState<boolean>(false);
   const auth = useContext(AuthContext);
   const api = useContext(APIContext);
@@ -55,20 +74,28 @@ export default function Home(
       try {
         const data = await api.biocollect.projectSearch(0, false);
         setProjects(data.projects);
-        console.log(data.total);
-      } catch (error) {
-        console.log(error);
+      } catch (apiError) {
+        setError(apiError as any);
+        console.log(apiError);
       }
+
+      setRefreshing(false);
     }
 
-    if (!projects) getData();
+    if (refreshing) getData();
   }, [refreshing]);
 
-  // Placeholder refresh logic
+  // Handler for refreshing
   const onRefresh = useCallback(() => {
     setProjects(null);
-    setRefreshing(!refreshing);
+    setRefreshing(true);
   }, [refreshing]);
+
+  // Handler for retrying when errors occur
+  const onRetry = () => {
+    setRefreshing(true);
+    setError(null);
+  };
 
   return (
     <>
@@ -124,24 +151,39 @@ export default function Home(
             </ProfileSideImage>
           </HeaderView>
         </SafeAreaView>
-        <ScrollView
-          contentContainerStyle={localStyles.scrollView}
-          refreshControl={
-            <RefreshControl refreshing={!projects} onRefresh={onRefresh} />
-          }
-        >
-          {projects
-            ? projects.map((project) => (
-                <ProjectCard
-                  key={project.projectId}
-                  project={project}
-                  onPress={() => props.navigation.navigate('Project', project)}
-                />
-              ))
-            : [0, 1, 2, 3, 4, 5, 6, 7].map((id) => (
-                <ProjectCard key={id} project={null} />
-              ))}
-        </ScrollView>
+        {error ? (
+          <ErrorView>
+            <ErrorHeader>Woah there,</ErrorHeader>
+            <Body>It looks like an error occurred.</Body>
+            <Body>{error.message}</Body>
+            <Button
+              style={{ marginTop: 32 }}
+              text='Try Again'
+              onPress={onRetry}
+            />
+          </ErrorView>
+        ) : (
+          <ScrollView
+            contentContainerStyle={localStyles.scrollView}
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }
+          >
+            {projects
+              ? projects.map((project) => (
+                  <ProjectCard
+                    key={project.projectId}
+                    project={project}
+                    onPress={() =>
+                      props.navigation.navigate('Project', project)
+                    }
+                  />
+                ))
+              : [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((id) => (
+                  <ProjectCard key={id} project={null} />
+                ))}
+          </ScrollView>
+        )}
       </ThemeView>
     </>
   );
