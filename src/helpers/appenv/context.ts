@@ -19,7 +19,8 @@ export interface AppEnvironmentConfig {
 }
 
 interface AppEnvironmentContext {
-  config: AppEnvironment;
+  currentConfig: AppEnvironment;
+  config: AppEnvironmentConfig;
   type: AppEnvironmentType;
   setEnvironment: (environment: AppEnvironmentType) => void;
 }

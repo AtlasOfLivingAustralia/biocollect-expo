@@ -1,7 +1,7 @@
 import { ReactNode, ReactElement, useEffect, useState, useContext } from 'react';
 import { TokenResponse } from 'expo-auth-session';
 import jwtDecode from 'jwt-decode';
-import { AppEnvironmentContext } from 'helpers/appenv';
+import { AppEnvironmentContext, AppEnvironmentType } from 'helpers/appenv';
 
 // Authentication helpers
 import { JwtClaims, OidcStandardClaims } from './claims';
@@ -22,13 +22,15 @@ const AuthProvider = (props: AuthProviderProps): ReactElement => {
   const [credentials, setCredentials] = useState<TokenResponse | null>(null);
   const [profile, setProfile] = useState<OidcStandardClaims | null>(null);
   const [access, setAccess] = useState<JwtClaims | null>(null);
-  const { config: env } = useContext(AppEnvironmentContext);
+  const [signInEnv, setSignInEnv] = useState<AppEnvironmentType | null>(null);
+  const appenv = useContext(AppEnvironmentContext);
 
   // Helper function to update the auth state on sign in
   const onSignInSuccess = (token: TokenResponse) => {
     setCredentials(token);
     setProfile(jwtDecode<OidcStandardClaims>(token.idToken));
     setAccess(jwtDecode<JwtClaims>(token.accessToken));
+    setSignInEnv(appenv.type);
     setAuthenticated(true);
   };
 
@@ -37,6 +39,7 @@ const AuthProvider = (props: AuthProviderProps): ReactElement => {
     setAuthenticated(false);
     setProfile(null);
     setAccess(null);
+    setSignInEnv(null);
     setCredentials(null);
   };
 
@@ -50,11 +53,9 @@ const AuthProvider = (props: AuthProviderProps): ReactElement => {
       if (parsed) {
         if (TokenResponse.isTokenFresh(parsed)) {
           onSignInSuccess(parsed);
-
           console.log('[AUTH : Provider] Token is fresh, updating provider credentials...');
         } else {
           await AsyncStorage.removeItem('@auth_token');
-
           console.log('[AUTH : Provider] Token is not fresh, removing credentials from store...');
         }
       }
@@ -72,8 +73,13 @@ const AuthProvider = (props: AuthProviderProps): ReactElement => {
         access,
         loading,
         authenticated,
-        signIn: authSignIn(env, (token) => onSignInSuccess(token)),
-        signOut: authSignOut(env, credentials, onSignOutSuccess),
+        admin: authenticated && (access?.role || []).includes('ROLE_ADMIN'),
+        signIn: authSignIn(appenv.currentConfig, (token) => onSignInSuccess(token)),
+        signOut: authSignOut(
+          appenv.config[signInEnv || appenv.type],
+          credentials,
+          onSignOutSuccess
+        ),
       }}>
       {props.children}
     </AuthContext.Provider>

@@ -61,7 +61,7 @@ export default function Home(props: NativeStackScreenProps<RootStackParamList, '
   useEffect(() => {
     async function getData() {
       try {
-        // console.log(auth.credentials.accessToken);
+        console.log(auth.credentials.accessToken);
         const data = await api.biocollect.projectSearch(0, false);
         setProjects(data.projects);
       } catch (apiError) {

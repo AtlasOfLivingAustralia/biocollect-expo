@@ -8,6 +8,7 @@ interface AuthContext {
   access: JwtClaims | null;
   loading: boolean;
   authenticated: boolean;
+  admin: boolean;
   signIn: () => Promise<void>;
   signOut: () => Promise<void>;
 }

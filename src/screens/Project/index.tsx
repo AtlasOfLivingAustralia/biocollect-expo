@@ -50,7 +50,7 @@ export default function Authentication(
   props: NativeStackScreenProps<RootStackParamList, 'Project'>
 ) {
   const [headerLoaded, setHeaderLoaded] = useState<boolean>(false);
-  const { config: env } = useContext(AppEnvironmentContext);
+  const { currentConfig: env } = useContext(AppEnvironmentContext);
   const { params: project } = props.route;
   const theme = useTheme();
 

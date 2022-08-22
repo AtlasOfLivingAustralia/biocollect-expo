@@ -1,6 +1,9 @@
 import { useContext } from 'react';
 import { Alert } from 'react-native';
+
+// App contexts
 import { AuthContext } from 'helpers/auth';
+import { AppEnvironmentContext, AppEnvironmentType } from 'helpers/appenv';
 
 // Components
 import Button from 'components/Button';
@@ -15,11 +18,18 @@ interface HomeModalProps {
 
 const HomeModal = ({ visible, navigate, onClose }: HomeModalProps) => {
   const auth = useContext(AuthContext);
-  const isAdmin = (auth.access?.role || []).includes('ROLE_ADMIN');
+  const appenv = useContext(AppEnvironmentContext);
 
   return (
     <Modal visible={visible} onClose={onClose}>
-      {isAdmin && <ButtonSelect options={['test', 'blah']} style={{ marginBottom: 8 }} />}
+      {auth.admin && (
+        <ButtonSelect
+          options={['prod', 'staging', 'test', 'dev']}
+          initial={appenv.type}
+          style={{ marginBottom: 18 }}
+          onSelect={(newEnv) => appenv.setEnvironment(newEnv as AppEnvironmentType)}
+        />
+      )}
       <Button text="My Profile" variant="outline" style={{ marginBottom: 8 }} />
       <Button
         text="Sign Out"
@@ -42,7 +52,7 @@ const HomeModal = ({ visible, navigate, onClose }: HomeModalProps) => {
           ]);
         }}
       />
-      {isAdmin && (
+      {auth.admin && (
         <Button text="Developer Settings" variant="outline" style={{ marginBottom: 8 }} />
       )}
     </Modal>

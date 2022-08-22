@@ -14,6 +14,7 @@ interface AppEnvironmentProviderProps {
 export type AppEnvironmentType = 'prod' | 'staging' | 'test' | 'dev';
 
 const AppEnvironmentProvider = (props: AppEnvironmentProviderProps): ReactElement => {
+  const [storageLoaded, setStorageLoaded] = useState<boolean>(false);
   const [type, setType] = useState<AppEnvironmentType>(
     Constants.manifest.extra.environment || 'prod'
   );
@@ -21,19 +22,37 @@ const AppEnvironmentProvider = (props: AppEnvironmentProviderProps): ReactElemen
   // useEffect hook to automatically write environment changes to persistent storage
   useEffect(() => {
     (async () => {
-      await AsyncStorage.setItem('@app_environment', type);
-      console.log(`[API : Provider] Updated environment in AsyncStorage to '${type}'`);
+      await AsyncStorage.setItem('@app_environment', type.toString());
+      console.log(`[AppEnv : Provider] Updated environment in AsyncStorage to '${type}'`);
     })();
   }, [type]);
+
+  // useEffect hook to read the app environment type when mounted
+  useEffect(() => {
+    (async () => {
+      const storedType = await AsyncStorage.getItem('@app_environment');
+      if (storedType) {
+        setType(storedType as AppEnvironmentType);
+        console.log(
+          `[AppEnv : Provider] Found initial App Environment type '${type}' from AsyncStorage`
+        );
+      } else {
+        console.log('[AppEnv : Provider] No stored App Environment type found');
+      }
+
+      setStorageLoaded(true);
+    })();
+  }, []);
 
   return (
     <AppEnvironmentContext.Provider
       value={{
         type,
-        config: Constants.manifest.extra.config[type],
+        currentConfig: Constants.manifest.extra.config[type],
+        config: Constants.manifest.extra.config,
         setEnvironment: (newType: AppEnvironmentType) => setType(newType),
       }}>
-      {props.children}
+      {storageLoaded ? props.children : null}
     </AppEnvironmentContext.Provider>
   );
 };

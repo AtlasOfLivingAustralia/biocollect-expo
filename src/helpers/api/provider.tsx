@@ -14,7 +14,7 @@ interface APIProviderProps {
 }
 
 const APIProvider = (props: APIProviderProps): ReactElement => {
-  const { config: env } = useContext(AppEnvironmentContext);
+  const { currentConfig: env } = useContext(AppEnvironmentContext);
   const auth = useContext(AuthContext);
 
   // useEffect hook to add / remove access token the axios globals

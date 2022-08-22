@@ -38,13 +38,13 @@
   "dev": {
     "timeout": 2000,
     "auth": {
-      "server": "https://auth-dev.ala.org.au/cas/oidc",
-      "client_id": "oidc-expo-dev",
+      "server": "https://auth-test.ala.org.au/cas/oidc",
+      "client_id": "oidc-expo-test",
       "scopes": "email openid profile"
     },
     "biocollect": {
       "biocollect_url": "https://apis.dev.ala.org.au/biocollect",
-      "ecodata_url": "https://ecodata-dev.ala.org.au"
+      "ecodata_url": "https://ecodata-test.ala.org.au"
     }
   }
 }

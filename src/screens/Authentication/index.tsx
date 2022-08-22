@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useContext } from 'react';
-import { View, Image, Animated, Easing, StyleSheet } from 'react-native';
+import { View, Image, Animated, Easing, StyleSheet, TouchableOpacity } from 'react-native';
 
 import Button from 'components/Button';
 import Title from 'components/Header/Header';
@@ -10,19 +10,23 @@ import Header from './Header';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../../App';
 
-// Authentication
+// Application contexts
 import { AuthContext } from 'helpers/auth';
+import { AppEnvironmentContext } from 'helpers/appenv';
 
 // BioCollect logo
 import biocollectLogo from 'assets/images/ui/logo.png';
 import alaLogo from 'assets/images/ui/ala-white.png';
 import ThemeView from 'components/ThemeView';
+import DevModal from './DevModal';
 
 export default function Authentication(
   props: NativeStackScreenProps<RootStackParamList, 'Authentication'>
 ) {
-  const auth = useContext(AuthContext);
   const [authenticating, setAuthenticating] = useState<boolean>(false);
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
+  const auth = useContext(AuthContext);
+  const appenv = useContext(AppEnvironmentContext);
 
   // Animation / styling
   const [exitAnim, setExitAnim] = useState<boolean>(false);
@@ -64,6 +68,7 @@ export default function Authentication(
 
   return (
     <>
+      <DevModal visible={modalVisible} onClose={() => setModalVisible(false)} />
       <ThemeView>
         <Header exitAnim={exitAnim} />
         <Animated.View
@@ -72,7 +77,17 @@ export default function Authentication(
             opacity: fadeInAnim,
           }}>
           <View style={{ display: 'flex', alignItems: 'center' }}>
-            <Image source={biocollectLogo} style={{ width: 125, height: 125, marginBottom: 12 }} />
+            <TouchableOpacity
+              style={{ width: 125, height: 125, marginBottom: 12 }}
+              activeOpacity={1}
+              onLongPress={() => {
+                if (appenv.type !== 'prod') setModalVisible(true);
+              }}>
+              <Image
+                source={biocollectLogo}
+                style={{ width: 125, height: 125, marginBottom: 12 }}
+              />
+            </TouchableOpacity>
             <Title>BioCollect</Title>
             <Subtitle>Welcome</Subtitle>
           </View>

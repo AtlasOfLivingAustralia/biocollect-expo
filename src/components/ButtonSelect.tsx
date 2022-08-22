@@ -5,6 +5,7 @@ import Body from './Body';
 
 interface ButtonSelectProps extends ViewProps {
   options: string[];
+  initial?: string;
   onSelect?: (option: string) => void;
 }
 
@@ -31,6 +32,7 @@ const ButtonSelectRoot = styled(View)`
 
 interface ButtonSelectButtonStyleProps {
   active: boolean;
+  last: boolean;
 }
 
 const ButtonSelectButton = styled(TouchableOpacity)<ButtonSelectButtonStyleProps>`
@@ -41,8 +43,8 @@ const ButtonSelectButton = styled(TouchableOpacity)<ButtonSelectButtonStyleProps
   margin-right: 3px;
 `;
 
-const ButtonSelect = ({ options, onSelect, ...rest }: ButtonSelectProps) => {
-  const [current, setCurrent] = useState<string>(options[0]);
+const ButtonSelect = ({ options, initial, onSelect, ...rest }: ButtonSelectProps) => {
+  const [current, setCurrent] = useState<string>(initial || options[0]);
   const theme = useTheme();
 
   // Event handler for button selection
@@ -54,11 +56,12 @@ const ButtonSelect = ({ options, onSelect, ...rest }: ButtonSelectProps) => {
   return (
     <Root {...rest}>
       <ButtonSelectRoot>
-        {options.map((option) => {
+        {options.map((option, index) => {
           const active = option === current;
           return (
             <ButtonSelectButton
               key={option}
+              last={index === options.length - 1}
               activeOpacity={1}
               active={active}
               onPress={() => handleButtonSelect(option)}>
