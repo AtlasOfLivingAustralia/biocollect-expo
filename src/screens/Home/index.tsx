@@ -1,13 +1,5 @@
 import { useCallback, useState, useContext, useEffect } from 'react';
-import {
-  View,
-  ScrollView,
-  RefreshControl,
-  SafeAreaView,
-  StyleSheet,
-  Alert,
-  Platform,
-} from 'react-native';
+import { View, ScrollView, RefreshControl, SafeAreaView, StyleSheet, Platform } from 'react-native';
 import { AxiosError } from 'axios';
 import styled from 'styled-components/native';
 
@@ -19,12 +11,10 @@ import Button from 'components/Button';
 import ProjectCard from 'components/ProjectCard';
 import Header from 'components/Header/Header';
 import Subheader from 'components/Header/Subheader';
-import Modal from 'components/Modal';
 import Profile from 'components/Profile';
 import ProfileSideImage from 'components/ProfileSideImage';
 import Body from 'components/Body';
 import ThemeView from 'components/ThemeView';
-import ButtonSelect from 'components/ButtonSelect';
 
 // BioCollect logo
 import biocollectLogo from 'assets/images/ui/logo.png';
@@ -33,6 +23,7 @@ import biocollectLogo from 'assets/images/ui/logo.png';
 import { AuthContext } from 'helpers/auth';
 import { APIContext } from 'helpers/api';
 import { BioCollectProject } from 'types';
+import HomeModal from './HomeModal';
 
 const ErrorView = styled.View`
   display: flex;
@@ -63,7 +54,7 @@ export default function Home(props: NativeStackScreenProps<RootStackParamList, '
   const [projects, setProjects] = useState<BioCollectProject[] | null>(null);
   const [error, setError] = useState<AxiosError | null>(null);
   const [refreshing, setRefreshing] = useState(true);
-  const [showSettings, setShowSettings] = useState<boolean>(false);
+  const [settingsVisible, setSettingsVisible] = useState<boolean>(false);
   const auth = useContext(AuthContext);
   const api = useContext(APIContext);
 
@@ -96,38 +87,13 @@ export default function Home(props: NativeStackScreenProps<RootStackParamList, '
     setError(null);
   };
 
-  const isAdmin = (auth.access?.role || []).includes('ROLE_ADMIN');
-
   return (
     <>
-      <Modal visible={showSettings} onClose={() => setShowSettings(false)}>
-        {isAdmin && <ButtonSelect options={['test', 'blah']} style={{ marginBottom: 8 }} />}
-        <Button text="My Profile" variant="outline" style={{ marginBottom: 8 }} />
-        <Button
-          text="Sign Out"
-          variant="outline"
-          style={{ marginBottom: 8 }}
-          onPress={() => {
-            Alert.alert('Confirmation', 'Are you sure you wish to sign out?', [
-              {
-                text: 'Cancel',
-                style: 'cancel',
-              },
-              {
-                text: 'OK',
-                onPress: async () => {
-                  setShowSettings(false);
-                  await auth.signOut();
-                  props.navigation.navigate('Authentication');
-                },
-              },
-            ]);
-          }}
-        />
-        {isAdmin && (
-          <Button text="Developer Settings" variant="outline" style={{ marginBottom: 8 }} />
-        )}
-      </Modal>
+      <HomeModal
+        visible={settingsVisible}
+        onClose={() => setSettingsVisible(false)}
+        navigate={props.navigation.navigate}
+      />
       <ThemeView>
         <SafeAreaView>
           <HeaderView>
@@ -140,7 +106,7 @@ export default function Home(props: NativeStackScreenProps<RootStackParamList, '
                 name={auth.profile?.name || ''}
                 size={52}
                 icon="gear"
-                onPress={() => setShowSettings(true)}
+                onPress={() => setSettingsVisible(true)}
               />
             </ProfileSideImage>
           </HeaderView>
