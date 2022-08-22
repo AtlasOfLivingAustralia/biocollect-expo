@@ -1,4 +1,4 @@
-import configBiocollect from './biocollect.config.json';
+import alaConfig from './ala.config.json';
 import 'dotenv/config';
 
 export default {
@@ -31,7 +31,7 @@ export default {
       },
     },
     extra: {
-      config: configBiocollect,
+      config: alaConfig,
       environment: process.env.APP_ENVIRONMENT,
     },
   },
