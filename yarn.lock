@@ -3881,6 +3881,7 @@ __metadata:
     expo-status-bar: ~1.4.0
     expo-updates: ~0.14.4
     expo-web-browser: ~11.0.0
+    intl: ^1.2.5
     jwt-decode: ^3.1.2
     luxon: ^3.0.1
     prettier: ^2.7.1
@@ -6947,6 +6948,13 @@ __metadata:
     has: ^1.0.3
     side-channel: ^1.0.4
   checksum: 1944f92e981e47aebc98a88ff0db579fd90543d937806104d0b96557b10c1f170c51fb777b97740a8b6ddeec585fca8c39ae99fd08a8e058dfc8ab70937238bf
+  languageName: node
+  linkType: hard
+
+"intl@npm:^1.2.5":
+  version: 1.2.5
+  resolution: "intl@npm:1.2.5"
+  checksum: 54c2444ec334b4e7f501c1b988ccfdae96d62a6275a915b9c75a38fc42d611bfc7dd33447e94079b7a8fdb3fbf36b95afd13132af4bfd70e2ec4bf9c9e0935f9
   languageName: node
   linkType: hard
 

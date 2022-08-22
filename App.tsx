@@ -3,6 +3,8 @@ import { useFonts } from 'expo-font';
 import { ThemeProvider } from 'styled-components/native';
 import axios from 'axios';
 import { themes } from 'theme';
+import 'intl';
+import 'intl/locale-data/jsonp/en';
 
 // Import screen components
 import Navigator from './src/Navigator';
@@ -21,9 +23,11 @@ export type RootStackParamList = {
 
 axios.interceptors.request.use((config) => {
   console.log(
-    `[API : Request] ${config.method.toUpperCase()} request to ${
-      config.url
-    }\n${JSON.stringify(config.params, null, 2)}`
+    `[API : Request] ${config.method.toUpperCase()} request to ${config.url}\n${JSON.stringify(
+      config.params,
+      null,
+      2
+    )}`
   );
 
   return config;
