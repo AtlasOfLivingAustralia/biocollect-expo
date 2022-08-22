@@ -72,7 +72,7 @@ export default function Home(
   useEffect(() => {
     async function getData() {
       try {
-        const data = await api.biocollect.projectSearch(0, false);
+        const data = await api.biocollect.projectSearch(0, true);
         setProjects(data.projects);
       } catch (apiError) {
         setError(apiError as any);
@@ -169,19 +169,29 @@ export default function Home(
               <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
             }
           >
-            {projects
-              ? projects.map((project) => (
-                  <ProjectCard
-                    key={project.projectId}
-                    project={project}
-                    onPress={() =>
-                      props.navigation.navigate('Project', project)
-                    }
-                  />
-                ))
-              : [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((id) => (
+            {(() => {
+              // If we've recieved an API response
+              if (projects) {
+                return projects.length > 0 ? (
+                  projects.map((project) => (
+                    <ProjectCard
+                      key={project.projectId}
+                      project={project}
+                      onPress={() =>
+                        props.navigation.navigate('Project', project)
+                      }
+                    />
+                  ))
+                ) : (
+                  <Body>It looks like we can't find any projects.</Body>
+                );
+              } else {
+                // If projects is null (we're waiting on an API request)
+                return [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((id) => (
                   <ProjectCard key={id} project={null} />
-                ))}
+                ));
+              }
+            })()}
           </ScrollView>
         )}
       </ThemeView>
