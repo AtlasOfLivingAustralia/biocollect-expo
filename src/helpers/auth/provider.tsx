@@ -53,7 +53,7 @@ const AuthProvider = (props: AuthProviderProps): ReactElement => {
 
           console.log('[AUTH : Provider] Token is fresh, updating provider credentials...');
         } else {
-          await AsyncStorage.removeItem('authToken');
+          await AsyncStorage.removeItem('@auth_token');
 
           console.log('[AUTH : Provider] Token is not fresh, removing credentials from store...');
         }

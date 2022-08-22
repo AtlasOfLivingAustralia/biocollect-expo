@@ -15,7 +15,7 @@ export default (env: AppEnvironment, credentials: TokenResponse, callback: () =>
 
     // Clear the auth token from storage
     console.log('[AUTH : SignOut] Removing auth state from storage...');
-    await AsyncStorage.removeItem('authToken');
+    await AsyncStorage.removeItem('@auth_token');
 
     // Revoke the access token
     if ((await getNetworkStateAsync()).isInternetReachable) {
