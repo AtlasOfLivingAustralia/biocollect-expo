@@ -24,6 +24,7 @@ import Profile from 'components/Profile';
 import ProfileSideImage from 'components/ProfileSideImage';
 import Body from 'components/Body';
 import ThemeView from 'components/ThemeView';
+import ButtonSelect from 'components/ButtonSelect';
 
 // BioCollect logo
 import biocollectLogo from 'assets/images/ui/logo.png';
@@ -95,9 +96,12 @@ export default function Home(props: NativeStackScreenProps<RootStackParamList, '
     setError(null);
   };
 
+  const isAdmin = (auth.access?.role || []).includes('ROLE_ADMIN');
+
   return (
     <>
       <Modal visible={showSettings} onClose={() => setShowSettings(false)}>
+        {isAdmin && <ButtonSelect options={['test', 'blah']} style={{ marginBottom: 8 }} />}
         <Button text="My Profile" variant="outline" style={{ marginBottom: 8 }} />
         <Button
           text="Sign Out"
@@ -120,7 +124,7 @@ export default function Home(props: NativeStackScreenProps<RootStackParamList, '
             ]);
           }}
         />
-        {(auth.access?.role || []).includes('ROLE_ADMIN') && (
+        {isAdmin && (
           <Button text="Developer Settings" variant="outline" style={{ marginBottom: 8 }} />
         )}
       </Modal>

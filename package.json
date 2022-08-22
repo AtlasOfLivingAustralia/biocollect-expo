@@ -19,6 +19,7 @@
     "expo-auth-session": "~3.7.1",
     "expo-blur": "^11.2.0",
     "expo-font": "~10.2.0",
+    "expo-haptics": "~11.3.0",
     "expo-linking": "~3.2.2",
     "expo-network": "~4.3.0",
     "expo-random": "~12.3.0",

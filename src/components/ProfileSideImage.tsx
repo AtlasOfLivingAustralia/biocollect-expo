@@ -16,6 +16,11 @@ const ProfileIconRoot = styled.View<ProfileSideImageProps>`
   border-radius: ${({ profileSize }) => profileSize + 2}px;
   background-color: ${({ theme }) => theme.background.secondary};
   padding: 4px;
+  shadow-opacity: 0.25;
+  shadow-radius: 2px;
+  shadow-color: black;
+  shadow-offset: 0px 2.8px;
+  elevation: 6;
 `;
 
 const ProfileImage = styled(Image)`

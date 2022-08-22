@@ -1,5 +1,6 @@
 import { TouchableOpacityProps, View, Image as NativeImage } from 'react-native';
 import { BioCollectProject } from 'types';
+import alaLogo from 'assets/images/ui/ala-white.png';
 
 import styled, { useTheme } from 'styled-components/native';
 import Skeleton from './Skeleton';
@@ -15,11 +16,11 @@ const Root = styled.TouchableOpacity`
   background-color: ${({ theme }) => theme.background.secondary};
   border-radius: ${({ theme }) => theme.radius * 2}px;
   margin-bottom: 12px;
-  shadow-opacity: 0.25;
-  shadow-radius: 4px;
+  shadow-opacity: 0.3;
+  shadow-radius: 4.5px;
   shadow-color: black;
-  shadow-offset: 0px 0px;
-  elevation: 8;
+  shadow-offset: 0px 2.8px;
+  elevation: 6;
 `;
 
 const Content = styled.View`
@@ -29,7 +30,10 @@ const Content = styled.View`
 `;
 
 const ImageRoot = styled.View`
-  background-color: ${(props) => props.theme.background.tertiary};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: ${(props) => props.theme.colour.primary};
   width: 110px;
   height: 110px;
   border-top-left-radius: ${({ theme }) => theme.radius * 2}px;
@@ -69,8 +73,10 @@ const ProjectCard = ({ project, ...props }: ProjectCardProps) => {
         loading={!project || (project.urlImage && !imageLoaded)}
         borderRadius={theme.radius * 2}>
         <ImageRoot>
-          {project?.urlImage && (
+          {project?.urlImage ? (
             <Image source={{ uri: project.urlImage }} onLoad={() => setImageLoaded(true)} />
+          ) : (
+            <NativeImage source={alaLogo} style={{ width: 35, height: 35 }} />
           )}
         </ImageRoot>
       </Skeleton.Rect>
