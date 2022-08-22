@@ -26,7 +26,7 @@ function App(): ReactElement {
 
   return (
     <NavigationContainer>
-      <StatusBar style='auto' hidden={statusHidden} />
+      <StatusBar style="auto" hidden={statusHidden} />
       <Stack.Navigator
         screenListeners={({ route }) => ({
           state: () => {
@@ -43,23 +43,14 @@ function App(): ReactElement {
           },
         })}
         screenOptions={{ headerShown: false }}
-        initialRouteName={auth.authenticated ? 'Home' : 'Authentication'}
-      >
+        initialRouteName={auth.authenticated ? 'Home' : 'Authentication'}>
+        <Stack.Screen name="Home" component={Home} options={{ animation: 'slide_from_bottom' }} />
         <Stack.Screen
-          name='Home'
-          component={Home}
-          options={{ animation: 'slide_from_bottom' }}
-        />
-        <Stack.Screen
-          name='Authentication'
+          name="Authentication"
           component={Authentication}
           options={{ animation: 'none' }}
         />
-        <Stack.Screen
-          name='Project'
-          component={Project}
-          options={{ animation: 'simple_push' }}
-        />
+        <Stack.Screen name="Project" component={Project} options={{ animation: 'simple_push' }} />
       </Stack.Navigator>
     </NavigationContainer>
   );

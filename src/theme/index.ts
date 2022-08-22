@@ -74,12 +74,9 @@ const themes: { [key: string]: DefaultTheme } = {
   },
 };
 
-const hexToRgba = (hex: string, opacity: number): string => {
-  var [_, r, g, b] = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-  return `rgba(${parseInt(r, 16)}, ${parseInt(g, 16)}, ${parseInt(
-    b,
-    16
-  )}, ${opacity})`;
-};
+// const hexToRgba = (hex: string, opacity: number): string => {
+//   const [_, r, g, b] = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+//   return `rgba(${parseInt(r, 16)}, ${parseInt(g, 16)}, ${parseInt(b, 16)}, ${opacity})`;
+// };
 
 export { palette, themes };

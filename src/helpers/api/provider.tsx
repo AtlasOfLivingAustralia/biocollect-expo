@@ -13,16 +13,14 @@ interface APIProviderProps {
   children?: ReactNode;
 }
 
-export default (props: APIProviderProps): ReactElement => {
+const APIProvider = (props: APIProviderProps): ReactElement => {
   const { config: env } = useContext(AppEnvironmentContext);
   const auth = useContext(AuthContext);
 
   // useEffect hook to add / remove access token the axios globals
   useEffect(() => {
     if (auth.authenticated) {
-      axios.defaults.headers.common[
-        'Authorization'
-      ] = `Bearer ${auth.credentials.accessToken}`;
+      axios.defaults.headers.common['Authorization'] = `Bearer ${auth.credentials.accessToken}`;
       console.log('[API : Provider] Updated axios auth header');
     } else {
       delete axios.defaults.headers.common['Authorization'];
@@ -34,9 +32,10 @@ export default (props: APIProviderProps): ReactElement => {
     <APIContext.Provider
       value={{
         biocollect: biocollect(env),
-      }}
-    >
+      }}>
       {props.children}
     </APIContext.Provider>
   );
 };
+
+export default APIProvider;

@@ -1,9 +1,4 @@
-import {
-  Text,
-  TouchableOpacity,
-  TouchableOpacityProps,
-  View,
-} from 'react-native';
+import { Text, TouchableOpacity, TouchableOpacityProps, View } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import styled, { useTheme } from 'styled-components/native';
 
@@ -23,7 +18,7 @@ interface ProfileProps extends ProfileStyleProps, TouchableOpacityProps {
   icon?: string;
 }
 
-const Profile = styled(TouchableOpacity)<ProfileStyleProps>`
+const ProfileRoot = styled(TouchableOpacity)<ProfileStyleProps>`
   position: relative;
   display: flex;
   align-items: center;
@@ -55,29 +50,27 @@ const ProfileIconRoot = styled(View)<ProfileStyleProps>`
 `;
 
 const RootText = styled(Text)<ProfileStyleProps>`
-  color: ${({ theme }) =>
-    theme.type === 'dark' ? theme.text.primary : theme.text.secondary};
+  color: ${({ theme }) => (theme.type === 'dark' ? theme.text.primary : theme.text.secondary)};
   font-family: '${({ theme }) => theme.font.header}';
   font-size: ${({ size }) => Math.max(size - 34, 14)}px;
   font-weight: bold;
 `;
 
-export default ({ size, name, icon, ...props }: ProfileProps) => {
+const Profile = ({ size, name, icon, ...props }: ProfileProps) => {
   const theme = useTheme();
   return (
-    <Profile size={size} {...props} activeOpacity={0.6}>
+    <ProfileRoot size={size} {...props} activeOpacity={0.6}>
       <RootText size={size}>{getInitials(name)}</RootText>
       {icon && (
         <ProfileIconWrapper size={size}>
           <ProfileIconRoot size={size}>
-            <FontAwesome
-              name={icon as any}
-              size={16}
-              color={theme.text.primary}
-            />
+            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+            <FontAwesome name={icon as any} size={16} color={theme.text.primary} />
           </ProfileIconRoot>
         </ProfileIconWrapper>
       )}
-    </Profile>
+    </ProfileRoot>
   );
 };
+
+export default Profile;

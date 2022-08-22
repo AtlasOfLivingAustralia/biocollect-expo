@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { AppEnvironment } from 'helpers/appenv';
-import { BioCollectProject, BioCollectProjectSearch } from 'types';
+import { BioCollectProjectSearch } from 'types';
 
 const formatProjects = (search: BioCollectProjectSearch) => ({
   ...search,
@@ -14,10 +14,7 @@ const formatProjects = (search: BioCollectProjectSearch) => ({
 });
 
 export default (env: AppEnvironment) => ({
-  projectSearch: async (
-    offset: number = 0,
-    isUserPage: boolean = false
-  ): Promise<BioCollectProjectSearch> => {
+  projectSearch: async (offset = 0, isUserPage = false): Promise<BioCollectProjectSearch> => {
     // Retrieve the auth configuration
     const { biocollect_url } = env.biocollect;
 

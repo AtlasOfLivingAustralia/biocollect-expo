@@ -1,12 +1,5 @@
 import { useContext, useState } from 'react';
-import {
-  SafeAreaView,
-  ImageBackground,
-  View,
-  ScrollView,
-  Text,
-  Image,
-} from 'react-native';
+import { SafeAreaView, ImageBackground, View, ScrollView, Text, Image } from 'react-native';
 import { BlurView } from 'expo-blur';
 import { DateTime } from 'luxon';
 import * as WebBrowser from 'expo-web-browser';
@@ -68,41 +61,34 @@ export default function Authentication(
         {project.fullSizeImageUrl ? (
           <Skeleton.Rect loading={!headerLoaded} borderRadius={1}>
             <HeaderImage
-              resizeMode='cover'
+              resizeMode="cover"
               height={height}
               source={{ uri: project.fullSizeImageUrl }}
-              onLoad={() => setHeaderLoaded(true)}
-            >
-              {(project.tags || []).includes('isContributingDataToAla') &&
-                headerLoaded && (
-                  <BlurView tint='dark'>
-                    <View
+              onLoad={() => setHeaderLoaded(true)}>
+              {(project.tags || []).includes('isContributingDataToAla') && headerLoaded && (
+                <BlurView tint="dark">
+                  <View
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      padding: 14,
+                      paddingTop: 10,
+                      paddingBottom: 10,
+                    }}>
+                    <Image source={alaLogo} style={{ width: 25, height: 25 }} />
+                    <Body
                       style={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        padding: 14,
-                        paddingTop: 10,
-                        paddingBottom: 10,
+                        marginLeft: 8,
+                        fontFamily: 'RobotoBold',
+                        color: 'white',
                       }}
-                    >
-                      <Image
-                        source={alaLogo}
-                        style={{ width: 25, height: 25 }}
-                      />
-                      <Body
-                        style={{
-                          marginLeft: 8,
-                          fontFamily: 'RobotoBold',
-                          color: 'white',
-                        }}
-                        primary
-                      >
-                        Contributes to the ALA
-                      </Body>
-                    </View>
-                  </BlurView>
-                )}
+                      primary>
+                      Contributes to the ALA
+                    </Body>
+                  </View>
+                </BlurView>
+              )}
             </HeaderImage>
           </Skeleton.Rect>
         ) : null}
@@ -112,23 +98,21 @@ export default function Authentication(
               padding: theme.defaults.viewPadding,
               paddingTop: 12,
               paddingBottom: 0,
-            }}
-          >
+            }}>
             <View
               style={{
                 display: 'flex',
                 flexDirection: 'row',
                 justifyContent: 'space-between',
-              }}
-            >
+              }}>
               <NavButton
-                icon='arrow-left'
-                text='GO BACK'
+                icon="arrow-left"
+                text="GO BACK"
                 onPress={() => props.navigation.goBack()}
               />
               <NavButton
-                icon='link'
-                text='VIEW ON ALA'
+                icon="link"
+                text="VIEW ON ALA"
                 onPress={() => {
                   // Linking.openUrl(`${env.biocollect.biocollect_url}/project/index/${project.projectId}?mobile=true`)
                   WebBrowser.openBrowserAsync(
@@ -146,21 +130,16 @@ export default function Authentication(
             paddingTop: 6,
             paddingBottom: 48,
           }}
-          stickyHeaderIndices={[1, 3, 5]}
-        >
+          stickyHeaderIndices={[1, 3, 5]}>
           <View style={{ display: 'flex', paddingTop: 8, paddingBottom: 6 }}>
-            <Button padding={8} text='View Records' />
+            <Button padding={8} text="View Records" />
           </View>
           <Subheader>Aim</Subheader>
           <Body>{project.aim}</Body>
           <Subheader>Description</Subheader>
           <Body>{project.description}</Body>
           <Subheader>Timeframe</Subheader>
-          <Body>
-            {DateTime.fromISO(project.startDate).toLocaleString(
-              DateTime.DATE_SHORT
-            )}
-          </Body>
+          <Body>{DateTime.fromISO(project.startDate).toLocaleString(DateTime.DATE_SHORT)}</Body>
           <Subheader>Get Involved</Subheader>
           <View
             style={{
@@ -168,30 +147,19 @@ export default function Authentication(
               flex: 1,
               flexDirection: 'row',
               flexWrap: 'wrap',
-            }}
-          >
+            }}>
             {project.difficulty && (
-              <Chip
-                variant='outline'
-                style={{ marginRight: 6, marginBottom: 6 }}
-              >
+              <Chip variant="outline" style={{ marginRight: 6, marginBottom: 6 }}>
                 Difficulty: {project.difficulty}
               </Chip>
             )}
             {(project.tags || [])
               .filter((tag) => tag !== 'isContributingDataToAla')
               .map((tag) => (
-                <Chip
-                  key={tag}
-                  style={{ marginRight: 6, marginBottom: 6 }}
-                  variant='outline'
-                >
+                <Chip key={tag} style={{ marginRight: 6, marginBottom: 6 }} variant="outline">
                   {tag
                     .split(/(?=[A-Z])/)
-                    .map(
-                      (part) =>
-                        `${part.charAt(0).toUpperCase()}${part.slice(1)}`
-                    )
+                    .map((part) => `${part.charAt(0).toUpperCase()}${part.slice(1)}`)
                     .join(' ')}
                 </Chip>
               ))}

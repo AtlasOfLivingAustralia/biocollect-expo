@@ -6,8 +6,6 @@ import {
   TouchableOpacity,
   TouchableOpacityProps,
   ImageSourcePropType,
-  StyleProp,
-  ViewStyle,
 } from 'react-native';
 import styled from 'styled-components/native';
 
@@ -43,8 +41,7 @@ const ButtonRoot = styled(TouchableOpacity)<ButtonStyleProps>`
 const ButtonText = styled(Text)<ButtonStyleProps>`
   font-family: '${({ theme }) => theme.font.button}';
   font-size: 16px;
-  color: ${({ theme, variant }) =>
-    variant === 'outline' ? theme.button.primary : 'white'};
+  color: ${({ theme, variant }) => (variant === 'outline' ? theme.button.primary : 'white')};
 `;
 
 export default function Button(props: ButtonProps) {
@@ -56,17 +53,10 @@ export default function Button(props: ButtonProps) {
       variant={variant}
       disabled={disabled}
       padding={padding}
-      activeOpacity={0.6}
-    >
+      activeOpacity={0.6}>
       {icon && <Image source={icon} style={styles.icon} />}
       <ButtonText variant={variant}>{text}</ButtonText>
-      {loading && (
-        <ActivityIndicator
-          size='small'
-          style={styles.loading}
-          color='#ffffff'
-        />
-      )}
+      {loading && <ActivityIndicator size="small" style={styles.loading} color="#ffffff" />}
     </ButtonRoot>
   );
 }

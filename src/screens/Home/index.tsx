@@ -9,6 +9,7 @@ import {
   Platform,
 } from 'react-native';
 import { AxiosError } from 'axios';
+import styled from 'styled-components/native';
 
 // Navigation
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -28,11 +29,9 @@ import ThemeView from 'components/ThemeView';
 import biocollectLogo from 'assets/images/ui/logo.png';
 
 // API / Auth
-import { AppEnvironmentContext } from 'helpers/appenv';
 import { AuthContext } from 'helpers/auth';
 import { APIContext } from 'helpers/api';
 import { BioCollectProject } from 'types';
-import styled from 'styled-components/native';
 
 const ErrorView = styled.View`
   display: flex;
@@ -59,9 +58,7 @@ const HeaderView = styled.View`
   padding-top: ${Platform.OS === 'android' ? 48 : 24}px;
 `;
 
-export default function Home(
-  props: NativeStackScreenProps<RootStackParamList, 'Home'>
-) {
+export default function Home(props: NativeStackScreenProps<RootStackParamList, 'Home'>) {
   const [projects, setProjects] = useState<BioCollectProject[] | null>(null);
   const [error, setError] = useState<AxiosError | null>(null);
   const [refreshing, setRefreshing] = useState(true);
@@ -75,7 +72,7 @@ export default function Home(
         const data = await api.biocollect.projectSearch(0, true);
         setProjects(data.projects);
       } catch (apiError) {
-        setError(apiError as any);
+        setError(apiError);
         console.log(apiError);
       }
 
@@ -100,14 +97,10 @@ export default function Home(
   return (
     <>
       <Modal visible={showSettings} onClose={() => setShowSettings(false)}>
+        <Button text="My Profile" variant="outline" style={{ marginBottom: 8 }} />
         <Button
-          text='My Profile'
-          variant='outline'
-          style={{ marginBottom: 8 }}
-        />
-        <Button
-          text='Sign Out'
-          variant='outline'
+          text="Sign Out"
+          variant="outline"
           style={{ marginBottom: 8 }}
           onPress={() => {
             Alert.alert('Confirmation', 'Are you sure you wish to sign out?', [
@@ -127,25 +120,21 @@ export default function Home(
           }}
         />
         {(auth.access?.role || []).includes('ROLE_ADMIN') && (
-          <Button
-            text='Developer Settings'
-            variant='outline'
-            style={{ marginBottom: 8 }}
-          />
+          <Button text="Developer Settings" variant="outline" style={{ marginBottom: 8 }} />
         )}
       </Modal>
       <ThemeView>
         <SafeAreaView>
           <HeaderView>
             <View>
-              <Subheader>G'Day,</Subheader>
+              <Subheader>G&apos;Day,</Subheader>
               <Header>{auth.profile?.given_name || ''}</Header>
             </View>
             <ProfileSideImage profileSize={52} image={biocollectLogo}>
               <Profile
                 name={auth.profile?.name || ''}
                 size={52}
-                icon='gear'
+                icon="gear"
                 onPress={() => setShowSettings(true)}
               />
             </ProfileSideImage>
@@ -156,19 +145,12 @@ export default function Home(
             <ErrorHeader>Woah there,</ErrorHeader>
             <Body>It looks like an error occurred.</Body>
             <Body>{error.message}</Body>
-            <Button
-              style={{ marginTop: 32 }}
-              text='Try Again'
-              onPress={onRetry}
-            />
+            <Button style={{ marginTop: 32 }} text="Try Again" onPress={onRetry} />
           </ErrorView>
         ) : (
           <ScrollView
             contentContainerStyle={localStyles.scrollView}
-            refreshControl={
-              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-            }
-          >
+            refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
             {(() => {
               // If we've recieved an API response
               if (projects) {
@@ -177,13 +159,11 @@ export default function Home(
                     <ProjectCard
                       key={project.projectId}
                       project={project}
-                      onPress={() =>
-                        props.navigation.navigate('Project', project)
-                      }
+                      onPress={() => props.navigation.navigate('Project', project)}
                     />
                   ))
                 ) : (
-                  <Body>It looks like we can't find any projects.</Body>
+                  <Body>It looks like we can&apos;t find any projects.</Body>
                 );
               } else {
                 // If projects is null (we're waiting on an API request)

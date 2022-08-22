@@ -70,18 +70,14 @@ export default function Authentication(
           style={{
             ...localStyles.content,
             opacity: fadeInAnim,
-          }}
-        >
+          }}>
           <View style={{ display: 'flex', alignItems: 'center' }}>
-            <Image
-              source={biocollectLogo}
-              style={{ width: 125, height: 125, marginBottom: 12 }}
-            />
+            <Image source={biocollectLogo} style={{ width: 125, height: 125, marginBottom: 12 }} />
             <Title>BioCollect</Title>
             <Subtitle>Welcome</Subtitle>
           </View>
           <Button
-            text='Sign in with ALA'
+            text="Sign in with ALA"
             icon={alaLogo}
             disabled={exitAnim || authenticating}
             loading={authenticating}

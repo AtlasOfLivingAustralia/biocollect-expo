@@ -21,12 +21,15 @@ interface NavButtonProps extends TouchableOpacityProps {
   text: string;
 }
 
-export default ({ icon, text, ...rest }: NavButtonProps) => {
+const NavButton = ({ icon, text, ...rest }: NavButtonProps) => {
   const theme = useTheme();
   return (
     <Root {...rest} activeOpacity={0.6}>
+      {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
       <FontAwesome name={icon as any} color={theme.text.secondary} />
       <RootText>{text}</RootText>
     </Root>
   );
 };
+
+export default NavButton;

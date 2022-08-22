@@ -1,10 +1,5 @@
 // Auth Session
-import {
-  fetchDiscoveryAsync,
-  revokeAsync,
-  TokenResponse,
-  TokenTypeHint,
-} from 'expo-auth-session';
+import { fetchDiscoveryAsync, revokeAsync, TokenResponse, TokenTypeHint } from 'expo-auth-session';
 import { openBrowserAsync } from 'expo-web-browser';
 import { getNetworkStateAsync } from 'expo-network';
 
@@ -13,17 +8,13 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AppEnvironment } from 'helpers/appenv';
 
 // Sign-in authentication handler
-export default (
-    env: AppEnvironment,
-    credentials: TokenResponse,
-    callback: () => void
-  ) =>
+export default (env: AppEnvironment, credentials: TokenResponse, callback: () => void) =>
   async (): Promise<void> => {
     // Retrieve the auth configuration
     const { auth: config } = env;
 
     // Clear the auth token from storage
-    console.log(`[AUTH : SignOut] Removing auth state from storage...`);
+    console.log('[AUTH : SignOut] Removing auth state from storage...');
     await AsyncStorage.removeItem('authToken');
 
     // Revoke the access token
@@ -36,7 +27,7 @@ export default (
 
       // Invalidate the access token and refresh token
       if (credentials) {
-        console.log(`[AUTH : SignOut] Revoking accessToken & refresh token...`);
+        console.log('[AUTH : SignOut] Revoking accessToken & refresh token...');
 
         // Revoke access & refresh tokens
         await Promise.all([

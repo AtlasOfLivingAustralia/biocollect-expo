@@ -1,10 +1,4 @@
-import {
-  ReactNode,
-  ReactElement,
-  useEffect,
-  useState,
-  useContext,
-} from 'react';
+import { ReactNode, ReactElement, useEffect, useState, useContext } from 'react';
 import { TokenResponse } from 'expo-auth-session';
 import jwtDecode from 'jwt-decode';
 import { AppEnvironmentContext } from 'helpers/appenv';
@@ -22,7 +16,7 @@ interface AuthProviderProps {
   children?: ReactNode;
 }
 
-export default (props: AuthProviderProps): ReactElement => {
+const AuthProvider = (props: AuthProviderProps): ReactElement => {
   const [loading, setLoading] = useState<boolean>(true);
   const [authenticated, setAuthenticated] = useState<boolean>(false);
   const [credentials, setCredentials] = useState<TokenResponse | null>(null);
@@ -50,24 +44,18 @@ export default (props: AuthProviderProps): ReactElement => {
   useEffect(() => {
     async function getStoredCreds() {
       const stored = await AsyncStorage.getItem('@auth_token');
-      const parsed: TokenResponse | null = stored
-        ? new TokenResponse(JSON.parse(stored))
-        : null;
+      const parsed: TokenResponse | null = stored ? new TokenResponse(JSON.parse(stored)) : null;
 
       // Handle state updates
       if (parsed) {
         if (TokenResponse.isTokenFresh(parsed)) {
           onSignInSuccess(parsed);
 
-          console.log(
-            '[AUTH : Provider] Token is fresh, updating provider credentials...'
-          );
+          console.log('[AUTH : Provider] Token is fresh, updating provider credentials...');
         } else {
           await AsyncStorage.removeItem('authToken');
 
-          console.log(
-            '[AUTH : Provider] Token is not fresh, removing credentials from store...'
-          );
+          console.log('[AUTH : Provider] Token is not fresh, removing credentials from store...');
         }
       }
       setLoading(false);
@@ -86,9 +74,10 @@ export default (props: AuthProviderProps): ReactElement => {
         authenticated,
         signIn: authSignIn(env, (token) => onSignInSuccess(token)),
         signOut: authSignOut(env, credentials, onSignOutSuccess),
-      }}
-    >
+      }}>
       {props.children}
     </AuthContext.Provider>
   );
 };
+
+export default AuthProvider;

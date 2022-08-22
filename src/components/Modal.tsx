@@ -1,6 +1,5 @@
 import React, { ReactNode } from 'react';
-import { Text } from 'react-native';
-import Modal from 'react-native-modal';
+import NativeModal from 'react-native-modal';
 import styled from 'styled-components/native';
 import Button from './Button';
 
@@ -24,7 +23,7 @@ const Title = styled.Text`
   color: ${({ theme }) => theme.text.primary};
 `;
 
-export default ({ title, children, visible, onClose }: ModalProps) => {
+const Modal = ({ title, children, visible, onClose }: ModalProps) => {
   // return (
   //   <NativeModal
   //     animationType='slide'
@@ -46,18 +45,19 @@ export default ({ title, children, visible, onClose }: ModalProps) => {
   //   </NativeModal>
   // );
   return (
-    <Modal
+    <NativeModal
       isVisible={visible}
       onBackdropPress={onClose}
-      animationIn='fadeInUp'
-      animationOut='fadeOutDown'
-      backdropTransitionOutTiming={0}
-    >
+      animationIn="fadeInUp"
+      animationOut="fadeOutDown"
+      backdropTransitionOutTiming={0}>
       <Root>
         {title && <Title>{title}</Title>}
         {children && children}
-        <Button text='Close' onPress={onClose} />
+        <Button text="Close" onPress={onClose} />
       </Root>
-    </Modal>
+    </NativeModal>
   );
 };
+
+export default Modal;

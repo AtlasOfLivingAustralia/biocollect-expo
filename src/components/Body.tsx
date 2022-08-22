@@ -9,6 +9,5 @@ interface HeaderStyleProps {
 export default styled(Text)<HeaderStyleProps>`
   font-family: '${({ theme }) => theme.font.body}';
   font-size: ${({ size }) => size || 16}px;
-  color: ${({ theme, primary }) =>
-    primary ? theme.text.primary : theme.text.secondary};
+  color: ${({ theme, primary }) => (primary ? theme.text.primary : theme.text.secondary)};
 `;

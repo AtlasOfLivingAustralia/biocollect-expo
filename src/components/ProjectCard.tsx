@@ -1,8 +1,4 @@
-import {
-  TouchableOpacityProps,
-  View,
-  Image as NativeImage,
-} from 'react-native';
+import { TouchableOpacityProps, View, Image as NativeImage } from 'react-native';
 import { BioCollectProject } from 'types';
 
 import styled, { useTheme } from 'styled-components/native';
@@ -62,7 +58,7 @@ const StyledText = styled.Text`
   color: ${({ theme }) => theme.text.secondary};
 `;
 
-export default ({ project, ...props }: ProjectCardProps) => {
+const ProjectCard = ({ project, ...props }: ProjectCardProps) => {
   const [imageLoaded, setImageLoaded] = useState<boolean>(false);
   const theme = useTheme();
 
@@ -71,31 +67,27 @@ export default ({ project, ...props }: ProjectCardProps) => {
     <Root {...props} activeOpacity={0.6}>
       <Skeleton.Rect
         loading={!project || (project.urlImage && !imageLoaded)}
-        borderRadius={theme.radius * 2}
-      >
+        borderRadius={theme.radius * 2}>
         <ImageRoot>
           {project?.urlImage && (
-            <Image
-              source={{ uri: project.urlImage }}
-              onLoad={() => setImageLoaded(true)}
-            />
+            <Image source={{ uri: project.urlImage }} onLoad={() => setImageLoaded(true)} />
           )}
         </ImageRoot>
       </Skeleton.Rect>
       {project ? (
         <Content>
           <Header numberOfLines={2}>{project?.name || 'Loading Name'}</Header>
-          <StyledText numberOfLines={2}>
-            {project?.description || 'Loading Description'}
-          </StyledText>
+          <StyledText numberOfLines={2}>{project?.description || 'Loading Description'}</StyledText>
         </Content>
       ) : (
         <View style={{ flexGrow: 1, padding: 12, paddingRight: 18 }}>
-          <Skeleton.Rect loading width='100%' height={24} marginBottom={8} />
-          <Skeleton.Rect loading width='80%' height={12} marginBottom={8} />
-          <Skeleton.Rect loading width='85%' height={12} marginBottom={8} />
+          <Skeleton.Rect loading width="100%" height={24} marginBottom={8} />
+          <Skeleton.Rect loading width="80%" height={12} marginBottom={8} />
+          <Skeleton.Rect loading width="85%" height={12} marginBottom={8} />
         </View>
       )}
     </Root>
   );
 };
+
+export default ProjectCard;

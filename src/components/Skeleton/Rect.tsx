@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { Animated, ViewProps } from 'react-native';
 import { useTheme } from 'styled-components/native';
 
@@ -14,13 +14,7 @@ interface SkeletonRectProps extends ViewProps {
   loading: boolean;
 }
 
-export default ({
-  width,
-  height,
-  loading,
-  style,
-  ...rest
-}: SkeletonRectProps) => {
+const Rect = ({ width, height, loading, style, ...rest }: SkeletonRectProps) => {
   const theme = useTheme();
   const pulse = useRef(new Animated.Value(1)).current;
   const anim = useRef(
@@ -64,6 +58,8 @@ export default ({
         margin: rest.margin || 0,
         borderRadius: rest.borderRadius || theme.radius / 2,
       }}
-    ></Animated.View>
+    />
   );
 };
+
+export default Rect;

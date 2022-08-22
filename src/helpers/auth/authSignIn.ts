@@ -15,10 +15,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AppEnvironment } from 'helpers/appenv';
 
 // Sign-in authentication handler
-export default (
-    env: AppEnvironment,
-    callback: (token: TokenResponse) => void
-  ) =>
+export default (env: AppEnvironment, callback: (token: TokenResponse) => void) =>
   async (): Promise<void> => {
     // Retrieve the auth configuration
     const { auth: config } = env;

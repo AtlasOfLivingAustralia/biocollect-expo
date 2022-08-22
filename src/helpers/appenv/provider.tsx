@@ -13,7 +13,7 @@ interface AppEnvironmentProviderProps {
 
 export type AppEnvironmentType = 'prod' | 'staging' | 'test' | 'dev';
 
-export default (props: AppEnvironmentProviderProps): ReactElement => {
+const AppEnvironmentProvider = (props: AppEnvironmentProviderProps): ReactElement => {
   const [type, setType] = useState<AppEnvironmentType>(
     Constants.manifest.extra.environment || 'prod'
   );
@@ -22,9 +22,7 @@ export default (props: AppEnvironmentProviderProps): ReactElement => {
   useEffect(() => {
     (async () => {
       await AsyncStorage.setItem('@app_environment', type);
-      console.log(
-        `[API : Provider] Updated environment in AsyncStorage to '${type}'`
-      );
+      console.log(`[API : Provider] Updated environment in AsyncStorage to '${type}'`);
     })();
   }, [type]);
 
@@ -34,9 +32,10 @@ export default (props: AppEnvironmentProviderProps): ReactElement => {
         type,
         config: Constants.manifest.extra.config[type],
         setEnvironment: (newType: AppEnvironmentType) => setType(newType),
-      }}
-    >
+      }}>
       {props.children}
     </AppEnvironmentContext.Provider>
   );
 };
+
+export default AppEnvironmentProvider;

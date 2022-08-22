@@ -1,11 +1,5 @@
 import { useRef, useEffect, Component } from 'react';
-import {
-  View,
-  Animated,
-  Easing,
-  StyleSheet,
-  ImageBackground,
-} from 'react-native';
+import { View, Animated, Easing, StyleSheet, ImageBackground } from 'react-native';
 import { SvgProps } from 'react-native-svg';
 import { useTheme } from 'styled-components/native';
 
@@ -34,9 +28,7 @@ export default function Home(props: HomeProps) {
     Animated.timing(swirlAnim, {
       toValue: exitAnim ? 600 : 100,
       duration: exitAnim ? 1000 : 1500,
-      easing: exitAnim
-        ? Easing.bezier(0.25, 0.1, 0.25, 1)
-        : Easing.bezier(0.2, 0.8, 0, 1),
+      easing: exitAnim ? Easing.bezier(0.25, 0.1, 0.25, 1) : Easing.bezier(0.2, 0.8, 0, 1),
       useNativeDriver: false,
     }).start();
   }, [swirlAnim, exitAnim]);
@@ -44,18 +36,14 @@ export default function Home(props: HomeProps) {
   return (
     <View style={localStyles.container}>
       <View style={localStyles.header}>
-        <ImageBackground
-          style={localStyles.image}
-          resizeMode='cover'
-          source={imageSplash}
-        >
+        <ImageBackground style={localStyles.image} resizeMode="cover" source={imageSplash}>
           <AnimatedWave
             fill={theme.background.primary}
             style={{
               ...localStyles.wave,
               height: swirlAnim,
             }}
-            preserveAspectRatio='xMinYMin slice'
+            preserveAspectRatio="xMinYMin slice"
           />
         </ImageBackground>
       </View>
