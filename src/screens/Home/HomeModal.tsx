@@ -52,9 +52,9 @@ const HomeModal = ({ visible, navigate, onClose }: HomeModalProps) => {
           ]);
         }}
       />
-      {auth.admin && (
+      {/* {auth.admin && (
         <Button text="Developer Settings" variant="outline" style={{ marginBottom: 8 }} />
-      )}
+      )} */}
     </Modal>
   );
 };

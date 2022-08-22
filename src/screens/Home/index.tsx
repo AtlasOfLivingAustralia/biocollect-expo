@@ -1,4 +1,4 @@
-import { useCallback, useState, useContext, useEffect } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { View, ScrollView, RefreshControl, SafeAreaView, StyleSheet, Platform } from 'react-native';
 import { AxiosError } from 'axios';
 import styled from 'styled-components/native';
@@ -61,7 +61,7 @@ export default function Home(props: NativeStackScreenProps<RootStackParamList, '
   useEffect(() => {
     async function getData() {
       try {
-        console.log(auth.credentials.accessToken);
+        // console.log(auth.credentials.accessToken);
         const data = await api.biocollect.projectSearch(0, false);
         setProjects(data.projects);
       } catch (apiError) {
@@ -76,16 +76,15 @@ export default function Home(props: NativeStackScreenProps<RootStackParamList, '
   }, [refreshing]);
 
   // Handler for refreshing
-  const onRefresh = useCallback(() => {
+  const onRefresh = () => {
     setProjects(null);
-    setRefreshing(true);
-  }, [refreshing]);
-
-  // Handler for retrying when errors occur
-  const onRetry = () => {
     setRefreshing(true);
     setError(null);
   };
+
+  useEffect(() => {
+    return props.navigation.addListener('focus', onRefresh);
+  }, [props.navigation]);
 
   return (
     <>
@@ -116,7 +115,7 @@ export default function Home(props: NativeStackScreenProps<RootStackParamList, '
             <ErrorHeader>Woah there,</ErrorHeader>
             <Body>It looks like an error occurred.</Body>
             <Body>{error.message}</Body>
-            <Button style={{ marginTop: 32 }} text="Try Again" onPress={onRetry} />
+            <Button style={{ marginTop: 32 }} text="Try Again" onPress={onRefresh} />
           </ErrorView>
         ) : (
           <ScrollView
