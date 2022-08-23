@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { SafeAreaView, ImageBackground, View, ScrollView, Text, Image } from 'react-native';
 import { BlurView } from 'expo-blur';
 import { DateTime } from 'luxon';
@@ -50,10 +50,14 @@ export default function Authentication(
   props: NativeStackScreenProps<RootStackParamList, 'Project'>
 ) {
   const [headerLoaded, setHeaderLoaded] = useState<boolean>(false);
-  const [headerError, setHeaderError] = useState<boolean>(false);
+  const [surveys, setSurveysLoaded] = useState<any[] | null>(null);
   const { currentConfig: env } = useContext(AppEnvironmentContext);
   const { params: project } = props.route;
   const theme = useTheme();
+
+  // useEffect(() => {
+
+  // }, []);
 
   const height = 225;
   return (
@@ -65,8 +69,7 @@ export default function Authentication(
               resizeMode="cover"
               height={height}
               source={{ uri: project.fullSizeImageUrl }}
-              onLoad={() => setHeaderLoaded(true)}
-              onError={() => setHeaderError(true)}>
+              onLoad={() => setHeaderLoaded(true)}>
               {(project.tags || []).includes('isContributingDataToAla') && headerLoaded && (
                 <BlurView tint="dark">
                   <View

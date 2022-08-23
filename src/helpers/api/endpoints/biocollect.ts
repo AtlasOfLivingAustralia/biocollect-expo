@@ -46,4 +46,15 @@ export default (env: AppEnvironment) => ({
 
     return formatProjects(request.data);
   },
+  listSurveys: async (projectId: string): Promise<BioCollectProjectSearch> => {
+    // Retrieve the auth configuration
+    const { biocollect_url } = env.biocollect;
+
+    // Make the GET request
+    const request = await axios.get<BioCollectProjectSearch>(
+      `${biocollect_url}/ws/survey/list/${projectId}`
+    );
+
+    return request.data;
+  },
 });
