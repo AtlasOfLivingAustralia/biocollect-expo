@@ -25,6 +25,7 @@ const HomeModal = ({ visible, navigate, onClose }: HomeModalProps) => {
       {auth.admin && (
         <ButtonSelect
           options={['prod', 'staging', 'test', 'dev']}
+          backgroundColor="primary"
           initial={appenv.type}
           style={{ marginBottom: 18 }}
           onSelect={(newEnv) => appenv.setEnvironment(newEnv as AppEnvironmentType)}

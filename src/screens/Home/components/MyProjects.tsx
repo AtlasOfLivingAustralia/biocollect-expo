@@ -1,5 +1,5 @@
 import { useState, useContext, useEffect } from 'react';
-import { ScrollView, RefreshControl, View } from 'react-native';
+import { ScrollView, RefreshControl } from 'react-native';
 import { AxiosError } from 'axios';
 import styled from 'styled-components/native';
 
@@ -28,21 +28,13 @@ const ErrorHeader = styled.Text`
   margin-bottom: 12px;
 `;
 
-interface AllProjectsProps {
+interface MyProjectsProps {
   search: string | null;
   focusTrigger: boolean;
-  refreshTrigger: boolean;
-  isUserPage: boolean;
   onProjectSelect: (project: BioCollectProject) => void;
 }
 
-const AllProjects = ({
-  search,
-  focusTrigger,
-  refreshTrigger,
-  isUserPage,
-  onProjectSelect,
-}: AllProjectsProps) => {
+const MyProjects = ({ search, focusTrigger, onProjectSelect }: MyProjectsProps) => {
   const [projects, setProjects] = useState<BioCollectProject[] | null>(null);
   const [error, setError] = useState<AxiosError | null>(null);
   const [refreshing, setRefreshing] = useState(true);
@@ -53,7 +45,7 @@ const AllProjects = ({
     async function getData() {
       try {
         // console.log(auth.credentials.accessToken);
-        const data = await api.biocollect.projectSearch(0, isUserPage, search);
+        const data = await api.biocollect.projectSearch(0, false, search);
         setProjects(data.projects);
       } catch (apiError) {
         setError(apiError);
@@ -63,9 +55,7 @@ const AllProjects = ({
       setRefreshing(false);
     }
 
-    if (refreshing) {
-      getData();
-    }
+    if (refreshing) getData();
   }, [refreshing]);
 
   // Handler for refreshing
@@ -75,12 +65,9 @@ const AllProjects = ({
     setError(null);
   };
 
-  // Focus & refresh triggers
   useEffect(() => {
     if (!projects) onRefresh();
   }, [focusTrigger]);
-
-  useEffect(onRefresh, [refreshTrigger]);
 
   useEffect(() => {
     if (!auth.authenticated) {
@@ -100,7 +87,8 @@ const AllProjects = ({
   ) : (
     <ScrollView
       contentContainerStyle={{ padding: 12 }}
-      refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
+      refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+      horizontal>
       {(() => {
         // If we've recieved an API response
         if (projects) {
@@ -113,11 +101,7 @@ const AllProjects = ({
               />
             ))
           ) : (
-            <View style={{ padding: 12 }}>
-              <Body style={{ textAlign: 'center' }}>
-                We couldn&apos;t find any projects matching that criterea
-              </Body>
-            </View>
+            <Body>It looks like we can&apos;t find any projects.</Body>
           );
         } else {
           // If projects is null (we're waiting on an API request)
@@ -130,4 +114,4 @@ const AllProjects = ({
   );
 };
 
-export default AllProjects;
+export default MyProjects;

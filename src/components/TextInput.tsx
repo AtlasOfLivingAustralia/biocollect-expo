@@ -9,7 +9,7 @@ export default styled(TextInput)`
   padding: 12px;
   border-radius: 12px;
   min-width: 125px;
-  shadow-opacity: 0.3;
+  shadow-opacity: 0.25;
   shadow-radius: 2px;
   shadow-color: black;
   shadow-offset: 0px 2.8px;

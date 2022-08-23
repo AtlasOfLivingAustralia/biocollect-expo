@@ -14,6 +14,7 @@ interface APIProviderProps {
 }
 
 const APIProvider = (props: APIProviderProps): ReactElement => {
+  // AppEnv & Auth context
   const { currentConfig: env } = useContext(AppEnvironmentContext);
   const auth = useContext(AuthContext);
 
@@ -21,7 +22,8 @@ const APIProvider = (props: APIProviderProps): ReactElement => {
   useEffect(() => {
     if (auth.authenticated) {
       axios.defaults.headers.common['Authorization'] = `Bearer ${auth.credentials.accessToken}`;
-      console.log('[API : Provider] Updated axios auth header');
+      axios.defaults.timeout = env.timeout;
+      console.log('[API : Provider] Updated axios auth header & timeout');
     } else {
       delete axios.defaults.headers.common['Authorization'];
       console.log('[API : Provider] Removed token from axios auth header');

@@ -12,7 +12,7 @@
     }
   },
   "staging": {
-    "timeout": 2000,
+    "timeout": 3000,
     "auth": {
       "server": "https://auth.ala.org.au/cas/oidc",
       "client_id": "oidc-expo-test",
@@ -24,7 +24,7 @@
     }
   },
   "test": {
-    "timeout": 2000,
+    "timeout": -1,
     "auth": {
       "server": "https://auth-test.ala.org.au/cas/oidc",
       "client_id": "oidc-expo-test",
@@ -36,7 +36,7 @@
     }
   },
   "dev": {
-    "timeout": 2000,
+    "timeout": -1,
     "auth": {
       "server": "https://auth-test.ala.org.au/cas/oidc",
       "client_id": "oidc-expo-test",

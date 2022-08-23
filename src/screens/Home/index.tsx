@@ -20,6 +20,8 @@ import { AuthContext } from 'helpers/auth';
 import HomeModal from './components/SettingsModal';
 import TextInput from 'components/TextInput';
 import AllProjects from './components/AllProjects';
+import ButtonSelect from 'components/ButtonSelect';
+import Body from 'components/Body';
 
 const HeaderView = styled.View`
   display: flex;
@@ -31,13 +33,18 @@ const HeaderView = styled.View`
 `;
 
 const SearchView = styled.View`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   padding-left: ${({ theme }) => theme.defaults.viewPadding}px;
   padding-right: ${({ theme }) => theme.defaults.viewPadding}px;
 `;
 
 export default function Home(props: NativeStackScreenProps<RootStackParamList, 'Home'>) {
   const [search, setSearch] = useState<string>('');
+  const [isUserPage, setIsUserPage] = useState<boolean>(false);
   const [focusTrigger, setFocusTrigger] = useState<boolean>(false);
+  const [refreshTrigger, setRefreshTrigger] = useState<boolean>(false);
   const [settingsVisible, setSettingsVisible] = useState<boolean>(false);
   const auth = useContext(AuthContext);
 
@@ -48,7 +55,10 @@ export default function Home(props: NativeStackScreenProps<RootStackParamList, '
   }, [props.navigation, focusTrigger]);
 
   useEffect(() => {
-    if (!auth.authenticated) setSearch('');
+    if (!auth.authenticated) {
+      setSearch('');
+      setIsUserPage(false);
+    }
   }, [auth.authenticated]);
 
   return (
@@ -78,15 +88,26 @@ export default function Home(props: NativeStackScreenProps<RootStackParamList, '
             <TextInput
               value={search}
               onChangeText={setSearch}
-              onEndEditing={() => setFocusTrigger(!focusTrigger)}
-              style={{ marginBottom: 14 }}
+              onEndEditing={() => setRefreshTrigger(!refreshTrigger)}
+              style={{ flexGrow: 1 }}
               placeholder="Search"
             />
+            <ButtonSelect
+              options={['all', 'my']}
+              onSelect={(option) => {
+                setIsUserPage(option === 'my');
+                setRefreshTrigger(!refreshTrigger);
+              }}
+              style={{ marginLeft: 8, marginRight: 8 }}
+            />
+            <Body>projects</Body>
           </SearchView>
         </SafeAreaView>
         <AllProjects
           search={search}
           focusTrigger={focusTrigger}
+          refreshTrigger={refreshTrigger}
+          isUserPage={isUserPage}
           onProjectSelect={(project) => props.navigation.navigate('Project', project)}
         />
       </ThemeView>

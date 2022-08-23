@@ -24,7 +24,7 @@ const AppEnvironmentProvider = (props: AppEnvironmentProviderProps): ReactElemen
     if (storageLoaded) {
       AsyncStorage.setItem('@app_environment', type.toString(), () => {
         console.log(
-          `[AppEnv : Provider] Updated environment in AsyncStorage to '${type.toString()}'`
+          `[APPENV : Provider] Updated environment in AsyncStorage to '${type.toString()}'`
         );
       });
     }
@@ -37,10 +37,10 @@ const AppEnvironmentProvider = (props: AppEnvironmentProviderProps): ReactElemen
       if (storedType) {
         setType(storedType as AppEnvironmentType);
         console.log(
-          `[AppEnv : Provider] Found initial App Environment type '${storedType}' from AsyncStorage`
+          `[APPENV : Provider] Found initial App Environment type '${storedType}' from AsyncStorage`
         );
       } else {
-        console.log('[AppEnv : Provider] No stored App Environment type found');
+        console.log('[APPENV : Provider] No stored App Environment type found');
       }
 
       setStorageLoaded(true);

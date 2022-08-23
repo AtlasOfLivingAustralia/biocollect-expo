@@ -3,7 +3,7 @@ import { TouchableOpacity, View, ViewProps } from 'react-native';
 import styled, { useTheme } from 'styled-components/native';
 import Body from './Body';
 
-interface ButtonSelectProps extends ViewProps {
+interface ButtonSelectProps extends ViewProps, ButtonSelectRootStyleProps {
   options: string[];
   initial?: string;
   onSelect?: (option: string) => void;
@@ -14,11 +14,16 @@ const Root = styled(View)`
   align-items: center;
 `;
 
-const ButtonSelectRoot = styled(View)`
+interface ButtonSelectRootStyleProps {
+  backgroundColor?: 'primary' | 'secondary';
+}
+
+const ButtonSelectRoot = styled(View)<ButtonSelectRootStyleProps>`
   display: flex;
   flex-direction: row;
   border-radius: ${({ theme }) => theme.radius}px;
-  background-color: ${({ theme }) => theme.background.primary};
+  background-color: ${({ theme, backgroundColor }) =>
+    theme.background[backgroundColor || 'secondary']};
   padding-top: 6px;
   padding-bottom: 6px;
   padding-left: 3px;
@@ -43,7 +48,13 @@ const ButtonSelectButton = styled(TouchableOpacity)<ButtonSelectButtonStyleProps
   margin-right: 3px;
 `;
 
-const ButtonSelect = ({ options, initial, onSelect, ...rest }: ButtonSelectProps) => {
+const ButtonSelect = ({
+  options,
+  initial,
+  backgroundColor,
+  onSelect,
+  ...rest
+}: ButtonSelectProps) => {
   const [current, setCurrent] = useState<string>(initial || options[0]);
   const theme = useTheme();
 
@@ -55,7 +66,7 @@ const ButtonSelect = ({ options, initial, onSelect, ...rest }: ButtonSelectProps
 
   return (
     <Root {...rest}>
-      <ButtonSelectRoot>
+      <ButtonSelectRoot backgroundColor={backgroundColor}>
         {options.map((option, index) => {
           const active = option === current;
           return (
