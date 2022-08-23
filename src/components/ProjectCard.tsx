@@ -29,11 +29,11 @@ const Content = styled.View`
   padding-right: 18px;
 `;
 
-const ImageRoot = styled.View`
+const ImageRoot = styled(View)`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: ${(props) => props.theme.colour.primary};
+  background-color: ${({ theme }) => theme.colour.primary};
   width: 110px;
   height: 110px;
   border-top-left-radius: ${({ theme }) => theme.radius * 2}px;
@@ -64,17 +64,22 @@ const StyledText = styled.Text`
 
 const ProjectCard = ({ project, ...props }: ProjectCardProps) => {
   const [imageLoaded, setImageLoaded] = useState<boolean>(false);
+  const [imageError, setImageError] = useState<boolean>(false);
   const theme = useTheme();
 
   // Render the project card
   return (
     <Root {...props} activeOpacity={0.6}>
       <Skeleton.Rect
-        loading={!project || (project.urlImage && !imageLoaded)}
+        loading={!project || (project?.urlImage && !imageLoaded && !imageError)}
         borderRadius={theme.radius * 2}>
         <ImageRoot>
-          {project?.urlImage ? (
-            <Image source={{ uri: project.urlImage }} onLoad={() => setImageLoaded(true)} />
+          {project?.urlImage && !imageError ? (
+            <Image
+              source={{ uri: project.urlImage }}
+              onLoad={() => setImageLoaded(true)}
+              onError={() => setImageError(true)}
+            />
           ) : (
             <NativeImage source={alaLogo} style={{ width: 35, height: 35 }} />
           )}

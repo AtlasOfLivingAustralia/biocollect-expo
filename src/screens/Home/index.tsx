@@ -24,6 +24,7 @@ import { AuthContext } from 'helpers/auth';
 import { APIContext } from 'helpers/api';
 import { BioCollectProject } from 'types';
 import HomeModal from './HomeModal';
+import TextInput from 'components/TextInput';
 
 const ErrorView = styled.View`
   display: flex;
@@ -50,8 +51,14 @@ const HeaderView = styled.View`
   padding-top: ${Platform.OS === 'android' ? 48 : 24}px;
 `;
 
+const SearchView = styled.View`
+  padding-left: ${({ theme }) => theme.defaults.viewPadding}px;
+  padding-right: ${({ theme }) => theme.defaults.viewPadding}px;
+`;
+
 export default function Home(props: NativeStackScreenProps<RootStackParamList, 'Home'>) {
   const [projects, setProjects] = useState<BioCollectProject[] | null>(null);
+  const [search, setSearch] = useState<string>('');
   const [error, setError] = useState<AxiosError | null>(null);
   const [refreshing, setRefreshing] = useState(true);
   const [settingsVisible, setSettingsVisible] = useState<boolean>(false);
@@ -62,7 +69,7 @@ export default function Home(props: NativeStackScreenProps<RootStackParamList, '
     async function getData() {
       try {
         // console.log(auth.credentials.accessToken);
-        const data = await api.biocollect.projectSearch(0, false);
+        const data = await api.biocollect.projectSearch(0, false, search);
         setProjects(data.projects);
       } catch (apiError) {
         setError(apiError);
@@ -83,8 +90,19 @@ export default function Home(props: NativeStackScreenProps<RootStackParamList, '
   };
 
   useEffect(() => {
-    return props.navigation.addListener('focus', onRefresh);
-  }, [props.navigation]);
+    return props.navigation.addListener('focus', () => {
+      if (!projects) onRefresh();
+    });
+  }, [props.navigation, projects]);
+
+  useEffect(() => {
+    if (!auth.authenticated) {
+      setProjects(null);
+      setError(null);
+      setSearch('');
+      setRefreshing(false);
+    }
+  }, [auth.authenticated]);
 
   return (
     <>
@@ -109,6 +127,15 @@ export default function Home(props: NativeStackScreenProps<RootStackParamList, '
               />
             </ProfileSideImage>
           </HeaderView>
+          <SearchView>
+            <TextInput
+              value={search}
+              onChangeText={setSearch}
+              onEndEditing={onRefresh}
+              style={{ marginBottom: 14 }}
+              placeholder="Search"
+            />
+          </SearchView>
         </SafeAreaView>
         {error ? (
           <ErrorView>

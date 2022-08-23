@@ -7,7 +7,8 @@ import {
   TouchableOpacityProps,
   ImageSourcePropType,
 } from 'react-native';
-import styled from 'styled-components/native';
+import { FontAwesome } from '@expo/vector-icons';
+import styled, { useTheme } from 'styled-components/native';
 
 type ButtonVariant = 'solid' | 'outline';
 
@@ -19,7 +20,8 @@ interface ButtonStyleProps {
 
 interface ButtonProps extends ButtonStyleProps, TouchableOpacityProps {
   text: string;
-  icon?: ImageSourcePropType;
+  icon?: ImageSourcePropType | string;
+  iconSize?: number;
   loading?: boolean;
 }
 
@@ -45,7 +47,8 @@ const ButtonText = styled(Text)<ButtonStyleProps>`
 `;
 
 export default function Button(props: ButtonProps) {
-  const { variant, disabled, loading, text, icon, padding, ...rest } = props;
+  const { variant, disabled, loading, text, icon, iconSize, padding, ...rest } = props;
+  const theme = useTheme();
 
   return (
     <ButtonRoot
@@ -54,7 +57,21 @@ export default function Button(props: ButtonProps) {
       disabled={disabled}
       padding={padding}
       activeOpacity={0.6}>
-      {icon && <Image source={icon} style={styles.icon} />}
+      {(() => {
+        if (typeof icon === 'string') {
+          return (
+            <FontAwesome
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              name={icon as any}
+              style={styles.icon}
+              size={iconSize || 20}
+              color={variant === 'outline' ? theme.button.primary : 'white'}
+            />
+          );
+        } else if (icon) {
+          return <Image source={icon} style={styles.icon} />;
+        }
+      })()}
       <ButtonText variant={variant}>{text}</ButtonText>
       {loading && <ActivityIndicator size="small" style={styles.loading} color="#ffffff" />}
     </ButtonRoot>

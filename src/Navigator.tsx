@@ -11,11 +11,6 @@ import { AuthContext } from './helpers/auth';
 
 const Stack = createNativeStackNavigator();
 
-export type RootStackParamList = {
-  Home: undefined;
-  Authentication: undefined;
-};
-
 function App(): ReactElement {
   // State for hiding / showing status bar based on route
   const [statusHidden, setStatusHidden] = useState<boolean>(true);

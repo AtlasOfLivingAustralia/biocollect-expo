@@ -50,6 +50,7 @@ export default function Authentication(
   props: NativeStackScreenProps<RootStackParamList, 'Project'>
 ) {
   const [headerLoaded, setHeaderLoaded] = useState<boolean>(false);
+  const [headerError, setHeaderError] = useState<boolean>(false);
   const { currentConfig: env } = useContext(AppEnvironmentContext);
   const { params: project } = props.route;
   const theme = useTheme();
@@ -64,7 +65,8 @@ export default function Authentication(
               resizeMode="cover"
               height={height}
               source={{ uri: project.fullSizeImageUrl }}
-              onLoad={() => setHeaderLoaded(true)}>
+              onLoad={() => setHeaderLoaded(true)}
+              onError={() => setHeaderError(true)}>
               {(project.tags || []).includes('isContributingDataToAla') && headerLoaded && (
                 <BlurView tint="dark">
                   <View
@@ -108,7 +110,7 @@ export default function Authentication(
               <NavButton
                 icon="arrow-left"
                 text="GO BACK"
-                onPress={() => props.navigation.goBack()}
+                onPress={() => props.navigation.navigate('Home')}
               />
               <NavButton
                 icon="link"
@@ -121,7 +123,9 @@ export default function Authentication(
                 }}
               />
             </View>
-            <Header size={28}>{project.name}</Header>
+            <View style={{ paddingBottom: 14 }}>
+              <Header size={28}>{project.name}</Header>
+            </View>
           </View>
         </SafeAreaView>
         <ScrollView
@@ -130,10 +134,16 @@ export default function Authentication(
             paddingTop: 6,
             paddingBottom: 48,
           }}
-          stickyHeaderIndices={[1, 3, 5]}>
-          <View style={{ display: 'flex', paddingTop: 8, paddingBottom: 6 }}>
-            <Button padding={8} text="View Records" />
-          </View>
+          stickyHeaderIndices={[1, 2, 4, 6]}>
+          <Button icon="search" padding={8} text="View Records" />
+          <Button
+            icon="plus"
+            iconSize={24}
+            style={{ marginTop: 8, marginBottom: 6 }}
+            padding={8}
+            text="Create Record"
+            variant="outline"
+          />
           <Subheader>Aim</Subheader>
           <Body>{project.aim}</Body>
           <Subheader>Description</Subheader>
