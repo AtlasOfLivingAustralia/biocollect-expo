@@ -7,11 +7,11 @@ export default styled(TextInput)`
   background-color: ${({ theme }) => theme.background.secondary};
   color: ${({ theme }) => theme.text.primary};
   padding: 12px;
-  border-radius: 12px;
+  border-radius: ${({ theme }) => theme.radius}px;
   min-width: 125px;
   shadow-opacity: 0.25;
   shadow-radius: 2px;
   shadow-color: black;
   shadow-offset: 0px 2.8px;
-  elevation: 6;
+  elevation: 4;
 `;

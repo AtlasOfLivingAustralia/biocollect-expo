@@ -19,6 +19,7 @@ const DevModal = ({ visible, onClose }: HomeModalProps) => {
       <ButtonSelect
         options={['prod', 'staging', 'test', 'dev']}
         initial={appenv.type}
+        backgroundColor="primary"
         style={{ marginBottom: 18 }}
         onSelect={(newEnv) => appenv.setEnvironment(newEnv as AppEnvironmentType)}
       />

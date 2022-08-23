@@ -6,8 +6,8 @@ import { AuthContext } from 'helpers/auth';
 import { AppEnvironmentContext, AppEnvironmentType } from 'helpers/appenv';
 
 // Components
-import Button from 'components/Button';
 import Modal from 'components/Modal';
+import Button from 'components/Modal/Button';
 import ButtonSelect from 'components/ButtonSelect';
 
 interface HomeModalProps {
@@ -27,15 +27,13 @@ const HomeModal = ({ visible, navigate, onClose }: HomeModalProps) => {
           options={['prod', 'staging', 'test', 'dev']}
           backgroundColor="primary"
           initial={appenv.type}
-          style={{ marginBottom: 18 }}
+          style={{ marginBottom: 2, marginTop: 8 }}
           onSelect={(newEnv) => appenv.setEnvironment(newEnv as AppEnvironmentType)}
         />
       )}
-      <Button text="My Profile" variant="outline" style={{ marginBottom: 8 }} />
+      <Button text="MY PROFILE" />
       <Button
-        text="Sign Out"
-        variant="outline"
-        style={{ marginBottom: 8 }}
+        text="SIGN OUT"
         onPress={() => {
           Alert.alert('Confirmation', 'Are you sure you wish to sign out?', [
             {
@@ -53,9 +51,6 @@ const HomeModal = ({ visible, navigate, onClose }: HomeModalProps) => {
           ]);
         }}
       />
-      {/* {auth.admin && (
-        <Button text="Developer Settings" variant="outline" style={{ marginBottom: 8 }} />
-      )} */}
     </Modal>
   );
 };

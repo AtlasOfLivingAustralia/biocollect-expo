@@ -31,7 +31,7 @@ const ButtonSelectRoot = styled(View)<ButtonSelectRootStyleProps>`
   shadow-opacity: 0.25;
   shadow-radius: 2px;
   shadow-color: black;
-  shadow-offset: 0px 0px;
+  shadow-offset: 0px 2.8px;
   elevation: 4;
 `;
 
