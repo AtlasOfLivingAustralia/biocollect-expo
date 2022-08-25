@@ -23,11 +23,9 @@ export type RootStackParamList = {
 
 axios.interceptors.request.use((config) => {
   console.log(
-    `[API : Request] ${config.method.toUpperCase()} request to ${config.url}\n${JSON.stringify(
-      config.params,
-      null,
-      2
-    )}`
+    `[API : Request] ${config.method.toUpperCase()} request to ${config.url}${
+      config.params ? `\n${JSON.stringify(config.params, null, 2)}` : ''
+    }`
   );
 
   return config;

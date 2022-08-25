@@ -2,6 +2,7 @@ import { Text, TouchableHighlight, TouchableHighlightProps } from 'react-native'
 import styled, { useTheme } from 'styled-components/native';
 
 interface RootStyleProps {
+  first?: boolean;
   last?: boolean;
 }
 
@@ -15,6 +16,10 @@ const Root = styled(TouchableHighlight)<RootStyleProps>`
   border-bottom-width: 1px;
   border-bottom-style: solid;
   border-bottom-color: ${({ theme, last }) => (last ? 'transparent' : theme.background.tertiary)};
+  border-top-left-radius: ${({ theme, first }) => (first ? theme.radius * 2 : 0)}px;
+  border-top-right-radius: ${({ theme, first }) => (first ? theme.radius * 2 : 0)}px;
+  border-bottom-left-radius: ${({ theme, last }) => (last ? theme.radius * 2 : 0)}px;
+  border-bottom-right-radius: ${({ theme, last }) => (last ? theme.radius * 2 : 0)}px;
 `;
 
 const RootText = styled(Text)`

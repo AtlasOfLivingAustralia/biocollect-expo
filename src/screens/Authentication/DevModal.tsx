@@ -20,7 +20,7 @@ const DevModal = ({ visible, onClose }: DevModalProps) => {
         options={['prod', 'staging', 'test', 'dev']}
         initial={appenv.type}
         backgroundColor="primary"
-        style={{ marginBottom: 18 }}
+        style={{ marginBottom: 18, marginTop: 18 }}
         onSelect={(newEnv) => appenv.setEnvironment(newEnv as AppEnvironmentType)}
       />
     </Modal>

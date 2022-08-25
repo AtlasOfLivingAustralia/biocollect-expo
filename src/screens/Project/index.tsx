@@ -90,7 +90,6 @@ export default function Authentication(
       try {
         const data = await api.biocollect.listSurveys(project.projectId);
         setSurveys(data);
-        console.log(data);
       } catch (error) {
         console.log('ERROR', error);
       }
@@ -100,7 +99,11 @@ export default function Authentication(
   const height = 225;
   return (
     <>
-      <SurveyModal visible={modalVisible} onClose={() => setModalVisible(false)} />
+      <SurveyModal
+        surveys={surveys}
+        visible={modalVisible}
+        onClose={() => setModalVisible(false)}
+      />
       <ThemeView>
         {project.fullSizeImageUrl ? (
           <Skeleton.Rect loading={!headerLoaded} borderRadius={1}>

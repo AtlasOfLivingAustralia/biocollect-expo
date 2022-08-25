@@ -18,7 +18,7 @@ interface HomeModalProps {
 }
 
 const EnvView = styled.View`
-  border-bottom-width: 3px;
+  border-bottom-width: 1px;
   border-bottom-style: solid;
   border-bottom-color: ${({ theme }) => theme.background.tertiary};
   padding: 16px;
@@ -40,7 +40,11 @@ const HomeModal = ({ visible, navigate, onClose }: HomeModalProps) => {
           />
         </EnvView>
       )}
-      <Button text="MY PROFILE" />
+      <Button
+        first={!auth.admin}
+        text="MY PROFILE"
+        onPress={() => console.log('Profile Button Pressed')}
+      />
       <Button
         text="SIGN OUT"
         onPress={() => {

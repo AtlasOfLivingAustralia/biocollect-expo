@@ -1,70 +1,44 @@
-import { TouchableOpacityProps, View, Image as NativeImage, Text } from 'react-native';
+import { TouchableOpacityProps, Text } from 'react-native';
 import { BioCollectSurvey } from 'types';
-import alaLogo from 'assets/images/ui/ala-white.png';
 
 import styled from 'styled-components/native';
 import Skeleton from 'components/Skeleton';
+import Body from 'components/Body';
+import { DateTime } from 'luxon';
 
 interface SurveyItemProps extends TouchableOpacityProps {
-  project: BioCollectSurvey | null;
+  survey: BioCollectSurvey | null;
 }
 
 const Root = styled.TouchableOpacity`
   display: flex;
-  flex-direction: row;
-  background-color: ${({ theme }) => theme.background.secondary};
-  border-radius: ${({ theme }) => theme.radius * 2}px;
-  margin-bottom: 12px;
-  shadow-opacity: 0.3;
-  shadow-radius: 4.5px;
-  shadow-color: black;
-  shadow-offset: 0px 2.8px;
-  elevation: 6;
-`;
-
-const Content = styled.View`
-  flex-shrink: 1;
+  flex-direction: column;
+  background-color: ${({ theme }) => theme.background.primary};
+  border-radius: ${({ theme }) => theme.radius}px;
+  margin: 12px;
+  margin-top: 0px;
   padding: 12px;
-  padding-right: 18px;
+  border: 1px solid ${({ theme }) => theme.background.tertiary};
 `;
 
-const ImageRoot = styled(View)`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: ${({ theme }) => theme.colour.primary};
-  width: 110px;
-  height: 110px;
-  border-top-left-radius: ${({ theme }) => theme.radius * 2}px;
-  border-bottom-left-radius: ${({ theme }) => theme.radius * 2}px;
-`;
-
-const Image = styled(NativeImage)`
-  width: 100%;
-  height: 100%;
-  border-top-left-radius: ${({ theme }) => theme.radius * 2}px;
-  border-bottom-left-radius: ${({ theme }) => theme.radius * 2}px;
-  resize-mode: cover;
-`;
-
-const Header = styled.Text`
-  flex: 1;
-  font-family: '${({ theme }) => theme.font.header}';
+const Subheader = styled(Text)`
+  font-family: 'RobotoBold';
   font-size: 18px;
-  margin-bottom: 8px;
   color: ${({ theme }) => theme.text.primary};
+  margin-bottom: 6px;
 `;
 
-const StyledText = styled.Text`
-  flex: 1;
-  font-family: '${({ theme }) => theme.font.body}';
-  color: ${({ theme }) => theme.text.secondary};
-`;
-
-const SurveyItem = ({ project, ...props }: SurveyItemProps) => {
-  return (
+const SurveyItem = ({ survey, ...props }: SurveyItemProps) => {
+  return survey ? (
     <Root {...props} activeOpacity={0.6}>
-      <Text>Hello World</Text>
+      <Subheader>{survey.name}</Subheader>
+      {survey.startDate && (
+        <Body>Starts {DateTime.fromISO(survey.startDate).toLocaleString(DateTime.DATE_SHORT)}</Body>
+      )}
+    </Root>
+  ) : (
+    <Root>
+      <Skeleton.Rect loading width="100%" />
     </Root>
   );
 };

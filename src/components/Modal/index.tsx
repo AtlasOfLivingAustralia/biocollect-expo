@@ -16,11 +16,6 @@ const Title = styled.Text`
   color: ${({ theme }) => theme.text.primary};
 `;
 
-const CloseButton = styled(Button)`
-  border-bottom-left-radius: ${({ theme }) => theme.radius * 2}px;
-  border-bottom-right-radius: ${({ theme }) => theme.radius * 2}px;
-`;
-
 interface ModalProps {
   title?: string;
   children?: ReactNode;
@@ -39,7 +34,7 @@ const Modal = ({ title, children, visible, onClose }: ModalProps) => {
       <Root>
         {title && <Title>{title}</Title>}
         {children && children}
-        <CloseButton last text="CLOSE" onPress={onClose} />
+        <Button last text="CLOSE" onPress={onClose} />
       </Root>
     </NativeModal>
   );

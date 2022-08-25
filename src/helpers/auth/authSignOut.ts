@@ -2,6 +2,7 @@
 import { fetchDiscoveryAsync, revokeAsync, TokenResponse, TokenTypeHint } from 'expo-auth-session';
 import { openBrowserAsync } from 'expo-web-browser';
 import { getNetworkStateAsync } from 'expo-network';
+// import * as Linking from 'expo-linking';
 
 // Async storage
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -49,7 +50,8 @@ export default (env: AppEnvironment, credentials: TokenResponse, callback: () =>
       }
 
       // Open the browser to logout
+      console.log(credentials.idToken);
+      openBrowserAsync(`${discovery.endSessionEndpoint}?id_token_hint=${credentials.idToken}`);
       await callback();
-      openBrowserAsync(discovery.endSessionEndpoint);
     }
   };
