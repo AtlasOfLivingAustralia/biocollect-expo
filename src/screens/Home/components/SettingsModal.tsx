@@ -1,5 +1,6 @@
 import { useContext } from 'react';
 import { Alert } from 'react-native';
+import styled from 'styled-components/native';
 
 // App contexts
 import { AuthContext } from 'helpers/auth';
@@ -16,6 +17,13 @@ interface HomeModalProps {
   onClose: () => void;
 }
 
+const EnvView = styled.View`
+  border-bottom-width: 3px;
+  border-bottom-style: solid;
+  border-bottom-color: ${({ theme }) => theme.background.tertiary};
+  padding: 16px;
+`;
+
 const HomeModal = ({ visible, navigate, onClose }: HomeModalProps) => {
   const auth = useContext(AuthContext);
   const appenv = useContext(AppEnvironmentContext);
@@ -23,13 +31,14 @@ const HomeModal = ({ visible, navigate, onClose }: HomeModalProps) => {
   return (
     <Modal visible={visible} onClose={onClose}>
       {auth.admin && (
-        <ButtonSelect
-          options={['prod', 'staging', 'test', 'dev']}
-          backgroundColor="primary"
-          initial={appenv.type}
-          style={{ marginBottom: 2, marginTop: 8 }}
-          onSelect={(newEnv) => appenv.setEnvironment(newEnv as AppEnvironmentType)}
-        />
+        <EnvView>
+          <ButtonSelect
+            options={['prod', 'staging', 'test', 'dev']}
+            backgroundColor="primary"
+            initial={appenv.type}
+            onSelect={(newEnv) => appenv.setEnvironment(newEnv as AppEnvironmentType)}
+          />
+        </EnvView>
       )}
       <Button text="MY PROFILE" />
       <Button

@@ -6,12 +6,12 @@ import { AppEnvironmentContext, AppEnvironmentType } from 'helpers/appenv';
 import Modal from 'components/Modal';
 import ButtonSelect from 'components/ButtonSelect';
 
-interface DevModalProps {
+interface SurveyModalProps {
   visible: boolean;
   onClose: () => void;
 }
 
-const DevModal = ({ visible, onClose }: DevModalProps) => {
+const SurveyModal = ({ visible, onClose }: SurveyModalProps) => {
   const appenv = useContext(AppEnvironmentContext);
 
   return (
@@ -27,4 +27,4 @@ const DevModal = ({ visible, onClose }: DevModalProps) => {
   );
 };
 
-export default DevModal;
+export default SurveyModal;

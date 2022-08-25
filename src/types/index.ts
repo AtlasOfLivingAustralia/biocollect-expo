@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /*
 	General API
 */
@@ -76,7 +77,7 @@ export interface BioCollectProjectSearch {
   total: number;
 }
 
-export interface BioCollectSurveyList {
+export interface BioCollectSurvey {
   surveySiteOption: string;
   previewUrl: string;
   selectFromSitesOnly: boolean;

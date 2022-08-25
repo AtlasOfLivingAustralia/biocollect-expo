@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { AppEnvironment } from 'helpers/appenv';
-import { BioCollectProjectSearch } from 'types';
+import { BioCollectProjectSearch, BioCollectSurvey } from 'types';
 
 const formatProjects = (search: BioCollectProjectSearch) => ({
   ...search,
@@ -46,12 +46,12 @@ export default (env: AppEnvironment) => ({
 
     return formatProjects(request.data);
   },
-  listSurveys: async (projectId: string): Promise<BioCollectProjectSearch> => {
+  listSurveys: async (projectId: string): Promise<BioCollectSurvey[]> => {
     // Retrieve the auth configuration
     const { biocollect_url } = env.biocollect;
 
     // Make the GET request
-    const request = await axios.get<BioCollectProjectSearch>(
+    const request = await axios.get<BioCollectSurvey[]>(
       `${biocollect_url}/ws/survey/list/${projectId}`
     );
 

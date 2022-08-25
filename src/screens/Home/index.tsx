@@ -38,6 +38,7 @@ const SearchView = styled.View`
   align-items: center;
   padding-left: ${({ theme }) => theme.defaults.viewPadding}px;
   padding-right: ${({ theme }) => theme.defaults.viewPadding}px;
+  padding-bottom: ${({ theme }) => theme.defaults.viewPadding}px;
 `;
 
 export default function Home(props: NativeStackScreenProps<RootStackParamList, 'Home'>) {

@@ -3,6 +3,7 @@ import { SafeAreaView, ImageBackground, View, ScrollView, Text, Image } from 're
 import { BlurView } from 'expo-blur';
 import { DateTime } from 'luxon';
 import * as WebBrowser from 'expo-web-browser';
+import { BioCollectSurvey } from 'types';
 
 // Navigation
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -18,11 +19,13 @@ import Body from 'components/Body';
 import Chip from 'components/Chip';
 
 // App environment configuration
+import { APIContext } from 'helpers/api';
 import { AppEnvironmentContext } from 'helpers/appenv';
 
 // Assets
 import alaLogo from 'assets/images/ui/ala.png';
 import Button from 'components/Button';
+import SurveyModal from './SurveyModal';
 
 interface HeaderImageProps {
   height: number;
@@ -44,24 +47,60 @@ const Subheader = styled(Text)`
   padding-bottom: 14px;
 `;
 
-// padding: ${({ theme }) => theme.defaults.viewPadding}px;
+const ALAContributeView = styled(View)`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 14px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+`;
+
+const ALAContributeText = styled(Body)`
+  margin-left: 8px;
+  font-family: 'RobotoBold';
+  color: white;
+`;
+
+const HeaderView = styled(View)`
+  padding: ${({ theme }) => theme.defaults.viewPadding}px;
+  padding-top: 12px;
+  padding-bottom: 0px;
+`;
+
+const HeaderLinkView = styled(View)`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+`;
 
 export default function Authentication(
   props: NativeStackScreenProps<RootStackParamList, 'Project'>
 ) {
   const [headerLoaded, setHeaderLoaded] = useState<boolean>(false);
-  const [surveys, setSurveysLoaded] = useState<any[] | null>(null);
+  const [surveys, setSurveys] = useState<BioCollectSurvey[] | null>(null);
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
   const { currentConfig: env } = useContext(AppEnvironmentContext);
   const { params: project } = props.route;
+  const api = useContext(APIContext);
   const theme = useTheme();
 
-  // useEffect(() => {
-
-  // }, []);
+  useEffect(() => {
+    (async () => {
+      try {
+        const data = await api.biocollect.listSurveys(project.projectId);
+        setSurveys(data);
+        console.log(data);
+      } catch (error) {
+        console.log('ERROR', error);
+      }
+    })();
+  }, []);
 
   const height = 225;
   return (
     <>
+      <SurveyModal visible={modalVisible} onClose={() => setModalVisible(false)} />
       <ThemeView>
         {project.fullSizeImageUrl ? (
           <Skeleton.Rect loading={!headerLoaded} borderRadius={1}>
@@ -72,44 +111,18 @@ export default function Authentication(
               onLoad={() => setHeaderLoaded(true)}>
               {(project.tags || []).includes('isContributingDataToAla') && headerLoaded && (
                 <BlurView tint="dark">
-                  <View
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      padding: 14,
-                      paddingTop: 10,
-                      paddingBottom: 10,
-                    }}>
+                  <ALAContributeView>
                     <Image source={alaLogo} style={{ width: 25, height: 25 }} />
-                    <Body
-                      style={{
-                        marginLeft: 8,
-                        fontFamily: 'RobotoBold',
-                        color: 'white',
-                      }}
-                      primary>
-                      Contributes to the ALA
-                    </Body>
-                  </View>
+                    <ALAContributeText>Contributes to the ALA</ALAContributeText>
+                  </ALAContributeView>
                 </BlurView>
               )}
             </HeaderImage>
           </Skeleton.Rect>
         ) : null}
         <SafeAreaView>
-          <View
-            style={{
-              padding: theme.defaults.viewPadding,
-              paddingTop: 12,
-              paddingBottom: 0,
-            }}>
-            <View
-              style={{
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-              }}>
+          <HeaderView>
+            <HeaderLinkView>
               <NavButton
                 icon="arrow-left"
                 text="GO BACK"
@@ -125,11 +138,11 @@ export default function Authentication(
                   );
                 }}
               />
-            </View>
+            </HeaderLinkView>
             <View style={{ paddingBottom: 14 }}>
               <Header size={28}>{project.name}</Header>
             </View>
-          </View>
+          </HeaderView>
         </SafeAreaView>
         <ScrollView
           contentContainerStyle={{
@@ -143,6 +156,7 @@ export default function Authentication(
             icon="plus"
             iconSize={24}
             style={{ marginTop: 8, marginBottom: 6 }}
+            onPress={() => setModalVisible(true)}
             padding={8}
             text="Create Record"
             variant="outline"
