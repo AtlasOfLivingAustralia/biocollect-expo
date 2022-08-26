@@ -75,11 +75,7 @@ const AuthProvider = (props: AuthProviderProps): ReactElement => {
         authenticated,
         admin: authenticated && (access?.role || []).includes('ROLE_ADMIN'),
         signIn: authSignIn(appenv.currentConfig, (token) => onSignInSuccess(token)),
-        signOut: authSignOut(
-          appenv.config[signInEnv || appenv.type],
-          credentials,
-          onSignOutSuccess
-        ),
+        signOut: authSignOut(appenv.config[signInEnv || appenv.type], onSignOutSuccess),
       }}>
       {props.children}
     </AuthContext.Provider>

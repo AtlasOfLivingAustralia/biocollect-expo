@@ -2,7 +2,7 @@
   "prod": {
     "timeout": 2000,
     "auth": {
-      "server": "https://auth.ala.org.au",
+      "user_pool": "<user-pool-here>",
       "client_id": "<client-id-here>",
       "scopes": "email openid profile"
     },
@@ -14,7 +14,7 @@
   "staging": {
     "timeout": 3000,
     "auth": {
-      "server": "https://auth.ala.org.au/cas/oidc",
+      "user_pool": "<user-pool-here>",
       "client_id": "oidc-expo-test",
       "scopes": "email openid profile"
     },
@@ -26,8 +26,8 @@
   "test": {
     "timeout": -1,
     "auth": {
-      "server": "https://auth-test.ala.org.au/cas/oidc",
-      "client_id": "oidc-expo-test",
+      "user_pool": "ap-southeast-2_dqIVUS9bF",
+      "client_id": "5mqnuhdf75ru6fc153hjifdtsn",
       "scopes": "email openid profile"
     },
     "biocollect": {
@@ -38,7 +38,7 @@
   "dev": {
     "timeout": -1,
     "auth": {
-      "server": "https://cognito-idp.ap-southeast-2.amazonaws.com/ap-southeast-2_dqIVUS9bF",
+      "user_pool": "ap-southeast-2_dqIVUS9bF",
       "client_id": "5mqnuhdf75ru6fc153hjifdtsn",
       "scopes": "email openid profile"
     },

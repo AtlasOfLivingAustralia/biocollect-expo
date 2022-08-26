@@ -4,7 +4,7 @@ import { AppEnvironmentType } from './provider';
 export interface AppEnvironment {
   timeout: number;
   auth: {
-    server: string;
+    user_pool: string;
     client_id: string;
     scopes: string;
   };

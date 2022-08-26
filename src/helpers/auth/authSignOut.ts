@@ -1,56 +1,53 @@
 // Auth Session
-import { fetchDiscoveryAsync, revokeAsync, TokenResponse, TokenTypeHint } from 'expo-auth-session';
-import { openBrowserAsync } from 'expo-web-browser';
+import { fetchDiscoveryAsync } from 'expo-auth-session';
+import { openAuthSessionAsync } from 'expo-web-browser';
 import { getNetworkStateAsync } from 'expo-network';
-// import * as Linking from 'expo-linking';
+import * as Linking from 'expo-linking';
 
 // Async storage
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AppEnvironment } from 'helpers/appenv';
 
 // Sign-in authentication handler
-export default (env: AppEnvironment, credentials: TokenResponse, callback: () => void) =>
-  async (): Promise<void> => {
-    // Retrieve the auth configuration
-    const { auth: config } = env;
+export default (env: AppEnvironment, callback: () => void) => async (): Promise<void> => {
+  // Retrieve the auth configuration
+  const { auth: config } = env;
 
-    // Clear the auth token from storage
-    console.log('[AUTH : SignOut] Removing auth state from storage...');
-    await AsyncStorage.removeItem('@auth_token');
+  // Create a deep link for authentication redirects
+  const redirectUri = Linking.createURL('/auth/signout');
+  console.log(`[AUTH : SignOut] Created redirect URI: ${redirectUri}`);
 
-    // Revoke the access token
-    if ((await getNetworkStateAsync()).isInternetReachable) {
-      // Create a deep link for authentication redirects
-      // const redirectUri = Linking.createURL('/auth');
+  // Clear the auth token from storage
+  console.log('[AUTH : SignOut] Removing auth state from storage...');
+  await AsyncStorage.removeItem('@auth_token');
 
-      // Fetch the discovery metadata
-      const discovery = await fetchDiscoveryAsync(config.server);
+  // Sign out (only if the user has internet access)
+  if ((await getNetworkStateAsync()).isInternetReachable) {
+    try {
+      const discoveryUrl = `https://cognito-idp.${config.user_pool.split('_')[0]}.amazonaws.com/${
+        config.user_pool
+      }`;
+      console.log(`[AUTH : SignOut] Retrieving discovery document from ${discoveryUrl}`);
+      const { tokenEndpoint } = await fetchDiscoveryAsync(discoveryUrl);
 
-      // Invalidate the access token and refresh token
-      if (credentials) {
-        console.log('[AUTH : SignOut] Revoking accessToken & refresh token...');
+      // Navigate the user to the sign out page
+      await openAuthSessionAsync(
+        `${tokenEndpoint.substring(0, tokenEndpoint.indexOf('/oauth2'))}/logout?client_id=${
+          config.client_id
+        }&logout_uri=${redirectUri}`,
+        redirectUri
+      );
 
-        // Revoke access & refresh tokens
-        await Promise.all([
-          revokeAsync(
-            {
-              token: credentials.accessToken,
-              tokenTypeHint: TokenTypeHint.AccessToken,
-            },
-            discovery
-          ),
-          revokeAsync(
-            {
-              token: credentials.refreshToken,
-              tokenTypeHint: TokenTypeHint.RefreshToken,
-            },
-            discovery
-          ),
-        ]);
-      }
-
-      // Open the browser to logout
-      openBrowserAsync(`${discovery.endSessionEndpoint}?id_token_hint=${credentials.idToken}`);
-      await callback();
+      // Execute the callback function
+      callback();
+      return;
+    } catch (error) {
+      console.log('[AUTH : SignOut] Browser sign-out error', error);
     }
-  };
+  } else {
+    console.log('[AUTH : SignOut] Network is not reachable, skipping browser-based sign-out.');
+  }
+
+  // Execute the callback function
+  callback();
+};

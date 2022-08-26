@@ -22,7 +22,7 @@ export default (env: AppEnvironment, callback: (token: TokenResponse) => void) =
     const { auth: config } = env;
 
     // Create a deep link for authentication redirects
-    const redirectUri = createURL('/auth');
+    const redirectUri = createURL('/auth/signin');
     console.log(`[AUTH : SignIn] Created redirect URI: ${redirectUri}`);
 
     // Construct the OIDC code request
@@ -38,8 +38,11 @@ export default (env: AppEnvironment, callback: (token: TokenResponse) => void) =
 
     // Fetch the discovery metadata
     try {
-      discovery = await fetchDiscoveryAsync(config.server);
-      console.log('[AUTH : SignIn] Retrieved Discovery Document');
+      const discoveryUrl = `https://cognito-idp.${config.user_pool.split('_')[0]}.amazonaws.com/${
+        config.user_pool
+      }`;
+      console.log(`[AUTH : SignIn] Retrieving discovery document from ${discoveryUrl}`);
+      discovery = await fetchDiscoveryAsync(discoveryUrl);
 
       // If no authorization endpoint is supplied, throw an error
       if (!discovery.authorizationEndpoint)
@@ -74,6 +77,8 @@ export default (env: AppEnvironment, callback: (token: TokenResponse) => void) =
       // Store the token in async storage
       await AsyncStorage.setItem('@auth_token', JSON.stringify(accessToken));
       console.log('[AUTH : SignIn] Updated auth token in AsyncStorage');
+
+      // Run the callback function
       await callback(accessToken);
       console.log('[AUTH : SignIn] Callback complete!');
 
