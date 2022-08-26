@@ -9,7 +9,7 @@ interface AuthContext {
   loading: boolean;
   authenticated: boolean;
   admin: boolean;
-  signIn: () => Promise<void>;
+  signIn: () => Promise<boolean>;
   signOut: () => Promise<void>;
 }
 

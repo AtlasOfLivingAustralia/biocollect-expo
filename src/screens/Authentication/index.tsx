@@ -49,7 +49,7 @@ export default function Authentication(
 
     // Attempt to sign in
     try {
-      if ((await auth.signIn()) !== null) {
+      if (await auth.signIn()) {
         setExitAnim(true);
         setTimeout(() => props.navigation.navigate('Home'), 1100);
       } else setAuthenticating(false);

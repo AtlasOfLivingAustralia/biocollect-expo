@@ -5,6 +5,7 @@ import {
   AuthRequest,
   AccessTokenRequest,
   TokenResponse,
+  DiscoveryDocument,
 } from 'expo-auth-session';
 import { createURL } from 'expo-linking';
 
@@ -16,7 +17,7 @@ import { AppEnvironment } from 'helpers/appenv';
 
 // Sign-in authentication handler
 export default (env: AppEnvironment, callback: (token: TokenResponse) => void) =>
-  async (): Promise<void> => {
+  async (): Promise<boolean> => {
     // Retrieve the auth configuration
     const { auth: config } = env;
 
@@ -32,8 +33,22 @@ export default (env: AppEnvironment, callback: (token: TokenResponse) => void) =
       codeChallengeMethod: CodeChallengeMethod.S256,
     });
 
+    // Create the discovery document variable
+    let discovery: DiscoveryDocument | null = null;
+
     // Fetch the discovery metadata
-    const discovery = await fetchDiscoveryAsync(config.server);
+    try {
+      discovery = await fetchDiscoveryAsync(config.server);
+      console.log('[AUTH : SignIn] Retrieved Discovery Document');
+
+      // If no authorization endpoint is supplied, throw an error
+      if (!discovery.authorizationEndpoint)
+        throw new Error('Returned discovery document does not have valid authorization endpoint');
+    } catch (error) {
+      throw new Error('Could not fetch discovery document', {
+        cause: error,
+      });
+    }
 
     // Start the authentication flow
     const result = await codeRequest.promptAsync(discovery);
@@ -61,10 +76,13 @@ export default (env: AppEnvironment, callback: (token: TokenResponse) => void) =
       console.log('[AUTH : SignIn] Updated auth token in AsyncStorage');
       await callback(accessToken);
       console.log('[AUTH : SignIn] Callback complete!');
+
+      return true;
     } else {
       console.log(
         `[AUTH : SignIn] The sign in could not be completed (result type: ${result.type})`
       );
-      return null;
+
+      return false;
     }
   };

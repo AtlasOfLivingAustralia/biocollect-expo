@@ -60,8 +60,12 @@ const Profile = ({ size, name, icon, ...props }: ProfileProps) => {
   const theme = useTheme();
   return (
     <ProfileRoot size={size} {...props} activeOpacity={0.6}>
-      <RootText size={size}>{getInitials(name)}</RootText>
-      {icon && (
+      {name ? (
+        <RootText size={size}>{getInitials(name)}</RootText>
+      ) : (
+        <FontAwesome name="cog" size={24} color={theme.text.primary} />
+      )}
+      {icon && name && (
         <ProfileIconWrapper size={size}>
           <ProfileIconRoot size={size}>
             {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}

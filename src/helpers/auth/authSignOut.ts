@@ -50,7 +50,6 @@ export default (env: AppEnvironment, credentials: TokenResponse, callback: () =>
       }
 
       // Open the browser to logout
-      console.log(credentials.idToken);
       openBrowserAsync(`${discovery.endSessionEndpoint}?id_token_hint=${credentials.idToken}`);
       await callback();
     }
