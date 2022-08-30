@@ -22,7 +22,7 @@ export default (env: AppEnvironment, callback: (token: TokenResponse) => void) =
     const { auth: config } = env;
 
     // Create a deep link for authentication redirects
-    const redirectUri = createURL('/auth/signin');
+    const redirectUri = createURL(config.user_pool ? '/auth/signin' : '/auth');
     console.log(`[AUTH : SignIn] Created redirect URI: ${redirectUri}`);
 
     // Construct the OIDC code request
@@ -38,9 +38,9 @@ export default (env: AppEnvironment, callback: (token: TokenResponse) => void) =
 
     // Fetch the discovery metadata
     try {
-      const discoveryUrl = `https://cognito-idp.${config.user_pool.split('_')[0]}.amazonaws.com/${
-        config.user_pool
-      }`;
+      const discoveryUrl =
+        config.url ||
+        `https://cognito-idp.${config.user_pool.split('_')[0]}.amazonaws.com/${config.user_pool}`;
       console.log(`[AUTH : SignIn] Retrieving discovery document from ${discoveryUrl}`);
       discovery = await fetchDiscoveryAsync(discoveryUrl);
 
@@ -54,6 +54,7 @@ export default (env: AppEnvironment, callback: (token: TokenResponse) => void) =
     }
 
     // Start the authentication flow
+    console.log(await codeRequest.makeAuthUrlAsync(discovery));
     const result = await codeRequest.promptAsync(discovery);
     console.log('[AUTH : SignIn] Recieved initial PKCE code response');
 

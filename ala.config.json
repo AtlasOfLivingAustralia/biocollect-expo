@@ -26,12 +26,12 @@
   "test": {
     "timeout": -1,
     "auth": {
-      "user_pool": "ap-southeast-2_dqIVUS9bF",
-      "client_id": "5mqnuhdf75ru6fc153hjifdtsn",
+      "url": "https://auth-test.ala.org.au/cas/oidc",
+      "client_id": "oidc-expo-test",
       "scopes": "email openid profile"
     },
     "biocollect": {
-      "biocollect_url": "https://biocollect-test.ala.org.au",
+      "biocollect_url": "https://apis.test.ala.org.au/biocollect",
       "ecodata_url": "https://ecodata-test.ala.org.au"
     }
   },
@@ -43,7 +43,7 @@
       "scopes": "email openid profile"
     },
     "biocollect": {
-      "biocollect_url": "https://apis.dev.ala.org.au/biocollect",
+      "biocollect_url": "https://apis.test.ala.org.au/biocollect",
       "ecodata_url": "https://ecodata.ala.org.au"
     }
   }

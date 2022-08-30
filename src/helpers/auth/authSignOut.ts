@@ -14,7 +14,7 @@ export default (env: AppEnvironment, callback: () => void) => async (): Promise<
   const { auth: config } = env;
 
   // Create a deep link for authentication redirects
-  const redirectUri = Linking.createURL('/auth/signout');
+  const redirectUri = Linking.createURL(config.user_pool ? '/auth/signout' : '/auth');
   console.log(`[AUTH : SignOut] Created redirect URI: ${redirectUri}`);
 
   // Clear the auth token from storage
@@ -24,17 +24,19 @@ export default (env: AppEnvironment, callback: () => void) => async (): Promise<
   // Sign out (only if the user has internet access)
   if ((await getNetworkStateAsync()).isInternetReachable) {
     try {
-      const discoveryUrl = `https://cognito-idp.${config.user_pool.split('_')[0]}.amazonaws.com/${
-        config.user_pool
-      }`;
+      const discoveryUrl =
+        config.url ||
+        `https://cognito-idp.${config.user_pool.split('_')[0]}.amazonaws.com/${config.user_pool}`;
       console.log(`[AUTH : SignOut] Retrieving discovery document from ${discoveryUrl}`);
-      const { tokenEndpoint } = await fetchDiscoveryAsync(discoveryUrl);
+      const { tokenEndpoint, endSessionEndpoint } = await fetchDiscoveryAsync(discoveryUrl);
 
       // Navigate the user to the sign out page
+      console.log('[AUTH : SignOut] Opening auth session for sign out...');
       await openAuthSessionAsync(
-        `${tokenEndpoint.substring(0, tokenEndpoint.indexOf('/oauth2'))}/logout?client_id=${
-          config.client_id
-        }&logout_uri=${redirectUri}`,
+        endSessionEndpoint ||
+          `${tokenEndpoint.substring(0, tokenEndpoint.indexOf('/oauth2'))}/logout?client_id=${
+            config.client_id
+          }&logout_uri=${redirectUri}`,
         redirectUri
       );
 
