@@ -14,6 +14,7 @@ import { AppEnvironmentProvider } from 'helpers/appenv';
 import { AuthProvider } from 'helpers/auth';
 import { APIProvider } from 'helpers/api';
 import { BioCollectProject } from 'types';
+import ThemeView from 'components/ThemeView';
 
 export type RootStackParamList = {
   Home: undefined;
@@ -50,7 +51,9 @@ function App() {
       <AuthProvider>
         <APIProvider>
           <ThemeProvider theme={themes[scheme]}>
-            <Navigator />
+            <ThemeView>
+              <Navigator />
+            </ThemeView>
           </ThemeProvider>
         </APIProvider>
       </AuthProvider>

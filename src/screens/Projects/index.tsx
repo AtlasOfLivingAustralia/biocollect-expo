@@ -24,7 +24,7 @@ const HeaderView = styled.View`
   align-items: center;
   justify-content: space-between;
   padding: ${({ theme }) => theme.defaults.viewPadding}px;
-  padding-top: ${Platform.OS === 'android' ? 48 : 24}px;
+  padding-top: ${Platform.OS === 'android' ? 72 : 24}px;
 `;
 
 const SearchView = styled.View`

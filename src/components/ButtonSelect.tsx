@@ -43,7 +43,7 @@ interface ButtonSelectButtonStyleProps {
 const ButtonSelectButton = styled(TouchableOpacity)<ButtonSelectButtonStyleProps>`
   background-color: ${({ theme, active }) => (active ? theme.colour.primary : 'transparent')};
   border-radius: ${({ theme }) => theme.radius / 2}px;
-  padding: 6px;
+  padding: 9px;
   margin-left: 3px;
   margin-right: 3px;
 `;

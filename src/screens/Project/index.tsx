@@ -129,7 +129,7 @@ export default function Authentication(
               <NavButton
                 icon="arrow-left"
                 text="GO BACK"
-                onPress={() => props.navigation.navigate('Home')}
+                onPress={() => props.navigation.goBack()}
               />
               <NavButton
                 icon="link"

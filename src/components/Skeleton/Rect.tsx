@@ -11,6 +11,10 @@ interface SkeletonRectProps extends ViewProps {
   marginRight?: string | number;
   margin?: string | number;
   borderRadius?: number;
+  borderTopLeftRadius?: number;
+  borderBottomLeftRadius?: number;
+  borderTopRightRadius?: number;
+  borderBottomRightRadius?: number;
   loading: boolean;
 }
 
@@ -57,6 +61,12 @@ const Rect = ({ width, height, loading, style, ...rest }: SkeletonRectProps) => 
         marginRight: rest.marginRight || 0,
         margin: rest.margin || 0,
         borderRadius: rest.borderRadius || theme.radius / 2,
+        borderTopLeftRadius: rest.borderTopLeftRadius || rest.borderRadius || theme.radius / 2,
+        borderBottomLeftRadius:
+          rest.borderBottomLeftRadius || rest.borderRadius || theme.radius / 2,
+        borderTopRightRadius: rest.borderTopRightRadius || rest.borderRadius || theme.radius / 2,
+        borderBottomRightRadius:
+          rest.borderBottomRightRadius || rest.borderRadius || theme.radius / 2,
       }}
     />
   );
