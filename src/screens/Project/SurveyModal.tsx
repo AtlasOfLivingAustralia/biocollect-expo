@@ -42,7 +42,7 @@ const Subheader = styled(Text)`
 `;
 
 const SurveyModal = ({ visible, surveys, onClose }: SurveyModalProps) => {
-  const appenv = useContext(AppEnvironmentContext);
+  const { type: env } = useContext(AppEnvironmentContext);
   const theme = useTheme();
 
   return (
@@ -65,11 +65,11 @@ const SurveyModal = ({ visible, surveys, onClose }: SurveyModalProps) => {
                   <SurveyItem
                     key={survey.id}
                     survey={survey}
-                    onPress={() =>
-                      openBrowserAsync(
-                        `${appenv.currentConfig.biocollect.biocollect_url}/bioActivity/mobileCreate/${survey.id}`
-                      )
-                    }
+                    onPress={() => {
+                      const activityUrl = `https://biocollect-${env}.ala.org.au/bioActivity/mobileCreate/${survey.id}`;
+                      console.log(`[APP : Project] Opening ${activityUrl}`);
+                      openBrowserAsync(activityUrl);
+                    }}
                   />
                 ))}
               </ScrollView>

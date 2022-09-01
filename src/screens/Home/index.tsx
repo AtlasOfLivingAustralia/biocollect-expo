@@ -1,6 +1,6 @@
 import { useState, useContext, useEffect } from 'react';
-import { View, SafeAreaView, Platform } from 'react-native';
-import styled from 'styled-components/native';
+import { View, SafeAreaView, Platform, ScrollView } from 'react-native';
+import styled, { useTheme } from 'styled-components/native';
 
 // Navigation
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -18,10 +18,8 @@ import biocollectLogo from 'assets/images/ui/logo.png';
 // API / Auth
 import { AuthContext } from 'helpers/auth';
 import HomeModal from './components/SettingsModal';
-import TextInput from 'components/TextInput';
-import AllProjects from './components/AllProjects';
-import ButtonSelect from 'components/ButtonSelect';
 import Body from 'components/Body';
+import ProjectCard from 'components/ProjectCard';
 
 const HeaderView = styled.View`
   display: flex;
@@ -29,7 +27,16 @@ const HeaderView = styled.View`
   justify-content: space-between;
   align-items: center;
   padding: ${({ theme }) => theme.defaults.viewPadding}px;
-  padding-top: ${Platform.OS === 'android' ? 48 : 24}px;
+  padding-top: ${Platform.OS === 'android' ? 72 : 24}px;
+`;
+
+const TitleView = styled.View`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: ${({ theme }) => theme.background.primary};
+  padding-top: 12px;
+  padding-bottom: 12px;
 `;
 
 const SearchView = styled.View`
@@ -42,25 +49,10 @@ const SearchView = styled.View`
 `;
 
 export default function Home(props: NativeStackScreenProps<RootStackParamList, 'Home'>) {
-  const [search, setSearch] = useState<string>('');
-  const [isUserPage, setIsUserPage] = useState<boolean>(false);
   const [focusTrigger, setFocusTrigger] = useState<boolean>(false);
-  const [refreshTrigger, setRefreshTrigger] = useState<boolean>(false);
   const [settingsVisible, setSettingsVisible] = useState<boolean>(false);
   const auth = useContext(AuthContext);
-
-  useEffect(() => {
-    return props.navigation.addListener('focus', () => {
-      setFocusTrigger(!focusTrigger);
-    });
-  }, [props.navigation, focusTrigger]);
-
-  useEffect(() => {
-    if (!auth.authenticated) {
-      setSearch('');
-      setIsUserPage(false);
-    }
-  }, [auth.authenticated]);
+  const theme = useTheme();
 
   return (
     <>
@@ -85,32 +77,22 @@ export default function Home(props: NativeStackScreenProps<RootStackParamList, '
               />
             </ProfileSideImage>
           </HeaderView>
-          <SearchView>
-            <TextInput
-              value={search}
-              onChangeText={setSearch}
-              onEndEditing={() => setRefreshTrigger(!refreshTrigger)}
-              style={{ flexGrow: 1 }}
-              placeholder="Search"
-            />
-            <ButtonSelect
-              options={['all', 'my']}
-              onSelect={(option) => {
-                setIsUserPage(option === 'my');
-                setRefreshTrigger(!refreshTrigger);
-              }}
-              style={{ marginLeft: 8, marginRight: 8 }}
-            />
-            <Body>projects</Body>
-          </SearchView>
         </SafeAreaView>
-        <AllProjects
-          search={search}
-          focusTrigger={focusTrigger}
-          refreshTrigger={refreshTrigger}
-          isUserPage={isUserPage}
-          onProjectSelect={(project) => props.navigation.navigate('Project', project)}
-        />
+        <ScrollView
+          stickyHeaderIndices={[0]}
+          contentContainerStyle={{ padding: theme.defaults.viewPadding, paddingTop: 0 }}>
+          <TitleView>
+            <Body bold size={18}>
+              My Projects
+            </Body>
+          </TitleView>
+          <TitleView>
+            <Body bold size={18}>
+              Explore Your Area
+            </Body>
+          </TitleView>
+          <ProjectCard project={null} />
+        </ScrollView>
       </ThemeView>
     </>
   );

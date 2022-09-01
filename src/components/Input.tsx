@@ -1,7 +1,7 @@
-import { TextInput } from 'react-native';
-import styled from 'styled-components/native';
+import { TextInput, TextInputProps } from 'react-native';
+import styled, { useTheme } from 'styled-components/native';
 
-export default styled(TextInput)`
+const Input = styled(TextInput)`
   font-family: ${({ theme }) => theme.font.body};
   font-size: 16px;
   background-color: ${({ theme }) => theme.background.secondary};
@@ -15,3 +15,8 @@ export default styled(TextInput)`
   shadow-offset: 0px 2.8px;
   elevation: 4;
 `;
+
+export default function StyledTextInput(props: TextInputProps) {
+  const theme = useTheme();
+  return <Input {...props} placeholderTextColor={theme.text.secondary} />;
+}

@@ -57,7 +57,7 @@ const AllProjects = ({
         setProjects(data.projects);
       } catch (apiError) {
         setError(apiError);
-        console.log(apiError);
+        console.log(apiError as AxiosError);
       }
 
       setRefreshing(false);

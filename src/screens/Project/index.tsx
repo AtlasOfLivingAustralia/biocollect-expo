@@ -80,7 +80,7 @@ export default function Authentication(
   const [headerLoaded, setHeaderLoaded] = useState<boolean>(false);
   const [surveys, setSurveys] = useState<BioCollectSurvey[] | null>(null);
   const [modalVisible, setModalVisible] = useState<boolean>(false);
-  const { currentConfig: env } = useContext(AppEnvironmentContext);
+  const { type: env } = useContext(AppEnvironmentContext);
   const { params: project } = props.route;
   const api = useContext(APIContext);
   const theme = useTheme();
@@ -137,7 +137,7 @@ export default function Authentication(
                 onPress={() => {
                   // Linking.openUrl(`${env.biocollect.biocollect_url}/project/index/${project.projectId}?mobile=true`)
                   WebBrowser.openBrowserAsync(
-                    `${env.biocollect.biocollect_url}/project/index/${project.projectId}?mobile=true`
+                    `https://biocollect-${env}.ala.org.au/project/index/${project.projectId}?mobile=true`
                   );
                 }}
               />
