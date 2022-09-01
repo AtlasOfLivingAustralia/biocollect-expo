@@ -3883,6 +3883,7 @@ __metadata:
     expo-font: ~10.2.0
     expo-haptics: ~11.3.0
     expo-linking: ~3.2.2
+    expo-location: ~14.3.0
     expo-network: ~4.3.0
     expo-random: ~12.3.0
     expo-secure-store: ~11.3.0
@@ -5794,6 +5795,17 @@ __metadata:
     qs: ^6.9.1
     url-parse: ^1.5.9
   checksum: 406b427e68ab6cbd7fe0d47350ca67a68ebd7ad776b5c7eb160b58948b9d91294bd3d507657071a7119bd3f3c79ed05f4e41480e1732a51028c8aee27cb050dd
+  languageName: node
+  linkType: hard
+
+"expo-location@npm:~14.3.0":
+  version: 14.3.0
+  resolution: "expo-location@npm:14.3.0"
+  dependencies:
+    "@expo/config-plugins": ~5.0.0
+  peerDependencies:
+    expo: "*"
+  checksum: 0433f22aa3ef794997538c1d8d577858ae3e442a62f296c801c43cfe4f5909e6a3f27357b8a4de757cffe84968f5dca2be9e5dbe20e064e73a7206d6768ab6ea
   languageName: node
   linkType: hard
 

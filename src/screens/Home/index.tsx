@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect } from 'react';
+import { useState, useContext } from 'react';
 import { View, SafeAreaView, Platform, ScrollView } from 'react-native';
 import styled, { useTheme } from 'styled-components/native';
 
@@ -19,7 +19,7 @@ import biocollectLogo from 'assets/images/ui/logo.png';
 import { AuthContext } from 'helpers/auth';
 import HomeModal from './components/SettingsModal';
 import Body from 'components/Body';
-import ProjectCard from 'components/ProjectCard';
+import ExploreCard from './components/ExploreCard';
 
 const HeaderView = styled.View`
   display: flex;
@@ -39,17 +39,7 @@ const TitleView = styled.View`
   padding-bottom: 12px;
 `;
 
-const SearchView = styled.View`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding-left: ${({ theme }) => theme.defaults.viewPadding}px;
-  padding-right: ${({ theme }) => theme.defaults.viewPadding}px;
-  padding-bottom: ${({ theme }) => theme.defaults.viewPadding}px;
-`;
-
 export default function Home(props: NativeStackScreenProps<RootStackParamList, 'Home'>) {
-  const [focusTrigger, setFocusTrigger] = useState<boolean>(false);
   const [settingsVisible, setSettingsVisible] = useState<boolean>(false);
   const auth = useContext(AuthContext);
   const theme = useTheme();
@@ -91,7 +81,7 @@ export default function Home(props: NativeStackScreenProps<RootStackParamList, '
               Explore Your Area
             </Body>
           </TitleView>
-          <ProjectCard project={null} />
+          <ExploreCard />
         </ScrollView>
       </ThemeView>
     </>

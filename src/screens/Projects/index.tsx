@@ -11,7 +11,6 @@ import ThemeView from 'components/ThemeView';
 
 // API / Auth
 import { AuthContext } from 'helpers/auth';
-import HomeModal from './components/SettingsModal';
 import TextInput from 'components/Input';
 import AllProjects from './components/AllProjects';
 import ButtonSelect from 'components/ButtonSelect';
@@ -41,7 +40,6 @@ export default function Projects(props: NativeStackScreenProps<RootStackParamLis
   const [isUserPage, setIsUserPage] = useState<boolean>(false);
   const [focusTrigger, setFocusTrigger] = useState<boolean>(false);
   const [refreshTrigger, setRefreshTrigger] = useState<boolean>(false);
-  const [settingsVisible, setSettingsVisible] = useState<boolean>(false);
   const auth = useContext(AuthContext);
 
   useEffect(() => {
@@ -59,11 +57,6 @@ export default function Projects(props: NativeStackScreenProps<RootStackParamLis
 
   return (
     <>
-      <HomeModal
-        visible={settingsVisible}
-        onClose={() => setSettingsVisible(false)}
-        navigate={props.navigation.navigate}
-      />
       <ThemeView>
         <SafeAreaView>
           <HeaderView>
