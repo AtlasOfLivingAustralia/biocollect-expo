@@ -102,6 +102,7 @@ export default function Authentication(
       <SurveyModal
         surveys={surveys}
         visible={modalVisible}
+        navigate={props.navigation.navigate}
         onClose={() => setModalVisible(false)}
       />
       <ThemeView>

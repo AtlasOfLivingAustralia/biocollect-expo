@@ -5,7 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useTheme } from 'styled-components/native';
 
 // Import screen components
-import { Authentication, Home, Project, Projects } from './screens';
+import { Authentication, Home, Project, Projects, WebView } from './screens';
 
 // Authentication helpers
 import { AuthContext } from './helpers/auth';
@@ -46,14 +46,25 @@ function App(): ReactElement {
         })}
         screenOptions={{ headerShown: false }}
         initialRouteName={auth.authenticated ? 'Home' : 'Authentication'}>
-        <Stack.Screen
-          name="Authentication"
-          component={Authentication}
-          options={{ animation: 'none' }}
-        />
-        <Stack.Screen name="Home" component={Home} options={{ animation: 'slide_from_bottom' }} />
-        <Stack.Screen name="Projects" component={Projects} options={{ animation: 'simple_push' }} />
-        <Stack.Screen name="Project" component={Project} options={{ animation: 'simple_push' }} />
+        <Stack.Group>
+          <Stack.Screen
+            name="Authentication"
+            component={Authentication}
+            options={{ animation: 'none' }}
+          />
+          <Stack.Screen name="Home" component={Home} options={{ animation: 'slide_from_bottom' }} />
+          <Stack.Screen
+            name="Projects"
+            component={Projects}
+            options={{ animation: 'simple_push' }}
+          />
+          <Stack.Screen name="Project" component={Project} options={{ animation: 'simple_push' }} />
+          <Stack.Screen
+            name="WebView"
+            component={WebView}
+            options={{ animation: 'slide_from_bottom' }}
+          />
+        </Stack.Group>
       </Stack.Navigator>
     </NavigationContainer>
   );

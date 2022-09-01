@@ -3,7 +3,6 @@ import { View, Text, ScrollView } from 'react-native';
 import { BioCollectSurvey } from 'types';
 import { FontAwesome } from '@expo/vector-icons';
 import styled, { useTheme } from 'styled-components/native';
-import { openBrowserAsync } from 'expo-web-browser';
 import { AppEnvironmentContext } from 'helpers/appenv';
 
 // Components
@@ -12,10 +11,12 @@ import Body from 'components/Body';
 
 // Local components
 import SurveyItem from './SurveyItem';
+import { RootStackParamList } from '../../../App';
 
 interface SurveyModalProps {
   visible: boolean;
   surveys: BioCollectSurvey[] | null;
+  navigate: (to: keyof RootStackParamList, args: RootStackParamList['WebView']) => void;
   onClose: () => void;
 }
 
@@ -41,7 +42,7 @@ const Subheader = styled(Text)`
   color: ${({ theme }) => theme.text.secondary};
 `;
 
-const SurveyModal = ({ visible, surveys, onClose }: SurveyModalProps) => {
+const SurveyModal = ({ visible, surveys, navigate, onClose }: SurveyModalProps) => {
   const { type: env } = useContext(AppEnvironmentContext);
   const theme = useTheme();
 
@@ -66,9 +67,10 @@ const SurveyModal = ({ visible, surveys, onClose }: SurveyModalProps) => {
                     key={survey.id}
                     survey={survey}
                     onPress={() => {
-                      const activityUrl = `https://biocollect-${env}.ala.org.au/bioActivity/mobileCreate/${survey.id}`;
-                      console.log(`[APP : Project] Opening ${activityUrl}`);
-                      openBrowserAsync(activityUrl);
+                      const uri = `https://biocollect-${env}.ala.org.au/bioActivity/mobileCreate/${survey.projectActivityId}`;
+                      console.log(`[APP : Project] Opening ${uri}`);
+                      onClose();
+                      navigate('WebView', { uri });
                     }}
                   />
                 ))}

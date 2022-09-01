@@ -20,6 +20,10 @@ export type RootStackParamList = {
   Home: undefined;
   Authentication: undefined;
   Project: BioCollectProject;
+  WebView: {
+    headers?: { [key: string]: string };
+    uri: string;
+  };
 };
 
 axios.interceptors.request.use((config) => {

@@ -86,8 +86,11 @@ export default function Projects(props: NativeStackScreenProps<RootStackParamLis
             <ButtonSelect
               options={['all', 'my']}
               onSelect={(option) => {
-                setIsUserPage(option === 'my');
-                setRefreshTrigger(!refreshTrigger);
+                const newUserPage = option === 'my';
+                if (newUserPage !== isUserPage) {
+                  setIsUserPage(newUserPage);
+                  setRefreshTrigger(!refreshTrigger);
+                }
               }}
               style={{ marginLeft: 8, marginRight: 8 }}
             />

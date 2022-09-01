@@ -52,7 +52,7 @@ const AllProjects = ({
   useEffect(() => {
     async function getData() {
       try {
-        // console.log(auth.credentials.accessToken);
+        console.log(auth.credentials.accessToken);
         const data = await api.biocollect.projectSearch(0, isUserPage, search);
         setProjects(data.projects);
       } catch (apiError) {
