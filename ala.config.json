@@ -24,7 +24,7 @@
     }
   },
   "test": {
-    "timeout": -1,
+    "timeout": 10000,
     "auth": {
       "url": "https://auth-test.ala.org.au/cas/oidc",
       "client_id": "oidc-expo-test",
@@ -36,7 +36,7 @@
     }
   },
   "dev": {
-    "timeout": -1,
+    "timeout": 10000,
     "auth": {
       "user_pool": "ap-southeast-2_dqIVUS9bF",
       "client_id": "5mqnuhdf75ru6fc153hjifdtsn",
