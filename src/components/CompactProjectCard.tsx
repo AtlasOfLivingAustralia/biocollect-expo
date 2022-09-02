@@ -64,7 +64,10 @@ const ProjectCard = ({ project, ...props }: ProjectCardProps) => {
     <Root {...props} activeOpacity={0.6}>
       <Skeleton.Rect
         loading={!project || (project?.urlImage && !imageLoaded && !imageError)}
-        borderRadius={theme.radius * 2}>
+        borderTopLeftRadius={theme.radius * 2}
+        borderBottomLeftRadius={theme.radius * 2}
+        borderTopRightRadius={0}
+        borderBottomRightRadius={0}>
         <ImageRoot>
           {project?.urlImage && !imageError ? (
             <Image
