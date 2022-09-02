@@ -17,7 +17,7 @@ const ProfileIconRoot = styled.View<ProfileSideImageProps>`
   background-color: ${({ theme }) => theme.background.secondary};
   padding: 4px;
   shadow-opacity: 0.25;
-  shadow-radius: 2px;
+  shadow-radius: 3px;
   shadow-color: black;
   shadow-offset: 0px 2.8px;
   elevation: 6;

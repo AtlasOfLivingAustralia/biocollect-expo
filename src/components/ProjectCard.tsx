@@ -16,10 +16,10 @@ const Root = styled.TouchableOpacity`
   background-color: ${({ theme }) => theme.background.secondary};
   border-radius: ${({ theme }) => theme.radius * 2}px;
   margin-bottom: 12px;
-  shadow-opacity: 0.3;
-  shadow-radius: 4.5px;
+  shadow-opacity: 0.2;
+  shadow-radius: 6px;
   shadow-color: black;
-  shadow-offset: 0px 2.8px;
+  shadow-offset: 0px 6px;
   elevation: 6;
 `;
 
@@ -29,11 +29,16 @@ const Content = styled.View`
   padding-right: 18px;
 `;
 
-const ImageRoot = styled(View)`
+interface ImageRootProps {
+  imageLoaded?: boolean;
+}
+
+const ImageRoot = styled(View)<ImageRootProps>`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: ${({ theme }) => theme.colour.primary};
+  background-color: ${({ theme, imageLoaded }) =>
+    imageLoaded ? theme.background.secondary : theme.colour.primary};
   width: 110px;
   height: 110px;
   border-top-left-radius: ${({ theme }) => theme.radius * 2}px;
@@ -76,7 +81,7 @@ const ProjectCard = ({ project, ...props }: ProjectCardProps) => {
         borderBottomLeftRadius={theme.radius * 2}
         borderTopRightRadius={0}
         borderBottomRightRadius={0}>
-        <ImageRoot>
+        <ImageRoot imageLoaded={imageLoaded}>
           {project?.urlImage && !imageError ? (
             <Image
               source={{ uri: project.urlImage }}

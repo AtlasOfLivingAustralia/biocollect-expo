@@ -40,7 +40,7 @@ const HomeModal = ({ visible, navigate, onClose }: HomeModalProps) => {
           />
         </EnvView>
       )}
-      {auth.admin && (
+      {/* {auth.admin && (
         <Button
           text="GOTO VIEW"
           onPress={() => {
@@ -48,7 +48,7 @@ const HomeModal = ({ visible, navigate, onClose }: HomeModalProps) => {
             onClose();
           }}
         />
-      )}
+      )} */}
       <Button
         first={!auth.admin}
         text="MY PROFILE"

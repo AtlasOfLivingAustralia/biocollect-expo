@@ -20,6 +20,7 @@ export type RootStackParamList = {
   Home: undefined;
   Authentication: undefined;
   Project: BioCollectProject;
+  Projects: undefined;
   WebView: {
     headers?: { [key: string]: string };
     uri: string;

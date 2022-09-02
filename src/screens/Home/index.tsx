@@ -1,6 +1,6 @@
 import { useState, useContext } from 'react';
 import { View, SafeAreaView, Platform, ScrollView } from 'react-native';
-import styled, { useTheme } from 'styled-components/native';
+import styled from 'styled-components/native';
 
 // Navigation
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -20,6 +20,8 @@ import { AuthContext } from 'helpers/auth';
 import HomeModal from './components/SettingsModal';
 import Body from 'components/Body';
 import ExploreCard from './components/ExploreCard';
+import MyProjects from './components/MyProjects';
+import NavButton from 'components/NavButton';
 
 const HeaderView = styled.View`
   display: flex;
@@ -34,15 +36,23 @@ const TitleView = styled.View`
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: space-between;
   background-color: ${({ theme }) => theme.background.primary};
+  padding-top: 6px;
+  padding-bottom: 6px;
+  padding-left: ${({ theme }) => theme.defaults.viewPadding}px;
+  padding-right: ${({ theme }) => theme.defaults.viewPadding}px;
+`;
+
+const ExploreView = styled.View`
   padding-top: 12px;
-  padding-bottom: 12px;
+  padding-left: ${({ theme }) => theme.defaults.viewPadding}px;
+  padding-right: ${({ theme }) => theme.defaults.viewPadding}px;
 `;
 
 export default function Home(props: NativeStackScreenProps<RootStackParamList, 'Home'>) {
   const [settingsVisible, setSettingsVisible] = useState<boolean>(false);
   const auth = useContext(AuthContext);
-  const theme = useTheme();
 
   return (
     <>
@@ -68,20 +78,28 @@ export default function Home(props: NativeStackScreenProps<RootStackParamList, '
             </ProfileSideImage>
           </HeaderView>
         </SafeAreaView>
-        <ScrollView
-          stickyHeaderIndices={[0]}
-          contentContainerStyle={{ padding: theme.defaults.viewPadding, paddingTop: 0 }}>
+        <ScrollView stickyHeaderIndices={[0, 2]}>
           <TitleView>
             <Body bold size={18}>
               My Projects
             </Body>
+            <NavButton
+              icon="search"
+              text="VIEW ALL"
+              onPress={() => props.navigation.navigate('Projects')}
+            />
           </TitleView>
-          <TitleView>
+          <MyProjects
+            onProjectSelect={(project) => props.navigation.navigate('Project', project)}
+          />
+          <TitleView style={{ marginTop: 12 }}>
             <Body bold size={18}>
               Explore Your Area
             </Body>
           </TitleView>
-          <ExploreCard />
+          <ExploreView>
+            <ExploreCard />
+          </ExploreView>
         </ScrollView>
       </ThemeView>
     </>

@@ -8,18 +8,18 @@ const Root = styled(TouchableOpacity)`
   display: flex;
   height: 150px;
   width: 100%;
-  border-radius: ${({ theme }) => theme.radius * 2}px;
-  overflow: hidden;
+  shadow-opacity: 0.2;
+  shadow-radius: 6px;
+  shadow-color: black;
+  shadow-offset: 0px 6px;
+  elevation: 6;
 `;
 
 const MapRoot = styled(View)`
   display: flex;
+  border-radius: ${({ theme }) => theme.radius * 2}px;
   flex-grow: 1;
-  shadow-opacity: 0.3;
-  shadow-radius: 4.5px;
-  shadow-color: black;
-  shadow-offset: 0px 2.8px;
-  elevation: 6;
+  overflow: hidden;
 `;
 
 const Map = styled(MapView)`
