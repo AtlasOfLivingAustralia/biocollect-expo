@@ -7,6 +7,7 @@ import * as Linking from 'expo-linking';
 // Async storage
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AppEnvironment } from 'helpers/appenv';
+// import axios from 'axios';
 
 // Sign-in authentication handler
 export default (env: AppEnvironment, callback: () => void) => async (): Promise<void> => {
@@ -30,15 +31,16 @@ export default (env: AppEnvironment, callback: () => void) => async (): Promise<
       console.log(`[AUTH : SignOut] Retrieving discovery document from ${discoveryUrl}`);
       const { tokenEndpoint, endSessionEndpoint } = await fetchDiscoveryAsync(discoveryUrl);
 
-      // Navigate the user to the sign out page
+      // Create the sign out URL
+      const signOutUrl = `${tokenEndpoint.substring(
+        0,
+        tokenEndpoint.indexOf('/oauth2')
+      )}/logout?client_id=${config.client_id}&logout_uri=${redirectUri}`;
       console.log('[AUTH : SignOut] Opening auth session for sign out...');
-      await openAuthSessionAsync(
-        endSessionEndpoint ||
-          `${tokenEndpoint.substring(0, tokenEndpoint.indexOf('/oauth2'))}/logout?client_id=${
-            config.client_id
-          }&logout_uri=${redirectUri}`,
-        redirectUri
-      );
+
+      // Navigate the user to the sign out page
+      await openAuthSessionAsync(endSessionEndpoint || signOutUrl);
+      // await axios.get(endSessionEndpoint || signOutUrl);
 
       // Execute the callback function
       callback();

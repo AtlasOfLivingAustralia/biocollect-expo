@@ -24,10 +24,11 @@ const ErrorView = styled.View`
 `;
 
 interface AllProjectsProps {
+  focusTrigger: boolean;
   onProjectSelect: (project: BioCollectProject) => void;
 }
 
-const MyProjects = ({ onProjectSelect }: AllProjectsProps) => {
+const MyProjects = ({ onProjectSelect, focusTrigger }: AllProjectsProps) => {
   const [projects, setProjects] = useState<BioCollectProject[] | null>(null);
   const [error, setError] = useState<AxiosError | null>(null);
   const [refreshing, setRefreshing] = useState(true);
@@ -61,6 +62,10 @@ const MyProjects = ({ onProjectSelect }: AllProjectsProps) => {
     setError(null);
   };
 
+  // Handler for focus triggers
+  useEffect(onRefresh, [focusTrigger]);
+
+  // Handler for refreshing on authentication
   useEffect(() => {
     if (!auth.authenticated) {
       setProjects(null);

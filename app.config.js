@@ -7,6 +7,7 @@ export default {
     slug: 'biocollect',
     scheme: 'biocollect',
     version: '0.0.1',
+    privacy: 'hidden',
     owner: 'atlasoflivingaustralia',
     orientation: 'portrait',
     icon: './assets/icon.png',

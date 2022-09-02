@@ -50,7 +50,7 @@ function App(): ReactElement {
           <Stack.Screen
             name="Authentication"
             component={Authentication}
-            options={{ animation: 'none' }}
+            options={{ animation: 'fade' }}
           />
           <Stack.Screen name="Home" component={Home} options={{ animation: 'slide_from_bottom' }} />
           <Stack.Screen

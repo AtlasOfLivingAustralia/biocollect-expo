@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { View, SafeAreaView, Platform, ScrollView } from 'react-native';
 import styled from 'styled-components/native';
 
@@ -52,7 +52,14 @@ const ExploreView = styled.View`
 
 export default function Home(props: NativeStackScreenProps<RootStackParamList, 'Home'>) {
   const [settingsVisible, setSettingsVisible] = useState<boolean>(false);
+  const [focusTrigger, setFocusTrigger] = useState<boolean>(false);
   const auth = useContext(AuthContext);
+
+  useEffect(() => {
+    return props.navigation.addListener('focus', () => {
+      setFocusTrigger(!focusTrigger);
+    });
+  }, [props.navigation, focusTrigger]);
 
   return (
     <>
@@ -91,6 +98,7 @@ export default function Home(props: NativeStackScreenProps<RootStackParamList, '
           </TitleView>
           <MyProjects
             onProjectSelect={(project) => props.navigation.navigate('Project', project)}
+            focusTrigger={focusTrigger}
           />
           <TitleView style={{ marginTop: 12 }}>
             <Body bold size={18}>

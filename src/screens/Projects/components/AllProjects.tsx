@@ -8,7 +8,6 @@ import ProjectCard from 'components/ProjectCard';
 import Body from 'components/Body';
 
 // API / Auth
-import { AuthContext } from 'helpers/auth';
 import { APIContext } from 'helpers/api';
 import { BioCollectProject } from 'types';
 
@@ -46,7 +45,6 @@ const AllProjects = ({
   const [projects, setProjects] = useState<BioCollectProject[] | null>(null);
   const [error, setError] = useState<AxiosError | null>(null);
   const [refreshing, setRefreshing] = useState(true);
-  const auth = useContext(AuthContext);
   const api = useContext(APIContext);
 
   useEffect(() => {
@@ -81,14 +79,6 @@ const AllProjects = ({
   }, [focusTrigger]);
 
   useEffect(onRefresh, [refreshTrigger]);
-
-  useEffect(() => {
-    if (!auth.authenticated) {
-      setProjects(null);
-      setError(null);
-      setRefreshing(false);
-    }
-  }, [auth.authenticated]);
 
   return error ? (
     <ErrorView>
