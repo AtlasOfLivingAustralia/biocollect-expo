@@ -1,5 +1,5 @@
 import { useState, useContext, useEffect } from 'react';
-import { SafeAreaView, Platform } from 'react-native';
+import { SafeAreaView } from 'react-native';
 import styled from 'styled-components/native';
 
 // Navigation
@@ -16,15 +16,7 @@ import AllProjects from './components/AllProjects';
 import ButtonSelect from 'components/ButtonSelect';
 import Body from 'components/Body';
 import NavButton from 'components/NavButton';
-
-const HeaderView = styled.View`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  padding: ${({ theme }) => theme.defaults.viewPadding}px;
-  padding-top: ${Platform.OS === 'android' ? 72 : 24}px;
-`;
+import HeaderView from 'components/HeaderView';
 
 const SearchView = styled.View`
   display: flex;

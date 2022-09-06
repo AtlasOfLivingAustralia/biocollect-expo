@@ -1,5 +1,5 @@
 import { useState, useContext, useEffect } from 'react';
-import { ScrollView, View } from 'react-native';
+import { ScrollView, Dimensions } from 'react-native';
 import { AxiosError } from 'axios';
 import styled, { useTheme } from 'styled-components/native';
 
@@ -23,6 +23,12 @@ const ErrorView = styled.View`
   padding-right: ${({ theme }) => theme.defaults.viewPadding}px;
 `;
 
+const EmptyView = styled.View`
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 41px;
+`;
+
 interface AllProjectsProps {
   focusTrigger: boolean;
   onProjectSelect: (project: BioCollectProject) => void;
@@ -41,7 +47,7 @@ const MyProjects = ({ onProjectSelect, focusTrigger }: AllProjectsProps) => {
       try {
         // console.log(auth.credentials.accessToken);
         const data = await api.biocollect.projectSearch(0, true);
-        setTimeout(() => setProjects(data.projects), 1000);
+        setProjects(data.projects);
       } catch (apiError) {
         setError(apiError);
         console.log(apiError as AxiosError);
@@ -101,11 +107,11 @@ const MyProjects = ({ onProjectSelect, focusTrigger }: AllProjectsProps) => {
               />
             ))
           ) : (
-            <View style={{ padding: 12 }}>
-              <Body style={{ textAlign: 'center' }}>
-                We couldn&apos;t find any projects matching that criterea
-              </Body>
-            </View>
+            <EmptyView
+              style={{ maxWidth: Dimensions.get('screen').width - theme.defaults.viewPadding * 2 }}>
+              <Body>It looks like you haven&apos;t joined any projects yet.</Body>
+              <Body style={{ marginTop: 6 }}>Explore your are below to find some!</Body>
+            </EmptyView>
           );
         } else {
           // If projects is null (we're waiting on an API request)

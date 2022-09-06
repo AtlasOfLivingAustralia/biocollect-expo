@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { TouchableOpacity, View } from 'react-native';
+import { TouchableOpacity, TouchableOpacityProps, View } from 'react-native';
 import MapView from 'react-native-maps';
 import styled from 'styled-components/native';
 import { requestForegroundPermissionsAsync, getCurrentPositionAsync } from 'expo-location';
@@ -26,7 +26,7 @@ const Map = styled(MapView)`
   flex-grow: 1;
 `;
 
-export default function ExploreCard(props: object) {
+export default function ExploreCard(props: TouchableOpacityProps) {
   const mapRef = useRef<MapView>();
   useEffect(() => {
     async function getLocation() {
@@ -46,7 +46,7 @@ export default function ExploreCard(props: object) {
     getLocation();
   }, []);
   return (
-    <Root activeOpacity={0.6}>
+    <Root {...props} activeOpacity={0.6}>
       <MapRoot pointerEvents="none">
         <Map ref={mapRef} showsUserLocation />
       </MapRoot>

@@ -1,5 +1,5 @@
 import { useState, useContext, useEffect } from 'react';
-import { View, SafeAreaView, Platform, ScrollView } from 'react-native';
+import { View, SafeAreaView, ScrollView } from 'react-native';
 import styled from 'styled-components/native';
 
 // Navigation
@@ -22,15 +22,7 @@ import Body from 'components/Body';
 import ExploreCard from './components/ExploreCard';
 import MyProjects from './components/MyProjects';
 import NavButton from 'components/NavButton';
-
-const HeaderView = styled.View`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  padding: ${({ theme }) => theme.defaults.viewPadding}px;
-  padding-top: ${Platform.OS === 'android' ? 72 : 24}px;
-`;
+import HeaderView from 'components/HeaderView';
 
 const TitleView = styled.View`
   display: flex;
