@@ -8,9 +8,9 @@ import {
   ImageSourcePropType,
 } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
-import styled, { useTheme } from 'styled-components/native';
+import styled, { DefaultTheme, useTheme } from 'styled-components/native';
 
-type ButtonVariant = 'solid' | 'outline';
+type ButtonVariant = 'solid' | 'outline' | 'dimmed';
 
 interface ButtonStyleProps {
   variant?: ButtonVariant;
@@ -25,25 +25,57 @@ interface ButtonProps extends ButtonStyleProps, TouchableOpacityProps {
   loading?: boolean;
 }
 
+const getVariantProps = (theme: DefaultTheme, variant: ButtonVariant) => {
+  switch (variant) {
+    case 'solid':
+      return {
+        root: `
+      background-color: ${theme.button.primary};
+      border-color: transparent;
+      `,
+        button: `
+      color: white;
+      `,
+      };
+    case 'outline':
+      return {
+        root: `
+      background-color: transparent;
+      border-color: ${theme.button.primary};
+      `,
+        button: `
+      color: ${theme.button.primary};
+      `,
+      };
+    case 'dimmed':
+      return {
+        root: `
+        background-color: ${theme.background.secondary};
+        border-color: transparent;
+        `,
+        button: `
+        color: ${theme.text.primary};
+        `,
+      };
+  }
+};
+
 const ButtonRoot = styled(TouchableOpacity)<ButtonStyleProps>`
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
   padding: ${({ padding }) => padding || 12}px;
-  background-color: ${({ theme, variant }) =>
-    variant === 'outline' ? 'transparent' : theme.button.primary};
   border-radius: ${({ theme }) => theme.radius}px;
   border-width: 2px;
-  border-color: ${({ theme, variant }) =>
-    variant === 'outline' ? theme.button.primary : 'transparent'};
   opacity: ${({ disabled }) => (disabled ? 0.4 : 1)};
+  ${({ theme, variant }) => getVariantProps(theme, variant || 'solid').root}
 `;
 
 const ButtonText = styled(Text)<ButtonStyleProps>`
   font-family: '${({ theme }) => theme.font.button}';
   font-size: 16px;
-  color: ${({ theme, variant }) => (variant === 'outline' ? theme.button.primary : 'white')};
+  ${({ theme, variant }) => getVariantProps(theme, variant || 'solid').button}
 `;
 
 export default function Button(props: ButtonProps) {

@@ -16,8 +16,10 @@ const formatProjects = (search: BioCollectProjectSearch) => ({
 export default (env: AppEnvironment) => ({
   projectSearch: async (
     offset = 0,
+    max = 20,
     isUserPage = false,
-    search: string = null
+    search?: string,
+    geoSearchJSON?: object
   ): Promise<BioCollectProjectSearch> => {
     // Retrieve the auth configuration
     const { biocollect_url } = env.biocollect;
@@ -28,7 +30,7 @@ export default (env: AppEnvironment) => ({
       initiator: 'biocollect',
       sort: 'nameSort',
       mobile: true,
-      max: 20, // TODO: Max doesn't seem to be working
+      max,
       offset,
       isUserPage,
     };
@@ -36,6 +38,11 @@ export default (env: AppEnvironment) => ({
     // Append user search
     if (search && search.length > 0) {
       params['q'] = search;
+    }
+
+    // Append GeoJSON search
+    if (geoSearchJSON) {
+      params['geoSearchJSON'] = JSON.stringify(geoSearchJSON);
     }
 
     // Make the GET request

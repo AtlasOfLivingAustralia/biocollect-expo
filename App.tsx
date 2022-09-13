@@ -1,4 +1,5 @@
 import { Text, useColorScheme } from 'react-native';
+import { Region } from 'react-native-maps';
 import { useFonts } from 'expo-font';
 import { ThemeProvider } from 'styled-components/native';
 import axios from 'axios';
@@ -24,6 +25,9 @@ export type RootStackParamList = {
   WebView: {
     headers?: { [key: string]: string };
     uri: string;
+  };
+  Explore: {
+    region: Region;
   };
 };
 

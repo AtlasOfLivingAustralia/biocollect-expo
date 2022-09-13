@@ -51,7 +51,7 @@ const AllProjects = ({
     async function getData() {
       try {
         // console.log(auth.credentials.accessToken);
-        const data = await api.biocollect.projectSearch(0, isUserPage, search);
+        const data = await api.biocollect.projectSearch(0, 20, isUserPage, search);
         setProjects(data.projects);
       } catch (apiError) {
         setError(apiError);

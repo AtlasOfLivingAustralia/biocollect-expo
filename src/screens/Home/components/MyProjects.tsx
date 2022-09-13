@@ -46,7 +46,7 @@ const MyProjects = ({ onProjectSelect, focusTrigger }: AllProjectsProps) => {
     async function getData() {
       try {
         // console.log(auth.credentials.accessToken);
-        const data = await api.biocollect.projectSearch(0, true);
+        const data = await api.biocollect.projectSearch(0, 20, true);
         setProjects(data.projects);
       } catch (apiError) {
         setError(apiError);

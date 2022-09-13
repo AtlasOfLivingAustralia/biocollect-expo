@@ -19,6 +19,7 @@ const Root = styled.TouchableOpacity<RootProps>`
   display: flex;
   flex-direction: row;
   width: 225px;
+  height: 85px;
   background-color: ${({ theme }) => theme.background.secondary};
   border-radius: ${({ theme }) => theme.radius * 2}px;
   margin-right: ${({ last }) => (last ? 0 : 12)}px;

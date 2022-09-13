@@ -5,7 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useTheme } from 'styled-components/native';
 
 // Import screen components
-import { Authentication, Home, Project, Projects, WebView } from './screens';
+import { Authentication, Explore, Home, Project, Projects, WebView } from './screens';
 
 // Authentication helpers
 import { AuthContext } from './helpers/auth';
@@ -62,6 +62,11 @@ function App(): ReactElement {
           <Stack.Screen
             name="WebView"
             component={WebView}
+            options={{ animation: 'slide_from_bottom' }}
+          />
+          <Stack.Screen
+            name="Explore"
+            component={Explore}
             options={{ animation: 'slide_from_bottom' }}
           />
         </Stack.Group>

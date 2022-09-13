@@ -98,7 +98,7 @@ export default function Home(props: NativeStackScreenProps<RootStackParamList, '
             </Body>
           </TitleView>
           <ExploreView>
-            <ExploreCard />
+            <ExploreCard navigate={props.navigation.navigate} />
           </ExploreView>
         </ScrollView>
       </ThemeView>

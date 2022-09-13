@@ -1,6 +1,6 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { TouchableOpacity, TouchableOpacityProps, View } from 'react-native';
-import MapView from 'react-native-maps';
+import MapView, { Region } from 'react-native-maps';
 import styled from 'styled-components/native';
 import { requestForegroundPermissionsAsync, getCurrentPositionAsync } from 'expo-location';
 
@@ -26,7 +26,12 @@ const Map = styled(MapView)`
   flex-grow: 1;
 `;
 
-export default function ExploreCard(props: TouchableOpacityProps) {
+interface ExploreCardProps extends TouchableOpacityProps {
+  navigate: (to: string, params: { region: Region }) => void;
+}
+
+export default function ExploreCard({ navigate, ...props }: ExploreCardProps) {
+  const [region, setRegion] = useState<Region | null>(null);
   const mapRef = useRef<MapView>();
   useEffect(() => {
     async function getLocation() {
@@ -34,19 +39,25 @@ export default function ExploreCard(props: TouchableOpacityProps) {
         const { coords } = await getCurrentPositionAsync({
           accuracy: 4,
         });
-        mapRef.current.animateToRegion({
+
+        // Create a new region
+        const newRegion: Region = {
           latitude: coords.latitude,
           longitude: coords.longitude,
-          latitudeDelta: 0.01,
-          longitudeDelta: 0.01,
-        });
+          latitudeDelta: 0.6,
+          longitudeDelta: 0.6,
+        };
+
+        // Navigate the map
+        setRegion(newRegion);
+        mapRef.current.animateToRegion(newRegion);
       }
     }
 
     getLocation();
   }, []);
   return (
-    <Root {...props} activeOpacity={0.6}>
+    <Root {...props} activeOpacity={0.6} onPress={() => navigate('Explore', { region })}>
       <MapRoot pointerEvents="none">
         <Map ref={mapRef} showsUserLocation />
       </MapRoot>
