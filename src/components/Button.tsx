@@ -10,7 +10,7 @@ import {
 import { FontAwesome } from '@expo/vector-icons';
 import styled, { DefaultTheme, useTheme } from 'styled-components/native';
 
-type ButtonVariant = 'solid' | 'outline' | 'dimmed';
+type ButtonVariant = 'solid' | 'outline' | 'light' | 'dim';
 
 interface ButtonStyleProps {
   variant?: ButtonVariant;
@@ -47,10 +47,20 @@ const getVariantProps = (theme: DefaultTheme, variant: ButtonVariant) => {
       color: ${theme.button.primary};
       `,
       };
-    case 'dimmed':
+    case 'light':
       return {
         root: `
         background-color: ${theme.background.secondary};
+        border-color: transparent;
+        `,
+        button: `
+        color: ${theme.text.primary};
+        `,
+      };
+    case 'dim':
+      return {
+        root: `
+        background-color: ${theme.background.primary};
         border-color: transparent;
         `,
         button: `

@@ -1,9 +1,8 @@
 import { useContext, useEffect, useState } from 'react';
-import { ActivityIndicator } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
-import styled, { useTheme } from 'styled-components/native';
 import { APIContext } from 'helpers/api';
 import { AxiosError } from 'axios';
+import styled, { useTheme } from 'styled-components/native';
 
 // Navigation
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -14,12 +13,29 @@ import Header from 'components/Header/Header';
 import NavButton from 'components/NavButton';
 import Subheader from 'components/Header/Subheader';
 import Body from 'components/Body';
-import Button from 'components/Button';
+import HeaderView from 'components/HeaderView';
 
 // Local components
 import Map from './components/Map';
 import { BioCollectProject } from 'types';
 import ProjectList from './components/ProjectList';
+
+// const HeaderView = styled.View`
+//   display: flex;
+//   flex-direction: row;
+//   justify-content: center;
+//   align-items: center;
+//   padding-left: ${({ theme }) => theme.defaults.viewPadding}px;
+//   padding-right: ${({ theme }) => theme.defaults.viewPadding}px;
+//   padding-top: ${({ theme }) => theme.defaults.viewPadding * 2}px;
+//   padding-bottom: 0px;
+// `;
+
+const HeaderTitleView = styled.View`
+  display: flex;
+  flex-direction: column;
+  padding-left: 24px;
+`;
 
 const ContentView = styled.View`
   display: flex;
@@ -28,34 +44,6 @@ const ContentView = styled.View`
   flex-direction: column;
   padding: ${({ theme }) => theme.defaults.viewPadding}px;
   padding-bottom: 0px;
-`;
-
-const LoadingView = styled.View`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding-top: 24.5px;
-  padding-bottom: 18.5px;
-`;
-
-const ActionsView = styled.View`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding-top: 12px;
-  padding-bottom: 4px;
-  padding-left: ${({ theme }) => theme.defaults.viewPadding}px;
-  padding-right: ${({ theme }) => theme.defaults.viewPadding}px;
-`;
-
-interface ActionButtonProps {
-  end?: boolean;
-}
-
-const ActionButton = styled(Button)<ActionButtonProps>`
-  flex: 1;
-  flex-grow: 1;
-  margin-${({ end }) => (end ? 'left' : 'right')}: 4px;
 `;
 
 const FooterView = styled.View`
@@ -91,6 +79,7 @@ export default function Authentication(
 
       try {
         const { projects } = await api.biocollect.projectSearch(0, 100, false, undefined, geojson);
+        console.log(`Retrieved ${projects.length} projects from initial explore search`);
 
         // Retrieve the projects related to the surveys
         const surveys = [
@@ -105,15 +94,19 @@ export default function Authentication(
               .map((survey) => survey.projectId)
           ),
         ];
-        setProjects(
-          surveys
-            .map((projectId) => projects.find((project) => project.projectId === projectId))
-            .filter(
-              (project) =>
-                !project.coverage.centre.includes('-0.0') &&
-                (project.coverage.decimalLatitude?.toString() || '') !== ''
-            )
-        );
+
+        // Filter & re-map the projects
+        const newProjects = surveys
+          .map((projectId) => projects.find((project) => project.projectId === projectId))
+          .filter(
+            (project) =>
+              // !project.coverage.centre.includes('-0.0') &&
+              (project.coverage.decimalLatitude?.toString() || '') !== ''
+          );
+
+        // Update the state
+        setProjects(newProjects);
+        if (newProjects.length > 0) setSelectedProject(newProjects[0]);
       } catch (error) {
         console.error(error);
         setError(error);
@@ -125,15 +118,14 @@ export default function Authentication(
 
   return (
     <SafeAreaThemeView style={{ display: 'flex' }}>
+      <HeaderView style={{ justifyContent: 'center' }}>
+        <FontAwesome name="search" size={58} color={theme.colour.primary} />
+        <HeaderTitleView>
+          <Header style={{ marginBottom: 4 }}>Explore</Header>
+          <Subheader>Find projects near you</Subheader>
+        </HeaderTitleView>
+      </HeaderView>
       <ContentView>
-        <FontAwesome
-          name="search"
-          size={72}
-          color={theme.colour.primary}
-          style={{ marginBottom: 24 }}
-        />
-        <Header>Explore my Area</Header>
-        <Subheader>Getting started</Subheader>
         <Map
           region={
             selectedProject
@@ -154,48 +146,25 @@ export default function Authentication(
                 }))
               : null
           }
+          error={error}
         />
       </ContentView>
       <FooterView>
-        {(() => {
-          if (error) {
-            return (
-              <LoadingView style={{ flexDirection: 'column' }}>
-                <Body primary bold size={18}>
-                  An error occurred
-                </Body>
-                <Body style={{ marginTop: 8 }}>{error.message}</Body>
-              </LoadingView>
-            );
-          }
-
-          return projects ? (
-            <ActionsView>
-              <ActionButton
-                text="DETAILS"
-                variant="dimmed"
-                disabled={!selectedProject}
-                onPress={() => props.navigation.navigate('Project', selectedProject)}
-              />
-              <ActionButton
-                text="JOIN"
-                variant="dimmed"
-                disabled={!selectedProject}
-                onPress={() => props.navigation.navigate('Project', selectedProject)}
-                end
-              />
-            </ActionsView>
-          ) : (
-            <LoadingView>
-              <ActivityIndicator style={{ marginRight: 8 }} />
-              <Body bold>Finding projects</Body>
-            </LoadingView>
-          );
-        })()}
+        <Body
+          size={18}
+          bold
+          style={{
+            alignSelf: 'flex-start',
+            paddingLeft: theme.defaults.viewPadding,
+            paddingTop: theme.defaults.viewPadding,
+          }}>
+          Nearby Projects
+        </Body>
         {!error && (
           <ProjectList
             projects={projects}
-            onProjectSelect={(project) => setSelectedProject(project)}
+            onProjectScroll={(project) => setSelectedProject(project)}
+            onProjectPress={(project) => props.navigation.navigate('Project', project)}
           />
         )}
       </FooterView>
@@ -203,7 +172,7 @@ export default function Authentication(
         icon="check"
         text="DONE"
         onPress={() => props.navigation.goBack()}
-        style={{ alignSelf: 'center', marginTop: 'auto' }}
+        style={{ alignSelf: 'center', marginTop: 'auto', marginBottom: theme.defaults.viewPadding }}
       />
     </SafeAreaThemeView>
   );

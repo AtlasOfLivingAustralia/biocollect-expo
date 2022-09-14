@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useContext } from 'react';
 import { View, Image, Animated, Easing, StyleSheet, TouchableOpacity } from 'react-native';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import Button from 'components/Button';
 import Title from 'components/Header/Header';
@@ -31,6 +32,7 @@ export default function Authentication(
   // Animation / styling
   const [exitAnim, setExitAnim] = useState<boolean>(false);
   const fadeInAnim = useRef(new Animated.Value(0)).current;
+  const insets = useSafeAreaInsets();
 
   // Animation effect
   useEffect(() => {
@@ -70,7 +72,7 @@ export default function Authentication(
     <>
       <DevModal visible={modalVisible} onClose={() => setModalVisible(false)} />
       <ThemeView>
-        <Header exitAnim={exitAnim} />
+        <Header height={190 + insets.top} exitAnim={exitAnim} />
         <Animated.View
           style={{
             ...localStyles.content,
@@ -91,14 +93,16 @@ export default function Authentication(
             <Title>BioCollect</Title>
             <Subtitle>Welcome</Subtitle>
           </View>
-          <Button
-            text="Sign in with ALA"
-            icon={alaLogo}
-            disabled={exitAnim || authenticating}
-            loading={authenticating}
-            // onPress={handleAuth}
-            onPress={handleAuth}
-          />
+          <SafeAreaView>
+            <Button
+              text="Sign in with ALA"
+              icon={alaLogo}
+              disabled={exitAnim || authenticating}
+              loading={authenticating}
+              // onPress={handleAuth}
+              onPress={handleAuth}
+            />
+          </SafeAreaView>
         </Animated.View>
       </ThemeView>
     </>
@@ -112,7 +116,6 @@ const localStyles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     flexGrow: 1,
-    paddingTop: 12,
-    paddingBottom: 132,
+    paddingBottom: 48,
   },
 });

@@ -23,7 +23,8 @@ const BottomView = styled(View)`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-top: 12px;
+  padding-top: ${({ theme }) => theme.defaults.viewPadding / 2}px;
+  padding-bottom: ${({ theme }) => theme.defaults.viewPadding / 2}px;
 `;
 
 const LoadingView = styled(View)`

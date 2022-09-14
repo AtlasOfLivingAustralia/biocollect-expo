@@ -1,7 +1,7 @@
 import { useRef, useEffect, Component } from 'react';
 import { View, Animated, Easing, StyleSheet, ImageBackground } from 'react-native';
 import { SvgProps } from 'react-native-svg';
-import { useTheme } from 'styled-components/native';
+import styled, { useTheme } from 'styled-components/native';
 
 // Images
 import imageSplash from 'assets/images/ui/splash.png';
@@ -15,12 +15,25 @@ class WaveComponent extends Component<SvgProps> {
 
 const AnimatedWave = Animated.createAnimatedComponent(WaveComponent);
 
-interface HomeProps {
+interface RootProps {
+  height: number;
+}
+
+const Root = styled(View)<RootProps>`
+  width: 100%;
+  height: ${({ height }) => height || 240}px;
+`;
+
+const Image = styled(ImageBackground)<RootProps>`
+  width: 100%;
+  height: ${({ height }) => height || 240}px;
+`;
+
+interface HeaderProps extends RootProps {
   exitAnim: boolean;
 }
 
-export default function Home(props: HomeProps) {
-  const { exitAnim } = props;
+export default function Header({ height, exitAnim }: HeaderProps) {
   const swirlAnim = useRef(new Animated.Value(600)).current;
   const theme = useTheme();
 
@@ -34,9 +47,9 @@ export default function Home(props: HomeProps) {
   }, [swirlAnim, exitAnim]);
 
   return (
-    <View style={localStyles.container}>
+    <Root height={height}>
       <View style={localStyles.header}>
-        <ImageBackground style={localStyles.image} resizeMode="cover" source={imageSplash}>
+        <Image height={height} resizeMode="cover" source={imageSplash}>
           <AnimatedWave
             fill={theme.background.primary}
             style={{
@@ -45,17 +58,13 @@ export default function Home(props: HomeProps) {
             }}
             preserveAspectRatio="xMinYMin slice"
           />
-        </ImageBackground>
+        </Image>
       </View>
-    </View>
+    </Root>
   );
 }
 
 const localStyles = StyleSheet.create({
-  container: {
-    width: '100%',
-    height: 240,
-  },
   image: {
     width: '100%',
     height: 240,

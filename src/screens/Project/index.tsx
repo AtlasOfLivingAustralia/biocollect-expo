@@ -1,9 +1,18 @@
 import { useContext, useEffect, useState } from 'react';
-import { SafeAreaView, ImageBackground, View, ScrollView, Text, Image } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { BlurView } from 'expo-blur';
 import { DateTime } from 'luxon';
 import * as WebBrowser from 'expo-web-browser';
 import { BioCollectSurvey } from 'types';
+import {
+  SafeAreaView,
+  ImageBackground,
+  View,
+  ScrollView,
+  Text,
+  Image,
+  Platform,
+} from 'react-native';
 
 // Navigation
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -62,9 +71,14 @@ const ALAContributeText = styled(Body)`
   color: white;
 `;
 
-const HeaderView = styled(View)`
+interface HeaderViewProps {
+  hasBackgroundImage: boolean;
+}
+
+const HeaderView = styled(View)<HeaderViewProps>`
   padding: ${({ theme }) => theme.defaults.viewPadding}px;
-  padding-top: 12px;
+  padding-top: ${({ hasBackgroundImage }) =>
+    hasBackgroundImage ? 12 : Platform.OS === 'android' ? 48 : 24}px;
   padding-bottom: 0px;
 `;
 
@@ -82,6 +96,7 @@ export default function Authentication(
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const { type: env } = useContext(AppEnvironmentContext);
   const { params: project } = props.route;
+  const insets = useSafeAreaInsets();
   const api = useContext(APIContext);
   const theme = useTheme();
 
@@ -96,7 +111,6 @@ export default function Authentication(
     })();
   }, []);
 
-  const height = 225;
   return (
     <>
       <SurveyModal
@@ -110,7 +124,7 @@ export default function Authentication(
           <Skeleton.Rect loading={!headerLoaded} borderRadius={1}>
             <HeaderImage
               resizeMode="cover"
-              height={height}
+              height={175 + insets.top}
               source={{ uri: project.fullSizeImageUrl }}
               onLoad={() => setHeaderLoaded(true)}>
               {(project.tags || []).includes('isContributingDataToAla') && headerLoaded && (
@@ -125,7 +139,7 @@ export default function Authentication(
           </Skeleton.Rect>
         ) : null}
         <SafeAreaView>
-          <HeaderView>
+          <HeaderView hasBackgroundImage={Boolean(project.fullSizeImageUrl)}>
             <HeaderLinkView>
               <NavButton
                 icon="arrow-left"
