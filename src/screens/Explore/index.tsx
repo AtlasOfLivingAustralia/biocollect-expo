@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { APIContext } from 'helpers/api';
+import { AppEnvironmentContext } from 'helpers/appenv';
 import { AxiosError } from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import styled, { useTheme } from 'styled-components/native';
@@ -102,6 +103,7 @@ export default function Authentication(
   const [selectedProject, setSelectedProject] = useState<BioCollectProject | null>(null);
   const [error, setError] = useState<AxiosError | null>(null);
   const api = useContext(APIContext);
+  const env = useContext(AppEnvironmentContext);
   const theme = useTheme();
   const { region } = props.route.params;
 
@@ -124,6 +126,7 @@ export default function Authentication(
       try {
         const { projects } = await api.biocollect.projectSearch(0, 100, false, undefined, geojson);
         console.log(`Retrieved ${projects.length} projects from initial explore search`);
+        console.log(projects.map((project) => project.coverage));
 
         // Retrieve the projects related to the surveys
         const surveys = [
@@ -163,9 +166,9 @@ export default function Authentication(
   // Effect hook for retrieving already saved projects from the explore page
   useEffect(() => {
     async function checkSaved() {
-      const explored = await AsyncStorage.getItem('@biocollect_explored');
+      const explored = await AsyncStorage.getItem(`@biocollect_explored_${env.type}`);
       if (!explored) {
-        await AsyncStorage.setItem('@biocollect_explored', '[]');
+        await AsyncStorage.setItem(`@biocollect_explored_${env.type}`, '[]');
       } else {
         setSavedProjects(JSON.parse(explored));
       }
@@ -176,13 +179,16 @@ export default function Authentication(
 
   // Event handler for saving projects
   const handleProjectSave = async (project: BioCollectProject) => {
-    await AsyncStorage.setItem('@biocollect_explored', JSON.stringify([...savedProjects, project]));
+    await AsyncStorage.setItem(
+      `@biocollect_explored_${env.type}`,
+      JSON.stringify([...savedProjects, project])
+    );
     await setSavedProjects([...savedProjects, project]);
   };
 
   // Event handler for clearing all saved projects
   const handleProjectClear = async () => {
-    await AsyncStorage.setItem('@biocollect_explored', '[]');
+    await AsyncStorage.setItem(`@biocollect_explored_${env.type}`, '[]');
     await setSavedProjects([]);
   };
 

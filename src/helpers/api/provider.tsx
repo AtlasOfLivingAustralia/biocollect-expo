@@ -15,7 +15,7 @@ interface APIProviderProps {
 
 const APIProvider = (props: APIProviderProps): ReactElement => {
   // AppEnv & Auth context
-  const { currentConfig: env } = useContext(AppEnvironmentContext);
+  const { currentConfig: env, type } = useContext(AppEnvironmentContext);
   const auth = useContext(AuthContext);
 
   // useEffect hook to add / remove access token the axios globals
@@ -33,7 +33,7 @@ const APIProvider = (props: APIProviderProps): ReactElement => {
   return (
     <APIContext.Provider
       value={{
-        biocollect: biocollect(env),
+        biocollect: biocollect(env, type),
       }}>
       {props.children}
     </APIContext.Provider>

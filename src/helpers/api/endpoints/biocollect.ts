@@ -1,9 +1,13 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
-import { AppEnvironment } from 'helpers/appenv';
+import { AppEnvironment, AppEnvironmentType } from 'helpers/appenv';
 import { BioCollectProjectSearch, BioCollectSurvey } from 'types';
 
-const formatProjects = async (search: BioCollectProjectSearch, isUserPage) => ({
+const formatProjects = async (
+  search: BioCollectProjectSearch,
+  isUserPage,
+  type: AppEnvironmentType
+) => ({
   ...search,
   projects: [
     ...search.projects.map((project) => ({
@@ -11,11 +15,13 @@ const formatProjects = async (search: BioCollectProjectSearch, isUserPage) => ({
       name: project.name.trim(),
       description: project.description,
     })),
-    ...(isUserPage ? JSON.parse((await AsyncStorage.getItem('@biocollect_explored')) || '[]') : []),
+    ...(isUserPage
+      ? JSON.parse((await AsyncStorage.getItem(`@biocollect_explored_${type}`)) || '[]')
+      : []),
   ],
 });
 
-export default (env: AppEnvironment) => ({
+export default (env: AppEnvironment, type: AppEnvironmentType) => ({
   projectSearch: async (
     offset = 0,
     max = 20,
@@ -53,7 +59,7 @@ export default (env: AppEnvironment) => ({
       { params }
     );
 
-    return await formatProjects(request.data, isUserPage);
+    return await formatProjects(request.data, isUserPage, type);
   },
   listSurveys: async (projectId: string): Promise<BioCollectSurvey[]> => {
     // Retrieve the auth configuration
