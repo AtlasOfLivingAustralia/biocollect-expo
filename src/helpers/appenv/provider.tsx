@@ -22,7 +22,7 @@ const AppEnvironmentProvider = (props: AppEnvironmentProviderProps): ReactElemen
   // useEffect hook to automatically write environment changes to persistent storage
   useEffect(() => {
     if (storageLoaded) {
-      AsyncStorage.setItem('@app_environment', type.toString(), () => {
+      AsyncStorage.setItem('@ala_app_environment', type.toString(), () => {
         console.log(
           `[APPENV : Provider] Updated environment in AsyncStorage to '${type.toString()}'`
         );
@@ -33,7 +33,7 @@ const AppEnvironmentProvider = (props: AppEnvironmentProviderProps): ReactElemen
   // useEffect hook to read the app environment type when mounted
   useEffect(() => {
     (async () => {
-      const storedType = await AsyncStorage.getItem('@app_environment');
+      const storedType = await AsyncStorage.getItem('@ala_app_environment');
       if (storedType) {
         setType(storedType as AppEnvironmentType);
         console.log(

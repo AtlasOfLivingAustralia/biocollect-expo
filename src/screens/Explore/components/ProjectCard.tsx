@@ -5,21 +5,23 @@ import {
   Dimensions,
   TouchableHighlight,
 } from 'react-native';
+import { useState } from 'react';
+import { FontAwesome } from '@expo/vector-icons';
 import { BioCollectProject } from 'types';
 import alaLogo from 'assets/images/ui/ala-white.png';
 
 import styled, { useTheme } from 'styled-components/native';
 import Skeleton from 'components/Skeleton';
-import { useState } from 'react';
 import Header from 'components/Header/Header';
 import Body from 'components/Body';
-import { FontAwesome } from '@expo/vector-icons';
+
 interface RootProps {
   selected?: boolean;
 }
 
 interface ProjectCardProps extends TouchableOpacityProps, RootProps {
   project: BioCollectProject | null;
+  saved?: boolean;
   onProjectAction?: (project: BioCollectProject) => void;
 }
 
@@ -56,7 +58,8 @@ const JoinButton = styled(TouchableHighlight)`
   align-items: center;
   justify-content: center;
   flex-direction: row;
-  padding: 16px;
+  padding: 8px;
+  width: 110px;
   border-top-right-radius: ${({ theme }) => theme.radius * 2}px;
   border-bottom-right-radius: ${({ theme }) => theme.radius * 2}px;
   border-left-width: 1px;
@@ -87,10 +90,15 @@ const Image = styled(NativeImage)<RootProps>`
   resize-mode: cover;
 `;
 
-const ProjectCard = ({ project, onProjectAction, ...props }: ProjectCardProps) => {
+const ProjectCard = ({ project, saved, onProjectAction, ...props }: ProjectCardProps) => {
   const [imageLoaded, setImageLoaded] = useState<boolean>(false);
   const [imageError, setImageError] = useState<boolean>(false);
   const theme = useTheme();
+
+  const handleProjectAction = async () => {
+    // Trigger the click callback
+    if (onProjectAction) onProjectAction(project);
+  };
 
   // Render the project card
   return (
@@ -122,18 +130,18 @@ const ProjectCard = ({ project, onProjectAction, ...props }: ProjectCardProps) =
             </Header>
           </Content>
           <JoinButton
-            onPress={() => {
-              if (onProjectAction) onProjectAction(project);
-            }}
-            underlayColor={theme.background.tertiary}>
+            onPress={handleProjectAction}
+            underlayColor={theme.background.tertiary}
+            disabled={saved}
+            style={{ opacity: saved ? 0.45 : 1 }}>
             <>
               <FontAwesome
-                name="plus"
+                name={saved ? 'check' : 'plus'}
                 color={theme.text.secondary}
                 size={18}
                 style={{ marginRight: 10 }}
               />
-              <Body bold>JOIN</Body>
+              <Body bold>{saved ? 'SAVED' : 'SAVE'}</Body>
             </>
           </JoinButton>
         </>

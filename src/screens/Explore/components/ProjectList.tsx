@@ -14,14 +14,18 @@ const EmptyView = styled.View`
 
 interface ProjectListProps {
   projects: BioCollectProject[] | null;
+  savedProjects: BioCollectProject[] | null;
   onProjectScroll: (project: BioCollectProject) => void;
   onProjectPress: (project: BioCollectProject) => void;
+  onProjectSave: (project: BioCollectProject) => void;
 }
 
 export default function ProjectList({
   projects,
+  savedProjects,
   onProjectScroll,
   onProjectPress,
+  onProjectSave,
 }: ProjectListProps) {
   const theme = useTheme();
 
@@ -46,14 +50,22 @@ export default function ProjectList({
         // If we've recieved an API response
         if (projects) {
           return projects.length > 0 ? (
-            projects.map((project, index) => (
-              <CompactCard
-                key={`${project.projectId}-${index}`}
-                project={project}
-                onProjectAction={() => console.log('project action')}
-                onPress={() => onProjectPress(project)}
-              />
-            ))
+            projects.map((project, index) => {
+              const saved =
+                (savedProjects || []).findIndex((proj) => proj.projectId === project.projectId) !==
+                -1;
+              return (
+                <CompactCard
+                  key={`${project.projectId}-${index}`}
+                  project={project}
+                  onPress={() => onProjectPress(project)}
+                  onProjectAction={() => {
+                    if (!saved) onProjectSave(project);
+                  }}
+                  saved={saved}
+                />
+              );
+            })
           ) : (
             <EmptyView
               style={{

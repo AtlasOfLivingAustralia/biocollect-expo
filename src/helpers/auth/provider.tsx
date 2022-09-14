@@ -46,7 +46,7 @@ const AuthProvider = (props: AuthProviderProps): ReactElement => {
   // Grab the stored credentials from the SecureStore
   useEffect(() => {
     async function getStoredCreds() {
-      const stored = await AsyncStorage.getItem('@auth_token');
+      const stored = await AsyncStorage.getItem('@ala_auth_token');
       const parsed: TokenResponse | null = stored ? new TokenResponse(JSON.parse(stored)) : null;
 
       // Handle state updates

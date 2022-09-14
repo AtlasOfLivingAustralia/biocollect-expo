@@ -76,7 +76,7 @@ export default (env: AppEnvironment, callback: (token: TokenResponse) => void) =
       console.log('[AUTH : SignIn] Recieved access & refresh token');
 
       // Store the token in async storage
-      await AsyncStorage.setItem('@auth_token', JSON.stringify(accessToken));
+      await AsyncStorage.setItem('@ala_auth_token', JSON.stringify(accessToken));
       console.log('[AUTH : SignIn] Updated auth token in AsyncStorage');
 
       // Run the callback function
