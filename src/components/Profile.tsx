@@ -1,5 +1,5 @@
 import { Text, TouchableOpacity, TouchableOpacityProps, View } from 'react-native';
-import { FontAwesome } from '@expo/vector-icons';
+import { FontAwesome5 } from '@expo/vector-icons';
 import styled, { useTheme } from 'styled-components/native';
 
 interface ProfileStyleProps {
@@ -63,13 +63,13 @@ const Profile = ({ size, name, icon, ...props }: ProfileProps) => {
       {name ? (
         <RootText size={size}>{getInitials(name)}</RootText>
       ) : (
-        <FontAwesome name="cog" size={24} color={theme.text.primary} />
+        <FontAwesome5 name="cog" size={24} color={theme.text.primary} />
       )}
       {icon && name && (
         <ProfileIconWrapper size={size}>
           <ProfileIconRoot size={size}>
             {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-            <FontAwesome name={icon as any} size={16} color={theme.text.primary} />
+            <FontAwesome5 name={icon as any} size={16} color={theme.text.primary} />
           </ProfileIconRoot>
         </ProfileIconWrapper>
       )}

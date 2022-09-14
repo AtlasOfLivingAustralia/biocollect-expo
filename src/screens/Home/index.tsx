@@ -71,7 +71,7 @@ export default function Home(props: NativeStackScreenProps<RootStackParamList, '
               <Profile
                 name={auth.profile?.name || ''}
                 size={52}
-                icon="gear"
+                icon="cog"
                 onPress={() => setSettingsVisible(true)}
               />
             </ProfileSideImage>

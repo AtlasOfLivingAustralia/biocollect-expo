@@ -11,7 +11,7 @@ import Body from 'components/Body';
 const Root = styled(View)`
   display: flex;
   height: ${({ theme }) =>
-    (Dimensions.get('screen').width - theme.defaults.viewPadding * 2) * 0.6}px;
+    (Dimensions.get('screen').width - theme.defaults.viewPadding * 2) * 0.5}px;
   width: 100%;
   shadow-opacity: 0.2;
   shadow-radius: 6px;

@@ -7,7 +7,7 @@ import {
   TouchableOpacityProps,
   ImageSourcePropType,
 } from 'react-native';
-import { FontAwesome } from '@expo/vector-icons';
+import { FontAwesome5 } from '@expo/vector-icons';
 import styled, { DefaultTheme, useTheme } from 'styled-components/native';
 
 type ButtonVariant = 'solid' | 'outline' | 'light' | 'dim';
@@ -102,7 +102,7 @@ export default function Button(props: ButtonProps) {
       {(() => {
         if (typeof icon === 'string') {
           return (
-            <FontAwesome
+            <FontAwesome5
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
               name={icon as any}
               style={styles.icon}

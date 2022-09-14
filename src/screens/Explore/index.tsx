@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import { FontAwesome } from '@expo/vector-icons';
+import { FontAwesome5 } from '@expo/vector-icons';
 import { APIContext } from 'helpers/api';
 import { AxiosError } from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -20,6 +20,8 @@ import HeaderView from 'components/HeaderView';
 import Map from './components/Map';
 import { BioCollectProject } from 'types';
 import ProjectList from './components/ProjectList';
+import FilterCard from './components/FilterCard';
+import { ScrollView } from 'react-native';
 
 // const HeaderView = styled.View`
 //   display: flex;
@@ -58,6 +60,39 @@ const FooterTitleView = styled.View`
   padding-left: ${({ theme }) => theme.defaults.viewPadding * 1.5}px;
   padding-right: ${({ theme }) => theme.defaults.viewPadding * 1.5}px;
 `;
+
+const ScrollRoot = styled.View`
+  display: flex;
+  flex-shrink: 1;
+  margin-bottom: 10px;
+`;
+
+const projectFilters = [
+  {
+    label: 'Birds',
+    icon: 'dove',
+  },
+  {
+    label: 'Animals',
+    icon: 'dog',
+  },
+  {
+    label: 'Ecology',
+    icon: 'bug',
+  },
+  {
+    label: 'Biodiversity',
+    icon: 'cloud-meatball',
+  },
+  {
+    label: 'Ecology & Environment',
+    icon: 'leaf',
+  },
+  {
+    label: 'Nature & Outdoors',
+    icon: 'tree',
+  },
+];
 
 export default function Authentication(
   props: NativeStackScreenProps<RootStackParamList, 'Explore'>
@@ -160,7 +195,7 @@ export default function Authentication(
           </Header>
           <Subheader size={20}>Find projects near you</Subheader>
         </HeaderTitleView>
-        <FontAwesome name="search" size={58} color={theme.colour.primary} />
+        <FontAwesome5 name="search" size={58} color={theme.colour.primary} />
       </HeaderView>
       <ContentView>
         <Map
@@ -188,11 +223,11 @@ export default function Authentication(
       </ContentView>
       <FooterView>
         <FooterTitleView style={{ paddingTop: 10 }}>
-          <Body size={18} bold style={{ paddingTop: 10, paddingBottom: 9 }}>
+          <Body size={18} bold style={{ paddingTop: 10, paddingBottom: 10 }}>
             Nearby Projects
           </Body>
           {!error && projects && savedProjects?.length > 0 && (
-            <NavButton icon="remove" text="CLEAR SAVED" onPress={handleProjectClear} />
+            <NavButton icon="trash" text="CLEAR SAVED" onPress={handleProjectClear} />
           )}
         </FooterTitleView>
         {!error && (
@@ -204,12 +239,23 @@ export default function Authentication(
             onProjectSave={(project) => handleProjectSave(project)}
           />
         )}
-        {/* <FooterTitleView>
-          <Body size={18} bold style={{ paddingTop: 10, paddingBottom: 9 }}>
+        <FooterTitleView>
+          <Body size={18} bold style={{ paddingBottom: 10 }}>
             Filters
           </Body>
-        </FooterTitleView> */}
+        </FooterTitleView>
       </FooterView>
+      <ScrollRoot>
+        <ScrollView
+          contentContainerStyle={{
+            padding: theme.defaults.viewPadding,
+            paddingTop: theme.defaults.viewPadding / 2,
+          }}>
+          {projectFilters.map((filter, index) => (
+            <FilterCard key={index} icon={filter.icon} label={filter.label} checked />
+          ))}
+        </ScrollView>
+      </ScrollRoot>
       <NavButton
         icon="check"
         text="DONE"

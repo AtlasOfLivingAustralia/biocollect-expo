@@ -6,7 +6,7 @@ import {
   TouchableHighlight,
 } from 'react-native';
 import { useState } from 'react';
-import { FontAwesome } from '@expo/vector-icons';
+import { FontAwesome5 } from '@expo/vector-icons';
 import { BioCollectProject } from 'types';
 import alaLogo from 'assets/images/ui/ala-white.png';
 
@@ -135,7 +135,7 @@ const ProjectCard = ({ project, saved, onProjectAction, ...props }: ProjectCardP
             disabled={saved}
             style={{ opacity: saved ? 0.45 : 1 }}>
             <>
-              <FontAwesome
+              <FontAwesome5
                 name={saved ? 'check' : 'plus'}
                 color={theme.text.secondary}
                 size={18}

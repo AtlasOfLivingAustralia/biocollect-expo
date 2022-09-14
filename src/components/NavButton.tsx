@@ -1,4 +1,4 @@
-import { FontAwesome } from '@expo/vector-icons';
+import { FontAwesome5 } from '@expo/vector-icons';
 import { Text, TouchableOpacity, TouchableOpacityProps } from 'react-native';
 import styled, { useTheme } from 'styled-components/native';
 
@@ -26,7 +26,7 @@ const NavButton = ({ icon, text, ...rest }: NavButtonProps) => {
   return (
     <Root {...rest} activeOpacity={0.6}>
       {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-      <FontAwesome name={icon as any} color={theme.text.secondary} />
+      <FontAwesome5 name={icon as any} color={theme.text.secondary} />
       <RootText>{text}</RootText>
     </Root>
   );

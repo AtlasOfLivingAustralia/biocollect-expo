@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { View, Text, ScrollView } from 'react-native';
 import { BioCollectSurvey } from 'types';
-import { FontAwesome } from '@expo/vector-icons';
+import { FontAwesome5 } from '@expo/vector-icons';
 import styled, { useTheme } from 'styled-components/native';
 import { AppEnvironmentContext } from 'helpers/appenv';
 
@@ -53,7 +53,7 @@ const SurveyModal = ({ visible, surveys, navigate, onClose }: SurveyModalProps) 
           return surveys.length > 0 ? (
             <>
               <HeaderView>
-                <FontAwesome
+                <FontAwesome5
                   name="pie-chart"
                   size={32}
                   color={theme.text.secondary}
