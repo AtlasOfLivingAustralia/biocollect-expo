@@ -101,11 +101,20 @@ export default function Authentication(
   const [projects, setProjects] = useState<BioCollectProject[] | null>(null);
   const [savedProjects, setSavedProjects] = useState<BioCollectProject[]>(null);
   const [selectedProject, setSelectedProject] = useState<BioCollectProject | null>(null);
+  const [filters, setFilters] = useState<string[]>(projectFilters.map((filter) => filter.label));
   const [error, setError] = useState<AxiosError | null>(null);
   const api = useContext(APIContext);
   const env = useContext(AppEnvironmentContext);
   const theme = useTheme();
   const { region } = props.route.params;
+
+  // Callback function for handle filter selection
+  const handleFilterSelect = (selectedFilter: string) =>
+    setFilters(
+      filters.includes(selectedFilter)
+        ? filters.filter((filter) => filter !== selectedFilter)
+        : [...filters, selectedFilter]
+    );
 
   useEffect(() => {
     async function findProjects() {
@@ -126,7 +135,6 @@ export default function Authentication(
       try {
         const { projects } = await api.biocollect.projectSearch(0, 100, false, undefined, geojson);
         console.log(`Retrieved ${projects.length} projects from initial explore search`);
-        console.log(projects.map((project) => project.coverage));
 
         // Retrieve the projects related to the surveys
         const surveys = [
@@ -192,6 +200,17 @@ export default function Authentication(
     await setSavedProjects([]);
   };
 
+  // Filter projects based on the selected science types
+  const filteredProjects = projects
+    ? projects.filter((project) => {
+        for (let typeIndex = 0; typeIndex < project.scienceType.length; typeIndex += 1) {
+          if (filters.includes(project.scienceType[typeIndex])) return true;
+        }
+
+        return false;
+      })
+    : null;
+
   return (
     <SafeAreaThemeView style={{ display: 'flex' }}>
       <HeaderView style={{ paddingBottom: 0 }}>
@@ -229,16 +248,16 @@ export default function Authentication(
       </ContentView>
       <FooterView>
         <FooterTitleView style={{ paddingTop: 10 }}>
-          <Body size={18} bold style={{ paddingTop: 10, paddingBottom: 10 }}>
+          <Body size={18} bold>
             Nearby Projects
           </Body>
           {!error && projects && savedProjects?.length > 0 && (
-            <NavButton icon="trash" text="CLEAR SAVED" onPress={handleProjectClear} />
+            <NavButton icon="trash" text="CLEAR SAVED" onPress={handleProjectClear} padding={2} />
           )}
         </FooterTitleView>
         {!error && (
           <ProjectList
-            projects={projects}
+            projects={filteredProjects}
             savedProjects={savedProjects}
             onProjectScroll={(project) => setSelectedProject(project)}
             onProjectPress={(project) => props.navigation.navigate('Project', project)}
@@ -246,7 +265,7 @@ export default function Authentication(
           />
         )}
         <FooterTitleView>
-          <Body size={18} bold style={{ paddingBottom: 10 }}>
+          <Body size={18} bold style={{ paddingBottom: 12 }}>
             Filters
           </Body>
         </FooterTitleView>
@@ -258,7 +277,14 @@ export default function Authentication(
             paddingTop: theme.defaults.viewPadding / 2,
           }}>
           {projectFilters.map((filter, index) => (
-            <FilterCard key={index} icon={filter.icon} label={filter.label} checked />
+            <FilterCard
+              key={index}
+              icon={filter.icon}
+              label={filter.label}
+              last={index === projectFilters.length - 1}
+              checked={filters.includes(filter.label)}
+              onPress={() => handleFilterSelect(filter.label)}
+            />
           ))}
         </ScrollView>
       </ScrollRoot>

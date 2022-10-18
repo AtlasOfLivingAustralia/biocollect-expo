@@ -4,18 +4,22 @@ import styled, { useTheme } from 'styled-components/native';
 import Body from 'components/Body';
 import { FontAwesome5 } from '@expo/vector-icons';
 
-interface ProjectCardProps extends TouchableOpacityProps {
+interface RootProps extends TouchableOpacityProps {
+  last: boolean;
+}
+
+interface ProjectCardProps extends RootProps {
   label: string;
   checked: boolean;
   icon: string;
 }
 
-const Root = styled.TouchableOpacity`
+const Root = styled.TouchableOpacity<RootProps>`
   display: flex;
   flex-direction: row;
   background-color: ${({ theme }) => theme.background.secondary};
   border-radius: ${({ theme }) => theme.radius}px;
-  margin-bottom: 12px;
+  margin-bottom: ${({ last }) => (last ? 0 : 12)}px;
   shadow-opacity: 0.3;
   shadow-radius: 3.5px;
   shadow-color: black;
@@ -57,11 +61,11 @@ const ImageRoot = styled(View)`
 //   height: 25px;
 // `;
 
-const FilterCard = ({ checked, label, icon, ...props }: ProjectCardProps) => {
+const FilterCard = ({ checked, label, icon, last, ...props }: ProjectCardProps) => {
   const theme = useTheme();
   // Render the project card
   return (
-    <Root {...props} activeOpacity={0.6}>
+    <Root {...props} last={last} activeOpacity={0.6}>
       <ImageRoot>
         {/* <Image source={alaLogo} /> */}
         {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
@@ -71,9 +75,9 @@ const FilterCard = ({ checked, label, icon, ...props }: ProjectCardProps) => {
         <Body>{label}</Body>
       </Content>
       <Footer>
-        <Body size={14} bold style={{ marginRight: 12, alignSelf: 'center' }}>
+        {/* <Body size={14} bold style={{ marginRight: 12, alignSelf: 'center' }}>
           {checked ? 'Included' : 'Omitted'}
-        </Body>
+        </Body> */}
         <FontAwesome5
           name={checked ? 'check-square' : 'square'}
           size={20}

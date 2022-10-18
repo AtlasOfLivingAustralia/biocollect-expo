@@ -2,12 +2,16 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import { Text, TouchableOpacity, TouchableOpacityProps } from 'react-native';
 import styled, { useTheme } from 'styled-components/native';
 
-const Root = styled(TouchableOpacity)`
+interface RootProps extends TouchableOpacityProps {
+  padding?: number;
+}
+
+const Root = styled(TouchableOpacity)<RootProps>`
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding-top: 12px;
-  padding-bottom: 12px;
+  padding-top: ${({ padding }) => padding || 12}px;
+  padding-bottom: ${({ padding }) => padding || 12}px;
 `;
 
 const RootText = styled(Text)`
@@ -16,7 +20,7 @@ const RootText = styled(Text)`
   margin-left: 10px;
 `;
 
-interface NavButtonProps extends TouchableOpacityProps {
+interface NavButtonProps extends RootProps {
   icon: string;
   text: string;
 }

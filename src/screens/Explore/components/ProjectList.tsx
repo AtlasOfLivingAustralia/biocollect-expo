@@ -9,7 +9,10 @@ import CompactCard from './ProjectCard';
 const EmptyView = styled.View`
   display: flex;
   flex-direction: column;
-  padding-bottom: 41px;
+  padding-left: 10px;
+  flex-grow: 1;
+  align-items: center;
+  justify-content: center;
 `;
 
 interface ProjectListProps {
@@ -40,7 +43,7 @@ export default function ProjectList({
       showsHorizontalScrollIndicator={false}
       horizontal
       decelerationRate={0.8}
-      contentContainerStyle={{ padding: theme.defaults.viewPadding }}
+      contentContainerStyle={{ padding: theme.defaults.viewPadding, height: 125 }}
       onMomentumScrollEnd={(e) => {
         if (projects)
           onProjectScroll(projects[Math.round(e.nativeEvent.contentOffset.x / snapInterval)]);
@@ -71,7 +74,9 @@ export default function ProjectList({
               style={{
                 maxWidth: Dimensions.get('screen').width - theme.defaults.viewPadding * 2,
               }}>
-              <Body>We couldn&apos;t find any projects near you.</Body>
+              <Body>
+                We couldn&apos;t find any projects near you, or that match your selected criteria.
+              </Body>
             </EmptyView>
           );
         } else {
