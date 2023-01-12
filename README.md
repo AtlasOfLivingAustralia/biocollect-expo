@@ -23,8 +23,8 @@ The following tracks the status of what's been implemented:
 
 - [x] OIDC Implicit Authentication
   - [x] Switch from Implicit to PKCE
-- [ ] View all projects
-- [ ] View my projects
-- [ ] Project overviews
+- [x] View all projects
+- [x] View my projects
+- [x] Project overviews
 - [ ] View records
-- [ ] Add records
+- [x] Add records
